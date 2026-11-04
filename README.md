@@ -1,15 +1,54 @@
 # Regesit Ui Rework
 
-Regesit Ui Rework project.
+Regesit Ui Rework — project oleh Nabil Aulia Dika (dezzorigin).
 
-## Tech stack
+## Status Proyek
 
-HTML/CSS/JS
+**Hampir selesai (beta)** _(README ada, build artifact ada)_
 
-## Getting started
+## 📋 Tech Stack
 
-See project files for setup instructions.
+HTML/CSS/JavaScript
 
-## License
+## 🏗️ Arsitektur
 
-MIT
+```mermaid
+flowchart LR
+  U[Pengguna] --> B[Browser]
+  B --> S[Static Site]
+```
+
+## 📁 Struktur Proyek
+
+```
+Assets/
+Documentation/
+css/
+js/
+README.md
+create-event.html
+dashboard.html
+index.html
+register.html
+scanner.html
+shot_full.png
+```
+
+## 🚀 Getting Started
+
+```bash
+# Install dependencies
+npm install
+
+# Jalankan development server
+npm run dev
+```
+
+> Untuk project HTML/Python/Go, lihat instruksi di atas atau file konfigurasi.
+
+## 📄 Lisensi
+
+MIT — lihat [LICENSE](./LICENSE).
+
+---
+_Dikembangkan oleh **dezzorigin** (Nabil Aulia Dika)._
