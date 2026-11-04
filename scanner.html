@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gate Scanner Panitia — Tech Summit Indonesia 2026</title>
+  
+  <!-- DM Sans (Strict Light 300, Regular 400, Medium 500) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,400&display=swap" rel="stylesheet">
+  
+  <!-- Scanner Styles (Dashboard Bento System Consistency) -->
+  <link rel="stylesheet" href="css/scanner.css">
+</head>
+<body>
+
+  <!-- TOPBAR -->
+  <header class="scanner-topbar">
+    <div class="topbar-brand-wrap">
+      <div class="brand-logo-icon">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+          <rect x="3" y="3" width="7" height="7"></rect>
+          <rect x="14" y="3" width="7" height="7"></rect>
+          <rect x="14" y="14" width="7" height="7"></rect>
+          <rect x="3" y="14" width="7" height="7"></rect>
+        </svg>
+      </div>
+      <div>
+        <div class="event-headline-title">Tech Summit Indonesia 2026</div>
+        <div class="event-headline-sub">Pintu Masuk Utama • Gate Scanner Lapangan</div>
+      </div>
+    </div>
+
+    <div class="topbar-center-badges">
+      <span class="pill-badge pill-green">
+        <span class="pulse-dot"></span>
+        <span>Scanner Aktif</span>
+      </span>
+      <span class="pill-badge pill-neutral">📶 Offline Ready (942/1.000)</span>
+    </div>
+
+    <button type="button" class="btn-exit-dashboard" id="btnExitScanner">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <line x1="18" y1="6" x2="6" y2="18"></line>
+        <line x1="6" y1="6" x2="18" y2="18"></line>
+      </svg>
+      <span>Dashboard</span>
+    </button>
+  </header>
+
+  <!-- MAIN DUAL-BOX WORKSPACE -->
+  <main class="scanner-dual-viewport">
+    <div class="scanner-dual-grid">
+
+      <!-- =====================================================================
+           BOX KIRI: KAMERA & VIEWFINDER SCANNER (BOX 1)
+           ===================================================================== -->
+      <section class="scanner-box-card">
+        <div>
+          <!-- Box Header -->
+          <div class="box-card-header">
+            <span class="box-card-title">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--color-primary)" stroke-width="2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+              <span>Kamera & Viewfinder Scan</span>
+            </span>
+            <span class="pill-badge pill-green"><span class="pulse-dot"></span> <span>Siap Scan</span></span>
+          </div>
+
+          <!-- Viewfinder Outer Box -->
+          <div class="viewfinder-outer-wrap" id="viewfinderCard" style="margin-top: 16px;" title="Klik untuk memindai tiket">
+            <img src="Assets/scanner_camera_feed.jpg" alt="Simulasi Kamera iPhone 17 Pro" class="viewfinder-camera-feed-img" id="simulatedCameraImg">
+            <video id="cameraVideo" class="camera-video-stream" playsinline autoplay muted style="display: none;"></video>
+            <canvas id="simulatedCameraCanvas" class="camera-video-stream" style="display: none;"></canvas>
+
+            <!-- Target Corner Guides -->
+            <div class="viewfinder-target-box">
+              <div class="target-bracket bracket-tl"></div>
+              <div class="target-bracket bracket-tr"></div>
+              <div class="target-bracket bracket-bl"></div>
+              <div class="target-bracket bracket-br"></div>
+
+              <!-- Animated Laser Line -->
+              <div class="scan-laser-line" id="laserLine"></div>
+            </div>
+
+            <!-- Viewfinder Tap Hint Pill -->
+            <div class="viewfinder-tap-pill">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="12" y1="8" x2="12" y2="12"></line>
+                <line x1="12" y1="16" x2="12.01" y2="16"></line>
+              </svg>
+              <span>Arahkan QR Tiket ke Dalam Kotak (Klik untuk Scan)</span>
+            </div>
+
+            <!-- Standby Overlay -->
+            <div class="camera-standby-overlay" id="standbyOverlay">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--text-muted)" stroke-width="2">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="10" y1="15" x2="10" y2="9"></line>
+                <line x1="14" y1="15" x2="14" y2="9"></line>
+              </svg>
+              <span style="font-size: 12.5px; color: #ffffff;">Kamera Standby (Dijeda)</span>
+              <button type="button" class="pill-badge pill-green" id="btnResumeOverlay" style="cursor: pointer; margin-top: 4px;">
+                <span>▶ Aktifkan Kembali</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Left Controls Bar -->
+        <div style="display: flex; flex-direction: column; gap: 10px;">
+          <!-- Auto-Scan Toggle -->
+          <div class="control-switch-bar">
+            <div class="control-switch-info">
+              <div class="control-icon-pill">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+                </svg>
+              </div>
+              <div>
+                <div style="font-size: 13px; font-weight: 500; color: var(--text-primary);">Mode Auto-Scan</div>
+                <div style="font-size: 11.5px; color: var(--text-muted);">Scan otomatis tanpa konfirmasi manual</div>
+              </div>
+            </div>
+            <label class="toggle-switch">
+              <input type="checkbox" id="toggleAutoScan" checked>
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
+
+          <!-- Standby Toggle Button -->
+          <button type="button" class="btn-standby-action" id="btnToggleStandby">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="6" y="4" width="4" height="16"></rect>
+              <rect x="14" y="4" width="4" height="16"></rect>
+            </svg>
+            <span id="standbyBtnText">Pause Kamera (Standby)</span>
+          </button>
+        </div>
+      </section>
+
+      <!-- =====================================================================
+           BOX KANAN: HASIL VERIFIKASI & RIWAYAT LIVE (BOX 2)
+           ===================================================================== -->
+      <section class="scanner-box-card">
+        <div>
+          <!-- Box Header -->
+          <div class="box-card-header">
+            <span class="box-card-title">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--color-secondary)" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+              <span>Hasil Verifikasi Tiket</span>
+            </span>
+            <span class="pill-badge pill-blue" id="gateCountBadge">942 / 1.000 Hadir (94.2%)</span>
+          </div>
+
+          <!-- Highlight Verified Attendee Card (Last Scanned) -->
+          <div class="highlight-attendee-card" id="highlightAttendeeBox" style="margin-top: 16px;">
+            <!-- Animated Digital Stamp Watermark -->
+            <div class="verified-stamp-badge stamped" id="verifiedStampBadge">
+              <div class="stamp-inner-border">
+                <span class="stamp-main-text">VERIFIED</span>
+                <span class="stamp-sub-text">GATE 1 • CHECKED IN</span>
+              </div>
+            </div>
+
+            <div class="highlight-attendee-top">
+              <span class="pill-badge pill-green" id="verifyStatusBadge">✓ TIKET VALID & TERVERIFIKASI</span>
+              <span style="font-size: 11.5px; color: var(--text-muted);" id="verifyTimeDisplay">08:58 WIB</span>
+            </div>
+
+            <div class="highlight-attendee-name" id="verifyNameDisplay">Budi Wicaksono</div>
+            <div class="highlight-attendee-company" id="verifyOrgDisplay">VIP All-Access Pass • PT GoTo Gojek Tokopedia</div>
+
+            <!-- Meta Grid -->
+            <div class="highlight-details-grid">
+              <div class="detail-item-col">
+                <span class="detail-item-lbl">Kode Tiket</span>
+                <span class="detail-item-val" id="verifyCodeDisplay">TIK-8821</span>
+              </div>
+              <div class="detail-item-col">
+                <span class="detail-item-lbl">Kategori Tiket</span>
+                <span class="detail-item-val" id="verifyCategoryDisplay">VIP Attendee</span>
+              </div>
+              <div class="detail-item-col">
+                <span class="detail-item-lbl">Status Gate</span>
+                <span class="detail-item-val" style="color: var(--color-secondary);">Masuk (Gate 1)</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Manual Search & Check-In Bar -->
+        <div>
+          <label style="font-size: 11.5px; font-weight: 500; color: var(--text-muted); text-transform: uppercase; margin-bottom: 6px; display: block;">Check-In Kode / Nama Manual</label>
+          <div class="manual-checkin-bar">
+            <input type="text" class="manual-checkin-input" id="inputManualCode" placeholder="Ketik kode tiket (contoh: TIK-9421) atau nama peserta...">
+            <button type="button" class="btn-checkin-submit" id="btnManualCheckin">
+              <span>Check-in</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Recent Stream Feed -->
+        <div class="recent-stream-section">
+          <div class="recent-stream-header">
+            <span>Riwayat Check-In Terkini (<span id="recentFeedCount">5</span>)</span>
+            <span style="font-size: 11px; color: var(--color-secondary);">● Real-Time Sync</span>
+          </div>
+
+          <div class="recent-stream-list" id="recentFeedList">
+            <!-- Row 1 -->
+            <div class="stream-item-row">
+              <div>
+                <div class="stream-item-name">Budi Wicaksono</div>
+                <div class="stream-item-sub">VIP Pass • TIK-8821 • PT GoTo</div>
+              </div>
+              <span class="pill-badge pill-green">✓ 08:58 WIB</span>
+            </div>
+            <!-- Row 2 -->
+            <div class="stream-item-row">
+              <div>
+                <div class="stream-item-name">Sarah Amalia</div>
+                <div class="stream-item-sub">General Pass • TIK-4412 • Traveloka</div>
+              </div>
+              <span class="pill-badge pill-green">✓ 08:49 WIB</span>
+            </div>
+            <!-- Row 3 -->
+            <div class="stream-item-row">
+              <div>
+                <div class="stream-item-name">Reza Pratama</div>
+                <div class="stream-item-sub">VIP Pass • TIK-9011 • Bank Mandiri</div>
+              </div>
+              <span class="pill-badge pill-green">✓ 08:42 WIB</span>
+            </div>
+          </div>
+        </div>
+
+      </section>
+
+    </div>
+  </main>
+
+  <!-- Scanner Logic Script -->
+  <script src="js/scanner.js"></script>
+</body>
+</html>

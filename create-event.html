@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Buat Event Baru — Regesit Wizard</title>
+  
+  <!-- DM Sans (Strictly Light 300, Regular 400, Medium 500) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300;1,9..40,400;1,9..40,500&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="css/create-event.css">
+</head>
+<body>
+
+  <!-- ==========================================================================
+       HEADER
+       ========================================================================== -->
+  <header class="wizard-header">
+    <a href="dashboard.html" class="brand-wrap">
+      <div class="brand-icon">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+          <path d="M4 8C4 5.79086 5.79086 4 8 4H16C18.2091 4 20 5.79086 20 8V16C20 18.2091 18.2091 20 16 20H8C5.79086 20 4 18.2091 4 16V8Z" stroke="white" stroke-width="2.2" stroke-linecap="round"/>
+          <path d="M8 12L11 15L16 9" stroke="#3bc855" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <span>Regesit</span>
+    </a>
+
+    <a href="dashboard.html" class="btn-back-link">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line>
+      </svg>
+      <span>Kembali ke Dashboard</span>
+    </a>
+  </header>
+
+  <!-- ==========================================================================
+       WIZARD STEPPER CONTAINER (Image 2 Style)
+       ========================================================================== -->
+  <div class="wizard-container">
+    
+    <div class="wizard-title-section">
+      <h1>Buat Event Baru</h1>
+      <p>Isi formulir bertahap untuk mempublikasikan halaman pendaftaran event Anda.</p>
+    </div>
+
+    <!-- 4-Step Visual Stepper Bar (Image 2 Style) -->
+    <div class="stepper-bar-card">
+      <div class="stepper-track">
+        
+        <!-- Step 1 -->
+        <div class="step-node active" data-step="1" id="stepNode1">
+          <div class="step-circle" id="circle1">1</div>
+          <span class="step-label-text">Info Dasar</span>
+        </div>
+
+        <div class="step-line" id="line1"></div>
+
+        <!-- Step 2 -->
+        <div class="step-node" data-step="2" id="stepNode2">
+          <div class="step-circle" id="circle2">2</div>
+          <span class="step-label-text">Waktu & Lokasi</span>
+        </div>
+
+        <div class="step-line" id="line2"></div>
+
+        <!-- Step 3 -->
+        <div class="step-node" data-step="3" id="stepNode3">
+          <div class="step-circle" id="circle3">3</div>
+          <span class="step-label-text">Kuota & Tiket</span>
+        </div>
+
+        <div class="step-line" id="line3"></div>
+
+        <!-- Step 4 -->
+        <div class="step-node" data-step="4" id="stepNode4">
+          <div class="step-circle" id="circle4">4</div>
+          <span class="step-label-text">Form Peserta</span>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ==========================================================================
+         STEPPER FORM CARD (CHUNKED CONTENT)
+         ========================================================================== -->
+    <div class="wizard-form-card">
+      <form id="createEventWizardForm">
+        
+        <!-- ----------------------------------------------------------------------
+             STEP 1: INFO DASAR & FORMAT EVENT
+             ---------------------------------------------------------------------- -->
+        <div class="step-pane active" id="paneStep1">
+          <div class="step-header">
+            <h2>Langkah 1: Format & Info Dasar Event</h2>
+            <p>Pilih tipe acara dan tentukan judul serta banner utama event Anda.</p>
+          </div>
+
+          <!-- Format Selector -->
+          <div class="form-group">
+            <label class="form-label">Tipe Event <span class="required-star">*</span></label>
+            <div class="event-format-grid">
+              <div class="format-card-option selected" data-format="Offline">
+                <div class="format-icon">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M3 7V5a2 2 0 0 1 2-2h2"/><path d="M17 3h2a2 2 0 0 1 2 2v2"/>
+                    <path d="M21 17v2a2 2 0 0 1-2 2h-2"/><path d="M7 21H5a2 2 0 0 1-2-2v-2"/>
+                  </svg>
+                </div>
+                <span class="format-name">Event Offline</span>
+              </div>
+
+              <div class="format-card-option" data-format="Online">
+                <div class="format-icon">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polygon points="23 7 16 12 23 17 23 7"></polygon>
+                    <rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect>
+                  </svg>
+                </div>
+                <span class="format-name">Event Online</span>
+              </div>
+
+              <div class="format-card-option" data-format="Hybrid">
+                <div class="format-icon">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/>
+                    <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>
+                  </svg>
+                </div>
+                <span class="format-name">Hybrid Event</span>
+              </div>
+            </div>
+            <input type="hidden" id="selectedEventFormat" value="Event Offline">
+          </div>
+
+          <!-- Banner Upload Dropzone -->
+          <div class="form-group">
+            <label class="form-label">Banner Event (Rasio 16:9, Maks 10MB)</label>
+            <div class="upload-dropzone" id="bannerDropzone">
+              <div class="dropzone-icon">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                  <circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/>
+                </svg>
+              </div>
+              <div style="font-weight: 500; font-size: 13.5px;">Klik atau seret gambar banner ke sini</div>
+              <div class="form-help-text">Format PNG, JPG, JPEG (Otomatis dioptimasi)</div>
+            </div>
+          </div>
+
+          <!-- Nama Event -->
+          <div class="form-group">
+            <label class="form-label" for="inputEventName">Nama Event <span class="required-star">*</span></label>
+            <input type="text" class="form-control" id="inputEventName" placeholder="Contoh: Tech Conference 2026 / Workshop UI/UX" required>
+          </div>
+
+          <!-- Deskripsi Event -->
+          <div class="form-group">
+            <label class="form-label" for="inputEventDesc">Deskripsi Event <span style="font-size: 11.5px; color: var(--text-muted);">(Opsional)</span></label>
+            <textarea class="form-control" id="inputEventDesc" placeholder="Tuliskan deskripsi singkat mengenai acara, agenda, narasumber, atau info penting untuk calon peserta..."></textarea>
+          </div>
+        </div>
+
+        <!-- ----------------------------------------------------------------------
+             STEP 2: WAKTU & LOKASI EVENT
+             ---------------------------------------------------------------------- -->
+        <div class="step-pane" id="paneStep2">
+          <div class="step-header">
+            <h2>Langkah 2: Waktu & Lokasi Acara</h2>
+            <p>Tentukan jadwal pelaksanaan dan tempat berlangsungnya acara Anda.</p>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+            <!-- Waktu Mulai -->
+            <div class="form-group">
+              <label class="form-label" for="inputStartTime">Waktu Mulai <span class="required-star">*</span></label>
+              <input type="datetime-local" class="form-control" id="inputStartTime" required>
+            </div>
+
+            <!-- Waktu Selesai -->
+            <div class="form-group">
+              <label class="form-label" for="inputEndTime">Waktu Selesai <span style="font-size: 11.5px; color: var(--text-muted);">(Opsional)</span></label>
+              <input type="datetime-local" class="form-control" id="inputEndTime">
+            </div>
+          </div>
+
+          <!-- Lokasi Fisik / Venue Address -->
+          <div class="form-group">
+            <label class="form-label" for="inputLocation">Lokasi / Alamat Fisik Event <span class="required-star">*</span></label>
+            <input type="text" class="form-control" id="inputLocation" placeholder="Contoh: Gedung Jakarta Convention Center, Hall B" required>
+          </div>
+
+          <!-- Link Grup WhatsApp Peserta -->
+          <div class="form-group">
+            <label class="form-label" for="inputWaGroup">Link Grup WhatsApp Peserta <span style="font-size: 11.5px; color: var(--text-muted);">(Opsional)</span></label>
+            <input type="url" class="form-control" id="inputWaGroup" placeholder="Contoh: https://chat.whatsapp.com/...">
+            <span class="form-help-text">Tautan grup akan otomatis dikirimkan ke email peserta setelah pendaftaran sukses.</span>
+          </div>
+        </div>
+
+        <!-- ----------------------------------------------------------------------
+             STEP 3: KUOTA & ADD-ON KUSTOMISASI
+             ---------------------------------------------------------------------- -->
+        <div class="step-pane" id="paneStep3">
+          <div class="step-header">
+            <h2>Langkah 3: Kuota & Kustomisasi Tiket</h2>
+            <p>Atur kapasitas tiket dan fitur kustomisasi branding eksklusif.</p>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+            <!-- Batas Maksimal Peserta -->
+            <div class="form-group">
+              <label class="form-label" for="inputMaxQuota">Batas Maksimal Peserta</label>
+              <input type="number" class="form-control" id="inputMaxQuota" value="150" min="10">
+              <span class="form-help-text">Maksimal kuota pendaftar di platform.</span>
+            </div>
+
+            <!-- Batas Waktu Pendaftaran -->
+            <div class="form-group">
+              <label class="form-label" for="inputRegDeadline">Batas Waktu Pendaftaran</label>
+              <input type="datetime-local" class="form-control" id="inputRegDeadline">
+              <span class="form-help-text">Form akan tertutup otomatis saat waktu habis.</span>
+            </div>
+          </div>
+
+          <div style="margin-top: 12px;">
+            <div class="form-label" style="margin-bottom: 12px;">Add-on Kustomisasi (Opsional)</div>
+
+            <!-- Add-on 1: Custom Link URL -->
+            <div class="addon-toggle-box">
+              <div class="addon-info-left">
+                <div class="addon-title">
+                  <span>Custom Link URL Event</span>
+                  <span class="pill-badge pill-blue" style="font-size: 10.5px;">+Rp 2.500</span>
+                </div>
+                <div class="addon-sub">Buat link pendaftaran kustom (contoh: regesit.com/nama-event)</div>
+              </div>
+              <label class="toggle-switch">
+                <input type="checkbox" id="toggleCustomUrl">
+                <span class="toggle-slider"></span>
+              </label>
+            </div>
+
+            <!-- Add-on 2: Custom Logo on QR -->
+            <div class="addon-toggle-box">
+              <div class="addon-info-left">
+                <div class="addon-title">
+                  <span>Custom Logo on QR Code</span>
+                  <span class="pill-badge pill-blue" style="font-size: 10.5px;">+Rp 5.000</span>
+                </div>
+                <div class="addon-sub">Sematkan logo instansi/brand Anda di tengah QR tiket.</div>
+              </div>
+              <label class="toggle-switch">
+                <input type="checkbox" id="toggleCustomLogo">
+                <span class="toggle-slider"></span>
+              </label>
+            </div>
+
+            <!-- Add-on 3: Syarat & Ketentuan -->
+            <div class="addon-toggle-box">
+              <div class="addon-info-left">
+                <div class="addon-title">
+                  <span>Syarat & Ketentuan Peserta</span>
+                </div>
+                <div class="addon-sub">Peserta wajib mencentang persetujuan syarat sebelum mengirimkan formulir.</div>
+              </div>
+              <label class="toggle-switch">
+                <input type="checkbox" id="toggleTerms">
+                <span class="toggle-slider"></span>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <!-- ----------------------------------------------------------------------
+             STEP 4: FORMULIR PESERTA & PUBLIKASI
+             ---------------------------------------------------------------------- -->
+        <div class="step-pane" id="paneStep4">
+          <div class="step-header">
+            <h2>Langkah 4: Formulir Peserta (Custom Fields)</h2>
+            <p>Tentukan informasi yang wajib diisi oleh peserta saat mendaftar.</p>
+          </div>
+
+          <!-- Locked Default Fields -->
+          <div class="custom-fields-list" id="customFieldsContainer">
+            <div class="field-item-card">
+              <div class="field-item-left">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
+                </svg>
+                <span>Nama Lengkap</span>
+                <span class="field-tag-badge">Bawaan Wajib</span>
+              </div>
+              <span style="font-size: 12px; color: var(--text-muted);">🔒 Terkunci</span>
+            </div>
+
+            <div class="field-item-card">
+              <div class="field-item-left">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/>
+                </svg>
+                <span>Alamat Email</span>
+                <span class="field-tag-badge">Bawaan Wajib</span>
+              </div>
+              <span style="font-size: 12px; color: var(--text-muted);">🔒 Pengiriman Tiket</span>
+            </div>
+          </div>
+
+          <!-- Quick Templates -->
+          <div style="margin-top: 16px;">
+            <div class="form-label" style="font-size: 12.5px; margin-bottom: 8px;">Template Pertanyaan Cepat:</div>
+            <div class="quick-templates-wrap">
+              <button type="button" class="template-pill-btn" data-field-name="Nomor WhatsApp">+ Nomor WhatsApp</button>
+              <button type="button" class="template-pill-btn" data-field-name="Asal Institusi / Perusahaan">+ Asal Institusi / Perusahaan</button>
+              <button type="button" class="template-pill-btn" data-field-name="Jabatan / Posisi">+ Jabatan / Posisi</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- ======================================================================
+             WIZARD FOOTER ACTIONS (PREV / NEXT / PUBLISH)
+             ====================================================================== -->
+        <div class="wizard-footer-actions">
+          <button type="button" class="btn btn-secondary" id="btnPrevStep" style="visibility: hidden;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="15 18 9 12 15 6"/>
+            </svg>
+            <span>Kembali</span>
+          </button>
+
+          <button type="button" class="btn btn-primary" id="btnNextStep">
+            <span>Lanjut ke Langkah Berikutnya</span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="9 18 15 12 9 6"/>
+            </svg>
+          </button>
+
+          <button type="submit" class="btn btn-success" id="btnPublishEvent" style="display: none;">
+            <span>Terbitkan & Buat Event (Gratis)</span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="20 6 9 17 4 12"/>
+            </svg>
+          </button>
+        </div>
+
+      </form>
+    </div>
+
+  </div>
+
+  <script src="js/create-event.js"></script>
+</body>
+</html>

@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pendaftaran Peserta — Tech Summit Indonesia 2026</title>
+  
+  <!-- DM Sans (Strict Light 300, Regular 400, Medium 500) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,400&display=swap" rel="stylesheet">
+  
+  <!-- Register CSS -->
+  <link rel="stylesheet" href="css/register.css">
+</head>
+<body>
+
+  <!-- TOP MINI BRAND PILL -->
+  <div class="brand-pill-header">
+    <div class="brand-mini-logo">R</div>
+    <span class="brand-mini-text">Regesit Event Registration</span>
+  </div>
+
+  <!-- MAIN REGISTRATION CARD CONTAINER -->
+  <main class="reg-card-container">
+    
+    <!-- REGISTRATION FORM VIEW -->
+    <div id="registrationFormView">
+      
+      <!-- Event Hero Banner Image -->
+      <div class="event-banner-box">
+        <img src="Assets/tech_summit_banner.jpg" alt="Tech Summit Indonesia 2026 Banner" class="event-banner-img">
+        <span class="event-banner-badge">CONFERENCE & EXPO 2026</span>
+      </div>
+
+      <!-- Event Title -->
+      <h1 class="event-title-hero" id="eventTitle">Tech Summit Indonesia 2026</h1>
+
+      <!-- Meta Info List (Date & Location) -->
+      <div class="event-meta-list">
+        <!-- Date -->
+        <div class="event-meta-row">
+          <div class="meta-icon-bubble">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+              <line x1="16" y1="2" x2="16" y2="6"></line>
+              <line x1="8" y1="2" x2="8" y2="6"></line>
+              <line x1="3" y1="10" x2="21" y2="10"></line>
+            </svg>
+          </div>
+          <div>
+            <div class="meta-info-title" id="eventDateTime">Sabtu, 22 Agustus 2026 • 22.00 – 23.30 WIB</div>
+            <div class="meta-info-sub">Waktu Pelaksanaan Event</div>
+          </div>
+        </div>
+
+        <!-- Location -->
+        <div class="event-meta-row">
+          <div class="meta-icon-bubble">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+              <circle cx="12" cy="10" r="3"></circle>
+            </svg>
+          </div>
+          <div>
+            <div class="meta-info-title" id="eventLocation">Jakarta Convention Center, Hall A</div>
+            <div class="meta-info-sub">Lokasi Pelaksanaan Acara</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Divider & About Section -->
+      <div class="section-divider"></div>
+      <div>
+        <span class="section-label-caps">TENTANG ACARA INI</span>
+        <p class="event-description-text" id="eventDesc">
+          Konferensi teknologi tahunan terbesar di Indonesia yang menghadirkan pakar AI, Cloud Computing, dan Product Engineering dari seluruh Asia Tenggara.
+        </p>
+      </div>
+      <div class="section-divider"></div>
+
+      <!-- Form Section -->
+      <form id="participantRegisterForm" novalidate>
+        <div class="form-header-row">
+          <h2 class="form-title-heading">Form Pendaftaran</h2>
+          <span class="pill-badge-free">Gratis</span>
+        </div>
+        <div class="form-sub-hint">Isi data diri Anda secara lengkap untuk mendaftar ke acara ini.</div>
+
+        <!-- Nama Lengkap -->
+        <div class="form-field-group">
+          <label class="field-label" for="regFullName">NAMA LENGKAP <span class="req">*</span></label>
+          <input type="text" class="input-dashboard-control" id="regFullName" placeholder="Masukkan nama lengkap Anda" required>
+        </div>
+
+        <!-- Alamat Email -->
+        <div class="form-field-group">
+          <label class="field-label" for="regEmail">ALAMAT EMAIL <span class="req">*</span></label>
+          <input type="email" class="input-dashboard-control" id="regEmail" placeholder="nama@email.com" required>
+        </div>
+
+        <!-- Nomor WhatsApp -->
+        <div class="form-field-group">
+          <label class="field-label" for="regPhone">NOMOR WHATSAPP <span class="req">*</span></label>
+          <input type="tel" class="input-dashboard-control" id="regPhone" placeholder="0812-3456-7890" required>
+        </div>
+
+        <!-- Institusi / Perusahaan -->
+        <div class="form-field-group">
+          <label class="field-label" for="regCompany">INSTITUSI / PERUSAHAAN</label>
+          <input type="text" class="input-dashboard-control" id="regCompany" placeholder="Contoh: PT Teknologi Bangsa / Universitas">
+        </div>
+
+        <!-- Digital Signature Pad -->
+        <div class="form-field-group" style="margin-top: 22px;">
+          <div class="signature-header-row">
+            <label class="field-label" style="margin-bottom: 0;">TANDA TANGAN <span class="req">*</span></label>
+            <button type="button" class="btn-clear-signature" id="btnClearSignature">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="3 6 5 6 21 6"></polyline>
+                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+              </svg>
+              <span>Hapus Tanda Tangan</span>
+            </button>
+          </div>
+
+          <div class="signature-canvas-wrap">
+            <canvas id="signatureCanvas" class="signature-canvas"></canvas>
+            <div class="signature-watermark-hint" id="signatureHint">Goreskan tanda tangan Anda di sini</div>
+          </div>
+        </div>
+
+        <!-- Agreement Checkbox -->
+        <label class="agreement-check-card" for="regAgreement">
+          <input type="checkbox" class="agreement-checkbox" id="regAgreement" required>
+          <span class="agreement-label-text">
+            Saya menyatakan data yang saya isi adalah benar dan menyetujui pendaftaran event ini.
+          </span>
+        </label>
+
+        <!-- Primary CTA Submit Button -->
+        <button type="submit" class="btn-submit-registration" id="btnSubmitForm">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="3" width="7" height="7"></rect>
+            <rect x="14" y="3" width="7" height="7"></rect>
+            <rect x="14" y="14" width="7" height="7"></rect>
+            <rect x="3" y="14" width="7" height="7"></rect>
+          </svg>
+          <span>Daftar & Dapatkan QR Code</span>
+        </button>
+      </form>
+    </div>
+
+    <!-- SUCCESS TICKET VIEW (DISPLAYED AFTER SUBMISSION) -->
+    <div class="ticket-success-view" id="ticketSuccessView">
+      <div class="success-top-celebration">
+        <!-- Animated Circular Checkmark Badge with Pulsing Ring -->
+        <div class="success-checkmark-wrapper">
+          <div class="success-pulse-ring"></div>
+          <div class="success-circle-badge">
+            <svg class="checkmark-svg" viewBox="0 0 52 52">
+              <path class="checkmark-path" fill="none" d="M14 27 l8 8 l16 -16"/>
+            </svg>
+          </div>
+        </div>
+
+        <div class="ticket-header-pill">
+          <span>✓ Pendaftaran Berhasil!</span>
+        </div>
+        <h2 class="ticket-success-title">Tiket QR Resmi Anda</h2>
+        <p class="ticket-success-desc">
+          Tunjukkan QR Code ini kepada panitia di pintu masuk venue untuk penukaran gelang / check-in.
+        </p>
+      </div>
+
+      <!-- Official Ticket Card -->
+      <div class="ticket-official-card">
+        <div class="ticket-card-badge-top">E-TICKET RESMI REGESIT</div>
+        <div class="ticket-event-name-sub">Tech Summit Indonesia 2026</div>
+        <div class="ticket-code-badge" id="resTicketCode">TIK-8821</div>
+
+        <div class="ticket-qr-container" id="ticketQrTrigger" title="Klik untuk membuka Fullscreen QR Code">
+          <div class="qr-relative-wrap">
+            <img src="https://api.qrserver.com/v1/create-qr-code/?size=360x360&data=TIK-8821-BUDI-WICAKSONO" alt="QR Tiket" class="ticket-qr-img" id="resTicketQrImg">
+            <div class="qr-center-logo-badge">R</div>
+          </div>
+          <div class="qr-tap-fullscreen-hint">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <path d="M15 3h6v6"/><path d="M9 21H3v-6"/><path d="M21 3l-7 7"/><path d="M3 21l7-7"/>
+            </svg>
+            <span>Ketuk QR untuk Fullscreen</span>
+          </div>
+        </div>
+
+        <div class="ticket-attendee-name" id="resAttendeeName">Budi Wicaksono</div>
+        <div class="ticket-attendee-org" id="resAttendeeOrg">PT GoTo Gojek Tokopedia</div>
+
+        <div class="ticket-meta-footer">
+          <div>Gate Masuk: <strong>Pintu Utama</strong></div>
+          <div>Status: <strong style="color: var(--color-secondary);">Aktif & Terdaftar</strong></div>
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="ticket-action-btns">
+        <button type="button" class="btn-download-ticket" id="btnDownloadTicket">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+          </svg>
+          <span>Unduh Tiket (Simpan di Ponsel)</span>
+        </button>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- FULLSCREEN QR CODE LIGHTBOX MODAL -->
+  <div class="qr-fullscreen-modal-overlay" id="qrFullscreenModal" role="dialog" aria-modal="true">
+    <div class="qr-modal-backdrop" id="qrModalBackdrop"></div>
+    
+    <div class="qr-modal-card">
+      <button type="button" class="btn-close-qr-modal" id="btnCloseQrModal" aria-label="Tutup Fullscreen QR">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
+
+      <div class="qr-modal-header">
+        <span class="qr-modal-pill" id="modalTicketCode">TIK-8821</span>
+        <h3 class="qr-modal-attendee-name" id="modalAttendeeName">Budi Wicaksono</h3>
+        <p class="qr-modal-event-name">Tech Summit Indonesia 2026</p>
+      </div>
+
+      <!-- Giant QR Code Canvas Box -->
+      <div class="qr-giant-display-box">
+        <div class="qr-relative-wrap">
+          <img src="https://api.qrserver.com/v1/create-qr-code/?size=450x450&data=TIK-8821-BUDI-WICAKSONO" alt="QR Code Fullscreen" class="qr-giant-img" id="modalTicketQrImg">
+          <div class="qr-center-logo-badge giant">R</div>
+        </div>
+      </div>
+
+      <div class="qr-brightness-tip">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="5"></circle>
+          <line x1="12" y1="1" x2="12" y2="3"></line>
+          <line x1="12" y1="21" x2="12" y2="23"></line>
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+          <line x1="1" y1="12" x2="3" y2="12"></line>
+          <line x1="21" y1="12" x2="23" y2="12"></line>
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+        </svg>
+        <span>Tingkatkan kecerahan layar HP agar cepat terbaca scanner panitia</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- FLOATING TOAST NOTIFICATION CONTAINER -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <!-- CELEBRATORY CONFETTI GLITTER CANNON CANVAS -->
+  <canvas id="confettiCanvas"></canvas>
+
+  <script src="js/register.js"></script>
+</body>
+</html>

@@ -1,0 +1,1657 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Regesit Front-End to Back-End Hand-Off Documentation</title>
+  <meta name="description" content="Dokumentasi teknis integrasi Front-End ke Back-End untuk platform ticketing & QR check-in Regesit.">
+  
+  <!-- Google Fonts: DM Sans & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Documentation Stylesheet -->
+  <link rel="stylesheet" href="css/docs.css">
+</head>
+<body>
+
+  <div class="docs-layout">
+
+    <!-- ==========================================================================
+         SIDEBAR NAVIGATION
+         ========================================================================== -->
+    <aside class="docs-sidebar">
+      <!-- Sidebar Header -->
+      <div class="sidebar-header">
+        <div class="sidebar-brand-mark">R</div>
+        <div>
+          <div class="sidebar-brand-title">Regesit API &amp; UI Docs</div>
+          <div class="sidebar-brand-sub">
+            <span>Hand-Off Back-End</span>
+            <span class="badge-ver">v2.4.0</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Search Input Trigger -->
+      <div class="sidebar-search-box">
+        <div class="search-input-wrap">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+          <input type="text" class="docs-search-input" placeholder="Cari endpoint, ID, payload..." readonly>
+          <span class="search-shortcut-hint">Ctrl K</span>
+        </div>
+      </div>
+
+      <!-- Navigation Links Container -->
+      <div class="sidebar-nav-container">
+        
+        <!-- Group 1: Pendahuluan -->
+        <div class="nav-section-group">
+          <div class="nav-group-title">PENDAHULUAN &amp; ARSITEKTUR</div>
+          <ul class="sidebar-nav-list">
+            <li>
+              <a href="#sec-overview" class="sidebar-nav-link active">
+                <span class="nav-icon-box">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 3v18"/><path d="M15 9h6"/></svg>
+                  <span>1. Overview &amp; Struktur File</span>
+                </span>
+              </a>
+            </li>
+            <li>
+              <a href="#sec-diagrams" class="sidebar-nav-link">
+                <span class="nav-icon-box">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+                  <span>2. Diagram Alur Vertikal</span>
+                </span>
+              </a>
+            </li>
+            <li>
+              <a href="#sec-design-tokens" class="sidebar-nav-link">
+                <span class="nav-icon-box">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="m4.93 4.93 4.24 4.24"/></svg>
+                  <span>3. Desain Token &amp; UI States</span>
+                </span>
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Group 2: REST API Contracts -->
+        <div class="nav-section-group">
+          <div class="nav-group-title">KONTRAK REST API (ENDPOINTS)</div>
+          <ul class="sidebar-nav-list">
+            <li>
+              <a href="#api-register" class="sidebar-nav-link">
+                <span class="nav-icon-box">
+                  <span class="nav-badge-pill badge-post">POST</span>
+                  <span>Registrasi Peserta</span>
+                </span>
+              </a>
+            </li>
+            <li>
+              <a href="#api-ticket-detail" class="sidebar-nav-link">
+                <span class="nav-icon-box">
+                  <span class="nav-badge-pill badge-get">GET</span>
+                  <span>Detail Tiket QR</span>
+                </span>
+              </a>
+            </li>
+            <li>
+              <a href="#api-scanner-checkin" class="sidebar-nav-link">
+                <span class="nav-icon-box">
+                  <span class="nav-badge-pill badge-post">POST</span>
+                  <span>Check-in Gate Scanner</span>
+                </span>
+              </a>
+            </li>
+            <li>
+              <a href="#api-create-event" class="sidebar-nav-link">
+                <span class="nav-icon-box">
+                  <span class="nav-badge-pill badge-post">POST</span>
+                  <span>Buat Event (Wizard)</span>
+                </span>
+              </a>
+            </li>
+            <li>
+              <a href="#api-update-event" class="sidebar-nav-link">
+                <span class="nav-icon-box">
+                  <span class="nav-badge-pill badge-put">PUT</span>
+                  <span>Update Event &amp; Form</span>
+                </span>
+              </a>
+            </li>
+            <li>
+              <a href="#api-dashboard-stats" class="sidebar-nav-link">
+                <span class="nav-icon-box">
+                  <span class="nav-badge-pill badge-get">GET</span>
+                  <span>Metrik &amp; KPI Organizer</span>
+                </span>
+              </a>
+            </li>
+            <li>
+              <a href="#api-attendees-list" class="sidebar-nav-link">
+                <span class="nav-icon-box">
+                  <span class="nav-badge-pill badge-get">GET</span>
+                  <span>Daftar Peserta &amp; Export</span>
+                </span>
+              </a>
+            </li>
+            <li>
+              <a href="#api-plan-calc" class="sidebar-nav-link">
+                <span class="nav-icon-box">
+                  <span class="nav-badge-pill badge-get">GET</span>
+                  <span>Kalkulasi Paket Harga</span>
+                </span>
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Group 3: Data Binding & DOM Specs -->
+        <div class="nav-section-group">
+          <div class="nav-group-title">SPESIFIKASI DATA &amp; DOM</div>
+          <ul class="sidebar-nav-list">
+            <li>
+              <a href="#sec-dom-binding" class="sidebar-nav-link">
+                <span class="nav-icon-box">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 18l6-6-6-6"/><path d="M8 6l-6 6 6 6"/></svg>
+                  <span>Matriks ID Form &amp; Selector</span>
+                </span>
+              </a>
+            </li>
+            <li>
+              <a href="#sec-qr-specs" class="sidebar-nav-link">
+                <span class="nav-icon-box">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+                  <span>Format Payload QR &amp; Security</span>
+                </span>
+              </a>
+            </li>
+            <li>
+              <a href="#sec-scanner-logic" class="sidebar-nav-link">
+                <span class="nav-icon-box">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="13" r="4"/><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/></svg>
+                  <span>Logika Scanner &amp; Offline Sync</span>
+                </span>
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Group 4: Database & Error Handling -->
+        <div class="nav-section-group">
+          <div class="nav-group-title">DATABASE &amp; STATUS ERROR</div>
+          <ul class="sidebar-nav-list">
+            <li>
+              <a href="#sec-database-erd" class="sidebar-nav-link">
+                <span class="nav-icon-box">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>
+                  <span>Rekomendasi Skema ERD</span>
+                </span>
+              </a>
+            </li>
+            <li>
+              <a href="#sec-error-matrix" class="sidebar-nav-link">
+                <span class="nav-icon-box">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                  <span>HTTP Status &amp; Toast Mapping</span>
+                </span>
+              </a>
+            </li>
+          </ul>
+        </div>
+
+      </div>
+
+      <!-- Sidebar Footer -->
+      <div class="sidebar-footer">
+        <span>© 2026 Regesit Dev Team</span>
+        <span>ID: BE-HANDOFF-PRO</span>
+      </div>
+    </aside>
+
+    <!-- ==========================================================================
+         MAIN CONTENT AREA
+         ========================================================================== -->
+    <main class="docs-main">
+      
+      <!-- Top Sticky Bar -->
+      <header class="docs-topbar">
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <button type="button" class="btn-mobile-sidebar-toggle" id="btnToggleMobileDocsNav" aria-label="Buka Navigasi">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+          </button>
+          <div class="topbar-breadcrumbs">
+            <span>Documentation</span>
+            <span>/</span>
+            <span class="crumb-current">Front-End to Back-End Hand-Off</span>
+          </div>
+        </div>
+
+        <div class="topbar-actions">
+          <button type="button" class="btn-topbar" onclick="window.print()">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+            <span>Cetak / PDF</span>
+          </button>
+          <a href="../index.html" class="btn-topbar btn-topbar-primary" target="_blank">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+            <span>Buka Live UI Web</span>
+          </a>
+        </div>
+      </header>
+
+      <!-- Content Body Container -->
+      <div class="docs-content-container">
+
+        <!-- HERO / BANNER -->
+        <section class="docs-hero-card">
+          <div class="hero-pill-badge">
+            <span style="width: 7px; height: 7px; border-radius: 50%; background: #34d399; display: inline-block;"></span>
+            <span>SPECIFICATION SPEC V2.4 • READY FOR INTEGRATION</span>
+          </div>
+          <h1 class="hero-title">Dokumentasi Integrasi Front-End &amp; Back-End Regesit</h1>
+          <p class="hero-desc">
+            Panduan teknis resmi bagi divisi backend engineer untuk mengintegrasikan REST API, WebSocket live stream, schema database, webhook tiket QR, serta penanganan validasi UI untuk ekosistem aplikasi Regesit.
+          </p>
+
+          <div class="hero-metrics-row">
+            <div class="hero-metric-item">
+              <span class="hero-metric-num">5 Halaman</span>
+              <span class="hero-metric-label">Landing, Register, Create, Dashboard, Scanner</span>
+            </div>
+            <div class="hero-metric-item">
+              <span class="hero-metric-num">8 Endpoints</span>
+              <span class="hero-metric-label">REST API Contracts &amp; Data Payloads</span>
+            </div>
+            <div class="hero-metric-item">
+              <span class="hero-metric-num">7 Entitas</span>
+              <span class="hero-metric-label">Rekomendasi Relasi Database (ERD)</span>
+            </div>
+            <div class="hero-metric-item">
+              <span class="hero-metric-num">Offline-First</span>
+              <span class="hero-metric-label">Gate Scanner Check-In Resilience</span>
+            </div>
+          </div>
+        </section>
+
+        <!-- ==================================================================
+             SECTION 1: OVERVIEW & STRUKTUR FILE
+             ================================================================== -->
+        <section id="sec-overview" class="docs-section">
+          <div class="section-title-wrap">
+            <span class="section-num-tag">MODUL 01</span>
+            <h2 class="section-heading">Overview &amp; Struktur File Front-End</h2>
+          </div>
+          <p class="section-lead">
+            Front-End Regesit dibangun murni menggunakan standar web modern tanpa framework besar, memastikan kecepatan rendering kilat (&lt;100ms) dan kemudahan integrasi dengan backend berbasis Node.js, Go, Laravel, maupun Python FastAPI.
+          </p>
+
+          <!-- Bento Grid: Project Anatomy -->
+          <div class="bento-doc-card">
+            <div class="bento-card-header">
+              <h3 class="bento-card-title">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--color-primary)" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+                <span>Anatomi Direktori &amp; Tanggung Jawab Halaman</span>
+              </h3>
+            </div>
+
+            <table class="doc-spec-table">
+              <thead>
+                <tr>
+                  <th>File HTML / JS</th>
+                  <th>Peran &amp; Tanggung Jawab</th>
+                  <th>Kebutuhan Integrasi Back-End</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>
+                    <strong>index.html</strong><br>
+                    <code style="font-size: 11.5px; color: var(--text-muted);">js/main.js • css/style.css</code>
+                  </td>
+                  <td>Landing page publik, simulasi kalkulator paket harga dinamis, showcase live bento scanner ticker, FAQ accordion, formulir hubungi sales.</td>
+                  <td>
+                    • Endpoint kalkulasi harga kustom: <code class="param-name">GET /api/v1/plans/calculate</code><br>
+                    • Lead capturing form: <code class="param-name">POST /api/v1/leads/demo</code>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <strong>register.html</strong><br>
+                    <code style="font-size: 11.5px; color: var(--text-muted);">js/register.js • css/register.css</code>
+                  </td>
+                  <td>Formulir pendaftaran peserta publik, kanvas tanda tangan digital touch/mouse, generator e-ticket QR resmi, dan fullscreen QR lightbox modal.</td>
+                  <td>
+                    • Registrasi peserta: <code class="param-name">POST /api/v1/events/{id}/register</code><br>
+                    • Konversi tanda tangan Base64 Canvas ke PNG &amp; upload S3/CDN<br>
+                    • Pengiriman email/WhatsApp e-ticket QR otomatis
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <strong>scanner.html</strong><br>
+                    <code style="font-size: 11.5px; color: var(--text-muted);">js/scanner.js • css/scanner.css</code>
+                  </td>
+                  <td>Web app scanner lapangan untuk panitia pintu masuk, WebRTC camera viewfinder, audio synthesis chime beep, verifikasi tiket 3 detik, live stream check-in.</td>
+                  <td>
+                    • Verifikasi QR: <code class="param-name">POST /api/v1/tickets/checkin</code><br>
+                    • Pencegahan scan ganda (<code class="param-type">409 Conflict</code>)<br>
+                    • WebSocket live sync antar-gate: <code class="param-name">WS /ws/scanner</code>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <strong>create-event.html</strong><br>
+                    <code style="font-size: 11.5px; color: var(--text-muted);">js/create-event.js • css/create-event.css</code>
+                  </td>
+                  <td>Wizard mandiri 4 langkah pembuatan event baru (Info dasar, waktu &amp; venue, dynamic custom fields builder, add-on terms &amp; conditions).</td>
+                  <td>
+                    • Simpan event baru: <code class="param-name">POST /api/v1/events</code><br>
+                    • Validasi limit kuota sesuai tier organizer yang berlangganan
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <strong>dashboard.html</strong><br>
+                    <code style="font-size: 11.5px; color: var(--text-muted);">js/dashboard.js • css/dashboard.css</code>
+                  </td>
+                  <td>Central organizer dashboard, metrik kehadiran, kalender event, tabel data peserta (search/filter), ekspor CSV, modal 4-tab event detail &amp; custom question builder.</td>
+                  <td>
+                    • Statistik ringkasan: <code class="param-name">GET /api/v1/dashboard/stats</code><br>
+                    • CRUD event &amp; formulir: <code class="param-name">PUT /api/v1/events/{id}</code><br>
+                    • Streaming ekspor peserta: <code class="param-name">GET /api/v1/events/{id}/export</code>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- ==================================================================
+             SECTION 2: DIAGRAM ALUR VERTIKAL
+             ================================================================== -->
+        <section id="sec-diagrams" class="docs-section">
+          <div class="section-title-wrap">
+            <span class="section-num-tag">MODUL 02</span>
+            <h2 class="section-heading">Diagram Alur Sistem Vertikal</h2>
+          </div>
+          <p class="section-lead">
+            Visualisasi berorientasi vertikal (*mobile &amp; compact screen friendly*) yang menggambarkan alur lengkap siklus data mulai dari pendaftaran peserta hingga pemindaian di pintu masuk venue.
+          </p>
+
+          <!-- Diagram Card 1: End-to-End Registration & Verification Flow -->
+          <div class="diagram-card-box">
+            <div class="diagram-header">
+              <h3 class="bento-card-title">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--color-primary)" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+                <span>Alur Registrasi Peserta &rarr; Penerbitan Tiket QR &rarr; Check-In Gate</span>
+              </h3>
+              <span class="pill-badge pill-blue">Vertical Data Pipeline</span>
+            </div>
+
+            <div class="vertical-flow-diagram">
+              
+              <!-- Step 1 -->
+              <div class="flow-node-step">
+                <div class="flow-step-num">1</div>
+                <div class="flow-step-content">
+                  <div class="flow-step-title">Peserta Mengisi Form Pendaftaran (register.html)</div>
+                  <div class="flow-step-desc">Peserta memasukkan nama lengkap, email, WhatsApp, institusi, dan membubuhkan tanda tangan digital pada kanvas touch/mouse.</div>
+                </div>
+              </div>
+
+              <!-- Arrow -->
+              <div class="flow-connector-arrow">
+                <div class="flow-line-vertical"></div>
+                <div class="flow-arrow-down"></div>
+              </div>
+
+              <!-- Step 2 -->
+              <div class="flow-node-step highlight-node">
+                <div class="flow-step-num">2</div>
+                <div class="flow-step-content">
+                  <div class="flow-step-title">Client-Side Validation &amp; Payload Dispatch</div>
+                  <div class="flow-step-desc">Script <code class="param-name">register.js</code> memvalidasi regex email, format nomor HP, dan mengekspor tanda tangan menjadi data stream Base64 PNG. Mengirim <code class="param-name">POST /api/v1/events/{id}/register</code>.</div>
+                </div>
+              </div>
+
+              <!-- Arrow -->
+              <div class="flow-connector-arrow">
+                <div class="flow-line-vertical"></div>
+                <div class="flow-arrow-down"></div>
+              </div>
+
+              <!-- Step 3 -->
+              <div class="flow-node-step">
+                <div class="flow-step-num">3</div>
+                <div class="flow-step-content">
+                  <div class="flow-step-title">Back-End Memproses &amp; Menyimpan Data</div>
+                  <div class="flow-step-desc">Menyimpan record attendee, generate nomor unik <code class="param-name">TIK-XXXX</code>, upload tanda tangan ke S3, membuat Signed QR payload, dan mengembalikan HTTP 201 Created.</div>
+                </div>
+              </div>
+
+              <!-- Arrow -->
+              <div class="flow-connector-arrow">
+                <div class="flow-line-vertical"></div>
+                <div class="flow-arrow-down"></div>
+              </div>
+
+              <!-- Step 4 -->
+              <div class="flow-node-step highlight-node">
+                <div class="flow-step-num">4</div>
+                <div class="flow-step-content">
+                  <div class="flow-step-title">Front-End Merender E-Ticket &amp; Ledakan Confetti</div>
+                  <div class="flow-step-desc">Halaman beralih ke <code class="param-name">#ticketSuccessView</code>, merender QR Code resolusi tinggi, memicu animasi Confetti Cannon, dan mengizinkan download tiket gambar.</div>
+                </div>
+              </div>
+
+              <!-- Arrow -->
+              <div class="flow-connector-arrow">
+                <div class="flow-line-vertical"></div>
+                <div class="flow-arrow-down"></div>
+              </div>
+
+              <!-- Step 5 -->
+              <div class="flow-node-step">
+                <div class="flow-step-num">5</div>
+                <div class="flow-step-content">
+                  <div class="flow-step-title">Hari-H Event: Panitia Memindai Tiket (scanner.html)</div>
+                  <div class="flow-step-desc">Kamera smartphone panitia mendeteksi QR &rarr; memanggil <code class="param-name">POST /api/v1/tickets/checkin</code> &rarr; validasi status kehadiran dalam 3 detik &rarr; Web Audio synthesizer membunyikan nada sukses (A5-1760Hz).</div>
+                </div>
+              </div>
+
+              <!-- Arrow -->
+              <div class="flow-connector-arrow">
+                <div class="flow-line-vertical"></div>
+                <div class="flow-arrow-down"></div>
+              </div>
+
+              <!-- Step 6 -->
+              <div class="flow-node-step">
+                <div class="flow-step-num">6</div>
+                <div class="flow-step-content">
+                  <div class="flow-step-title">Real-Time Sync ke Organizer Dashboard (dashboard.html)</div>
+                  <div class="flow-step-desc">Metrik kehadiran ter-update secara otomatis, grafik persentase gate bertambah, dan record log check-in tercatat di database.</div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </section>
+
+        <!-- ==================================================================
+             SECTION 3: DESAIN TOKEN & UI STATES
+             ================================================================== -->
+        <section id="sec-design-tokens" class="docs-section">
+          <div class="section-title-wrap">
+            <span class="section-num-tag">MODUL 03</span>
+            <h2 class="section-heading">Desain Token &amp; Konvensi State CSS</h2>
+          </div>
+          <p class="section-lead">
+            Front-End menggunakan class CSS standar untuk menampilkan indikator feedback, animasi shake error, status pendaftaran, dan toast notification.
+          </p>
+
+          <div class="bento-doc-card">
+            <h3 class="bento-card-title" style="margin-bottom: 14px;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--color-primary)" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+              <span>Matriks Class State Interaktif Front-End</span>
+            </h3>
+
+            <table class="doc-spec-table">
+              <thead>
+                <tr>
+                  <th>Class Name CSS</th>
+                  <th>Target Elemen</th>
+                  <th>Perilaku Visual &amp; Efek</th>
+                  <th>Trigger dari Response BE</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><code class="param-name">.is-invalid</code> / <code class="param-name">.input-error</code></td>
+                  <td><code class="param-type">input, select, textarea</code></td>
+                  <td>Border berubah menjadi merah (<code class="param-name">#ef4444</code>), background beraksen merah muda halus, dan outline kemerahan.</td>
+                  <td>Saat API mengembalikan status <code class="param-name">400 / 422</code> dengan nama field yang tidak valid.</td>
+                </tr>
+                <tr>
+                  <td><code class="param-name">.shake-error</code></td>
+                  <td><code class="param-type">.form-field-group, .signature-canvas-wrap</code></td>
+                  <td>Memicu animasi getar horizontal selama 0.35 detik untuk menarik perhatian mata pengguna.</td>
+                  <td>Dipasang bersamaan dengan <code class="param-name">.is-invalid</code> saat validasi form gagal.</td>
+                </tr>
+                <tr>
+                  <td><code class="param-name">.card-success-pulse</code></td>
+                  <td><code class="param-type">#highlightAttendeeBox (scanner)</code></td>
+                  <td>Memberikan efek border kilau hijau (<code class="param-name">#10b981</code>) memudar selama 0.8s saat scan sukses.</td>
+                  <td>Saat endpoint check-in mengembalikan respon <code class="param-name">200 OK (Tiket Valid)</code>.</td>
+                </tr>
+                <tr>
+                  <td><code class="param-name">.stamped</code></td>
+                  <td><code class="param-type">#verifiedStampBadge (scanner)</code></td>
+                  <td>Memicu animasi cap stempel digital jatuh berputar (*stamp slam effect*) dengan rotasi -8deg.</td>
+                  <td>Dijalankan seketika saat tiket terkonfirmasi sah di pintu masuk.</td>
+                </tr>
+                <tr>
+                  <td><code class="param-name">.toast-card.success</code></td>
+                  <td><code class="param-type">#toastContainer</code></td>
+                  <td>Muncul toast melayang sudut kanan atas berwarna hijau dengan progress bar auto-dismiss 3.5 detik.</td>
+                  <td>Aksi sukses (Buat event, Simpan setting, Export file, Download tiket).</td>
+                </tr>
+                <tr>
+                  <td><code class="param-name">.toast-card.warning</code></td>
+                  <td><code class="param-type">#toastContainer</code></td>
+                  <td>Muncul toast melayang berwarna amber/oranye dengan ikon segitiga peringatan.</td>
+                  <td>Peringatan input form belum lengkap atau kuota hampir penuh.</td>
+                </tr>
+                <tr>
+                  <td><code class="param-name">.toast-card.danger</code></td>
+                  <td><code class="param-type">#toastContainer</code></td>
+                  <td>Muncul toast melayang berwarna merah tua dengan ikon silang peringatan keras.</td>
+                  <td>Tiket sudah pernah check-in (<code class="param-name">409 Conflict</code>) atau sistem offline.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Bento Card: CSS Compatibility & Text Gradient Standard -->
+          <div class="bento-doc-card">
+            <h3 class="bento-card-title" style="margin-bottom: 12px;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--color-primary)" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+              <span>Standar Kompatibilitas CSS &amp; Gradient Text Rules</span>
+            </h3>
+            <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 12px;">
+              Untuk rendering teks bergradien (<code class="param-name">.hero-title-highlight</code>) yang konsisten di semua mesin peramban (Gecko/Firefox, WebKit/Safari, dan Chromium/Blink), deklarasikan properti standar <code class="param-name">background-clip: text;</code> berpasangan dengan vendor prefix <code class="param-name">-webkit-background-clip: text;</code>:
+            </p>
+            <div class="code-block-wrap" style="margin-top: 0;">
+              <div class="code-block-header">
+                <span class="code-lang-tag">CSS Code Standard</span>
+                <button type="button" class="btn-copy-code"><span>Salin CSS</span></button>
+              </div>
+              <pre class="code-pre-box"><code><span class="syn-key">.hero-title-highlight</span> {
+  <span class="syn-func">background</span>: <span class="syn-str">linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%)</span>;
+  <span class="syn-func">-webkit-background-clip</span>: <span class="syn-str">text</span>;
+  <span class="syn-func">background-clip</span>: <span class="syn-str">text</span>; <span class="syn-comment">/* Wajib didefinisikan untuk kompatibilitas standar W3C */</span>
+  <span class="syn-func">-webkit-text-fill-color</span>: <span class="syn-str">transparent</span>;
+  <span class="syn-func">display</span>: <span class="syn-str">inline-block</span>;
+}</code></pre>
+            </div>
+          </div>
+        </section>
+
+        <!-- ==================================================================
+             SECTION 4: REST API CONTRACTS
+             ================================================================== -->
+        <section id="sec-api-contracts" class="docs-section">
+          <div class="section-title-wrap">
+            <span class="section-num-tag">MODUL 04</span>
+            <h2 class="section-heading">Spesifikasi Kontrak REST API</h2>
+          </div>
+          <p class="section-lead">
+            Daftar lengkap endpoint API yang dipanggil oleh Front-End, mencakup parameter query, header autentikasi, format body request, serta mock response sukses &amp; error.
+          </p>
+
+          <!-- API 1: Participant Registration -->
+          <div class="api-endpoint-box" id="api-register" data-doc-id="api-register">
+            <div class="endpoint-header-row">
+              <div class="endpoint-url-group">
+                <span class="method-tag method-post">POST</span>
+                <span class="endpoint-path">/api/v1/events/{eventId}/register</span>
+              </div>
+              <span class="endpoint-desc-badge">Pendaftaran Peserta Publik &amp; Penerbitan Tiket QR</span>
+            </div>
+
+            <div class="endpoint-body-content">
+              <p style="font-size: 13.5px; color: var(--text-muted); margin-bottom: 14px;">
+                Dipanggil oleh <code class="param-name">register.html</code> ketika peserta menekan tombol submit pendaftaran. Menyertakan tanda tangan digital Base64 PNG yang digambar di kanvas.
+              </p>
+
+              <h4 style="font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; color: var(--text-muted);">Request Headers</h4>
+              <table class="doc-spec-table">
+                <thead>
+                  <tr><th>Header</th><th>Tipe</th><th>Wajib</th><th>Deskripsi</th></tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><code class="param-name">Content-Type</code></td>
+                    <td><code class="param-type">string</code></td>
+                    <td><span class="param-req">YA</span></td>
+                    <td><code class="param-name">application/json</code></td>
+                  </tr>
+                </tbody>
+              </table>
+
+              <h4 style="font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; color: var(--text-muted);">Request Body (JSON)</h4>
+              <table class="doc-spec-table">
+                <thead>
+                  <tr><th>Field</th><th>Tipe</th><th>Wajib</th><th>Deskripsi / Validasi</th></tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><code class="param-name">fullName</code></td>
+                    <td><code class="param-type">string</code></td>
+                    <td><span class="param-req">YA</span></td>
+                    <td>Nama lengkap peserta (Min 3 karakter, Max 120 karakter).</td>
+                  </tr>
+                  <tr>
+                    <td><code class="param-name">email</code></td>
+                    <td><code class="param-type">string</code></td>
+                    <td><span class="param-req">YA</span></td>
+                    <td>Email aktif untuk pengiriman e-ticket (Regex email valid).</td>
+                  </tr>
+                  <tr>
+                    <td><code class="param-name">phone</code></td>
+                    <td><code class="param-type">string</code></td>
+                    <td><span class="param-req">YA</span></td>
+                    <td>Nomor WhatsApp aktif (format internasional / 08xx).</td>
+                  </tr>
+                  <tr>
+                    <td><code class="param-name">company</code></td>
+                    <td><code class="param-type">string</code></td>
+                    <td><span class="param-opt">OPSIONAL</span></td>
+                    <td>Nama instansi / universitas / perusahaan peserta.</td>
+                  </tr>
+                  <tr>
+                    <td><code class="param-name">signatureBase64</code></td>
+                    <td><code class="param-type">string</code></td>
+                    <td><span class="param-req">YA</span></td>
+                    <td>Data URI gambar tanda tangan (<code class="param-type">data:image/png;base64,...</code>).</td>
+                  </tr>
+                  <tr>
+                    <td><code class="param-name">customAnswers</code></td>
+                    <td><code class="param-type">object</code></td>
+                    <td><span class="param-opt">OPSIONAL</span></td>
+                    <td>Key-value pasangan ID pertanyaan kustom dan jawaban peserta.</td>
+                  </tr>
+                  <tr>
+                    <td><code class="param-name">agreementAccepted</code></td>
+                    <td><code class="param-type">boolean</code></td>
+                    <td><span class="param-req">YA</span></td>
+                    <td>Harus bernilai <code class="param-name">true</code> (Persetujuan syarat &amp; ketentuan).</td>
+                  </tr>
+                </tbody>
+              </table>
+
+              <!-- Code Payload Tabs -->
+              <div class="code-block-wrap">
+                <div class="code-block-header">
+                  <div class="code-block-tabs">
+                    <button type="button" class="code-tab-btn active" data-tab="req-json">Request Body</button>
+                    <button type="button" class="code-tab-btn" data-tab="res-201">201 Success</button>
+                    <button type="button" class="code-tab-btn" data-tab="res-422">422 Validation Error</button>
+                    <button type="button" class="code-tab-btn" data-tab="req-curl">cURL</button>
+                  </div>
+                  <button type="button" class="btn-copy-code" title="Salin ke clipboard">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                    <span>Salin JSON</span>
+                  </button>
+                </div>
+
+                <!-- Tab 1: Request JSON -->
+                <pre class="code-pre-box active" data-tab="req-json"><code>{
+  <span class="syn-key">"fullName"</span>: <span class="syn-str">"Budi Wicaksono"</span>,
+  <span class="syn-key">"email"</span>: <span class="syn-str">"budi.wicaksono@goto.com"</span>,
+  <span class="syn-key">"phone"</span>: <span class="syn-str">"+6281234567890"</span>,
+  <span class="syn-key">"company"</span>: <span class="syn-str">"PT GoTo Gojek Tokopedia"</span>,
+  <span class="syn-key">"signatureBase64"</span>: <span class="syn-str">"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAlgAAAH0CAYAAA..."</span>,
+  <span class="syn-key">"customAnswers"</span>: {
+    <span class="syn-key">"field_diet_preference"</span>: <span class="syn-str">"Vegetarian"</span>,
+    <span class="syn-key">"field_tshirt_size"</span>: <span class="syn-str">"XL"</span>
+  },
+  <span class="syn-key">"agreementAccepted"</span>: <span class="syn-bool">true</span>
+}</code></pre>
+
+                <!-- Tab 2: Response 201 Created -->
+                <pre class="code-pre-box" data-tab="res-201" style="display: none;"><code>{
+  <span class="syn-key">"success"</span>: <span class="syn-bool">true</span>,
+  <span class="syn-key">"message"</span>: <span class="syn-str">"Pendaftaran berhasil dikonfirmasi"</span>,
+  <span class="syn-key">"data"</span>: {
+    <span class="syn-key">"ticketCode"</span>: <span class="syn-str">"TIK-8821"</span>,
+    <span class="syn-key">"attendeeId"</span>: <span class="syn-str">"att_984a1e7b-4819"</span>,
+    <span class="syn-key">"eventId"</span>: <span class="syn-str">"evt_tech_summit_2026"</span>,
+    <span class="syn-key">"fullName"</span>: <span class="syn-str">"Budi Wicaksono"</span>,
+    <span class="syn-key">"category"</span>: <span class="syn-str">"General Pass"</span>,
+    <span class="syn-key">"qrPayload"</span>: <span class="syn-str">"TIK-8821|Budi Wicaksono|budi.wicaksono@goto.com|sig_d892ba"</span>,
+    <span class="syn-key">"qrImageUrl"</span>: <span class="syn-str">"https://cdn.regesit.com/qrcodes/TIK-8821.png"</span>,
+    <span class="syn-key">"ticketPdfUrl"</span>: <span class="syn-str">"https://cdn.regesit.com/tickets/TIK-8821.pdf"</span>,
+    <span class="syn-key">"createdAt"</span>: <span class="syn-str">"2026-08-23T08:15:30.000Z"</span>
+  }
+}</code></pre>
+
+                <!-- Tab 3: Response 422 Error -->
+                <pre class="code-pre-box" data-tab="res-422" style="display: none;"><code>{
+  <span class="syn-key">"success"</span>: <span class="syn-bool">false</span>,
+  <span class="syn-key">"error"</span>: {
+    <span class="syn-key">"code"</span>: <span class="syn-str">"VALIDATION_ERROR"</span>,
+    <span class="syn-key">"title"</span>: <span class="syn-str">"Data Pendaftaran Belum Lengkap ⚠️"</span>,
+    <span class="syn-key">"message"</span>: <span class="syn-str">"Alamat email tidak valid atau kuota kategori ini telah habis."</span>,
+    <span class="syn-key">"invalidFields"</span>: [
+      { <span class="syn-key">"field"</span>: <span class="syn-str">"regEmail"</span>, <span class="syn-key">"issue"</span>: <span class="syn-str">"Format email tidak valid"</span> }
+    ]
+  }
+}</code></pre>
+
+                <!-- Tab 4: cURL -->
+                <pre class="code-pre-box" data-tab="req-curl" style="display: none;"><code>curl -X POST https://api.regesit.com/api/v1/events/36b83e7a-1246/register \
+  -H "Content-Type: application/json" \
+  -d '{
+    "fullName": "Budi Wicaksono",
+    "email": "budi.wicaksono@goto.com",
+    "phone": "+6281234567890",
+    "company": "PT GoTo",
+    "signatureBase64": "data:image/png;base64,...",
+    "agreementAccepted": true
+  }'</code></pre>
+              </div>
+            </div>
+          </div>
+
+          <!-- API 2: Gate QR Scanner Check-in -->
+          <div class="api-endpoint-box" id="api-scanner-checkin" data-doc-id="api-scanner-checkin">
+            <div class="endpoint-header-row">
+              <div class="endpoint-url-group">
+                <span class="method-tag method-post">POST</span>
+                <span class="endpoint-path">/api/v1/tickets/checkin</span>
+              </div>
+              <span class="endpoint-desc-badge">Verifikasi Tiket QR &amp; Pencatatan Kehadiran Gate (3 Detik)</span>
+            </div>
+
+            <div class="endpoint-body-content">
+              <p style="font-size: 13.5px; color: var(--text-muted); margin-bottom: 14px;">
+                Dipanggil oleh web app scanner panitia (<code class="param-name">scanner.html</code>). Endpoint ini harus memiliki latensi respon sangat rendah (&lt;200ms) untuk mencegah antrean pintu masuk.
+              </p>
+
+              <div class="doc-callout doc-callout-info">
+                <span class="callout-icon">💡</span>
+                <div>
+                  <strong>Pencegahan Scan Ganda (Double-Scan Prevention):</strong><br>
+                  Jika tiket sudah pernah dipindai sebelumnya pada gate manapun, backend <strong>WAJIB</strong> mengembalikan status <code class="param-name">409 Conflict</code> beserta data waktu dan gate scan pertama kali.
+                </div>
+              </div>
+
+              <!-- Code Payload Tabs -->
+              <div class="code-block-wrap">
+                <div class="code-block-header">
+                  <div class="code-block-tabs">
+                    <button type="button" class="code-tab-btn active" data-tab="scan-req">Request Body</button>
+                    <button type="button" class="code-tab-btn" data-tab="scan-200">200 Valid (Baru Hadir)</button>
+                    <button type="button" class="code-tab-btn" data-tab="scan-409">409 Conflict (Sudah Pernah Masuk)</button>
+                    <button type="button" class="code-tab-btn" data-tab="scan-404">404 Not Found (Palsu/Salah Event)</button>
+                  </div>
+                  <button type="button" class="btn-copy-code">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                    <span>Salin JSON</span>
+                  </button>
+                </div>
+
+                <!-- Tab 1: Request Body -->
+                <pre class="code-pre-box active" data-tab="scan-req"><code>{
+  <span class="syn-key">"ticketCode"</span>: <span class="syn-str">"TIK-8821"</span>,
+  <span class="syn-key">"eventId"</span>: <span class="syn-str">"evt_tech_summit_2026"</span>,
+  <span class="syn-key">"gateName"</span>: <span class="syn-str">"Gate 1 - Pintu Utama"</span>,
+  <span class="syn-key">"scannedByUserId"</span>: <span class="syn-str">"usr_panitia_08"</span>,
+  <span class="syn-key">"scannedAt"</span>: <span class="syn-str">"2026-08-23T08:58:12.450Z"</span>
+}</code></pre>
+
+                <!-- Tab 2: 200 OK Valid -->
+                <pre class="code-pre-box" data-tab="scan-200" style="display: none;"><code>{
+  <span class="syn-key">"success"</span>: <span class="syn-bool">true</span>,
+  <span class="syn-key">"status"</span>: <span class="syn-str">"VALID"</span>,
+  <span class="syn-key">"message"</span>: <span class="syn-str">"Tiket valid &amp; kehadiran berhasil diverifikasi"</span>,
+  <span class="syn-key">"attendee"</span>: {
+    <span class="syn-key">"ticketCode"</span>: <span class="syn-str">"TIK-8821"</span>,
+    <span class="syn-key">"fullName"</span>: <span class="syn-str">"Budi Wicaksono"</span>,
+    <span class="syn-key">"category"</span>: <span class="syn-str">"VIP Attendee"</span>,
+    <span class="syn-key">"roleBadge"</span>: <span class="syn-str">"VIP All-Access Pass"</span>,
+    <span class="syn-key">"company"</span>: <span class="syn-str">"PT GoTo Gojek Tokopedia"</span>,
+    <span class="syn-key">"checkinTime"</span>: <span class="syn-str">"08:58 WIB"</span>,
+    <span class="syn-key">"gate"</span>: <span class="syn-str">"Gate 1 - Pintu Utama"</span>
+  },
+  <span class="syn-key">"gateSummary"</span>: {
+    <span class="syn-key">"totalPresent"</span>: <span class="syn-num">943</span>,
+    <span class="syn-key">"totalQuota"</span>: <span class="syn-num">1000</span>,
+    <span class="syn-key">"percentage"</span>: <span class="syn-num">94.3</span>
+  }
+}</code></pre>
+
+                <!-- Tab 3: 409 Conflict -->
+                <pre class="code-pre-box" data-tab="scan-409" style="display: none;"><code>{
+  <span class="syn-key">"success"</span>: <span class="syn-bool">false</span>,
+  <span class="syn-key">"status"</span>: <span class="syn-str">"ALREADY_CHECKED_IN"</span>,
+  <span class="syn-key">"error"</span>: {
+    <span class="syn-key">"code"</span>: <span class="syn-str">"TICKET_DUPLICATE_SCAN"</span>,
+    <span class="syn-key">"title"</span>: <span class="syn-str">"Tiket Sudah Pernah Digunakan! ⛔"</span>,
+    <span class="syn-key">"message"</span>: <span class="syn-str">"Tiket ini telah check-in sebelumnya pada pukul 08:12 WIB di Gate B."</span>,
+    <span class="syn-key">"firstCheckinAt"</span>: <span class="syn-str">"2026-08-23T08:12:00.000Z"</span>,
+    <span class="syn-key">"firstCheckinGate"</span>: <span class="syn-str">"Gate B - Fast Track"</span>,
+    <span class="syn-key">"attendeeName"</span>: <span class="syn-str">"Budi Wicaksono"</span>
+  }
+}</code></pre>
+
+                <!-- Tab 4: 404 Not Found -->
+                <pre class="code-pre-box" data-tab="scan-404" style="display: none;"><code>{
+  <span class="syn-key">"success"</span>: <span class="syn-bool">false</span>,
+  <span class="syn-key">"status"</span>: <span class="syn-str">"INVALID_TICKET"</span>,
+  <span class="syn-key">"error"</span>: {
+    <span class="syn-key">"code"</span>: <span class="syn-str">"TICKET_NOT_FOUND"</span>,
+    <span class="syn-key">"title"</span>: <span class="syn-str">"Tiket Tidak Terdaftar ❌"</span>,
+    <span class="syn-key">"message"</span>: <span class="syn-str">"Kode QR tidak cocok dengan database event Tech Summit Indonesia 2026."</span>
+  }
+}</code></pre>
+              </div>
+            </div>
+          </div>
+
+          <!-- API 3: Create Event Wizard -->
+          <div class="api-endpoint-box" id="api-create-event" data-doc-id="api-create-event">
+            <div class="endpoint-header-row">
+              <div class="endpoint-url-group">
+                <span class="method-tag method-post">POST</span>
+                <span class="endpoint-path">/api/v1/events</span>
+              </div>
+              <span class="endpoint-desc-badge">Pembuatan Event Baru (4-Step Wizard / In-Dashboard Modal)</span>
+            </div>
+
+            <div class="endpoint-body-content">
+              <p style="font-size: 13.5px; color: var(--text-muted); margin-bottom: 14px;">
+                Menerima payload lengkap konfigurasi event dari formulir 4 langkah: Info dasar, waktu AM/PM &amp; lokasi, pertanyaan kustom dinamis (*custom fields*), serta pengaturan add-on.
+              </p>
+
+              <!-- Code Payload -->
+              <div class="code-block-wrap">
+                <div class="code-block-header">
+                  <div class="code-block-tabs">
+                    <button type="button" class="code-tab-btn active" data-tab="create-req">Request Body</button>
+                    <button type="button" class="code-tab-btn" data-tab="create-201">201 Success</button>
+                  </div>
+                  <button type="button" class="btn-copy-code">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                    <span>Salin JSON</span>
+                  </button>
+                </div>
+
+                <pre class="code-pre-box active" data-tab="create-req"><code>{
+  <span class="syn-key">"eventName"</span>: <span class="syn-str">"DevOps &amp; Cloud Summit 2026"</span>,
+  <span class="syn-key">"eventFormat"</span>: <span class="syn-str">"offline"</span>, <span class="syn-comment">// 'offline' | 'webinar' | 'hybrid'</span>
+  <span class="syn-key">"description"</span>: <span class="syn-str">"Konferensi arsitektur cloud tingkat lanjut untuk insinyur infrastruktur."</span>,
+  <span class="syn-key">"schedule"</span>: {
+    <span class="syn-key">"startTime"</span>: <span class="syn-str">"2026-08-28T09:00:00+07:00"</span>,
+    <span class="syn-key">"endTime"</span>: <span class="syn-str">"2026-08-28T17:00:00+07:00"</span>,
+    <span class="syn-key">"registrationDeadline"</span>: <span class="syn-str">"2026-08-27T23:59:00+07:00"</span>
+  },
+  <span class="syn-key">"location"</span>: {
+    <span class="syn-key">"venueName"</span>: <span class="syn-str">"Jakarta Convention Center, Hall B"</span>,
+    <span class="syn-key">"onlineLink"</span>: <span class="syn-str">""</span>
+  },
+  <span class="syn-key">"quota"</span>: <span class="syn-num">500</span>,
+  <span class="syn-key">"customFields"</span>: [
+    { <span class="syn-key">"name"</span>: <span class="syn-str">"Ukuran Baju Kaos"</span>, <span class="syn-key">"type"</span>: <span class="syn-str">"select"</span>, <span class="syn-key">"options"</span>: [<span class="syn-str">"S"</span>, <span class="syn-str">"M"</span>, <span class="syn-str">"L"</span>, <span class="syn-str">"XL"</span>], <span class="syn-key">"isRequired"</span>: <span class="syn-bool">true</span> },
+    { <span class="syn-key">"name"</span>: <span class="syn-str">"Preferensi Konsumsi"</span>, <span class="syn-key">"type"</span>: <span class="syn-str">"select"</span>, <span class="syn-key">"options"</span>: [<span class="syn-str">"Halal"</span>, <span class="syn-str">"Vegetarian"</span>], <span class="syn-key">"isRequired"</span>: <span class="syn-bool">false</span> }
+  ],
+  <span class="syn-key">"settings"</span>: {
+    <span class="syn-key">"termsAndConditions"</span>: <span class="syn-str">"1. Peserta wajib hadir 15 menit sebelum acara..."</span>,
+    <span class="syn-key">"customSlug"</span>: <span class="syn-str">"devops-cloud-2026"</span>,
+    <span class="syn-key">"enableWaBlast"</span>: <span class="syn-bool">true</span>
+  }
+}</code></pre>
+
+                <pre class="code-pre-box" data-tab="create-201" style="display: none;"><code>{
+  <span class="syn-key">"success"</span>: <span class="syn-bool">true</span>,
+  <span class="syn-key">"message"</span>: <span class="syn-str">"Event berhasil dibuat dan siap menerima registrasi"</span>,
+  <span class="syn-key">"event"</span>: {
+    <span class="syn-key">"id"</span>: <span class="syn-str">"evt_8f3d1b9a-9921"</span>,
+    <span class="syn-key">"name"</span>: <span class="syn-str">"DevOps &amp; Cloud Summit 2026"</span>,
+    <span class="syn-key">"status"</span>: <span class="syn-str">"active"</span>,
+    <span class="syn-key">"publicRegistrationUrl"</span>: <span class="syn-str">"https://www.regesit.com/register?eventId=evt_8f3d1b9a-9921"</span>,
+    <span class="syn-key">"scannerGateUrl"</span>: <span class="syn-str">"https://www.regesit.com/scanner?eventId=evt_8f3d1b9a-9921"</span>,
+    <span class="syn-key">"createdAt"</span>: <span class="syn-str">"2026-08-23T08:20:00.000Z"</span>
+  }
+}</code></pre>
+              </div>
+            </div>
+          </div>
+
+          <!-- API 4: Dashboard Stats & KPI -->
+          <div class="api-endpoint-box" id="api-dashboard-stats" data-doc-id="api-dashboard-stats">
+            <div class="endpoint-header-row">
+              <div class="endpoint-url-group">
+                <span class="method-tag method-get">GET</span>
+                <span class="endpoint-path">/api/v1/dashboard/stats</span>
+              </div>
+              <span class="endpoint-desc-badge">Metrik KPI Utama &amp; Ringkasan Kehadiran Organizer</span>
+            </div>
+
+            <div class="endpoint-body-content">
+              <p style="font-size: 13.5px; color: var(--text-muted); margin-bottom: 14px;">
+                Memuat kartu bento hero statistik di <code class="param-name">dashboard.html</code> (Total peserta terdaftar, persentase hadir, event aktif, dan ringkasan bulanan).
+              </p>
+
+              <div class="code-block-wrap">
+                <div class="code-block-header">
+                  <span class="code-lang-tag">Response 200 OK</span>
+                  <button type="button" class="btn-copy-code">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                    <span>Salin JSON</span>
+                  </button>
+                </div>
+                <pre class="code-pre-box"><code>{
+  <span class="syn-key">"success"</span>: <span class="syn-bool">true</span>,
+  <span class="syn-key">"metrics"</span>: {
+    <span class="syn-key">"totalAttendeesRegistered"</span>: <span class="syn-num">1420</span>,
+    <span class="syn-key">"totalCheckedIn"</span>: <span class="syn-num">942</span>,
+    <span class="syn-key">"overallCheckinRate"</span>: <span class="syn-num">66.3</span>,
+    <span class="syn-key">"activeEventsCount"</span>: <span class="syn-num">4</span>,
+    <span class="syn-key">"avgScanSpeedSeconds"</span>: <span class="syn-num">2.4</span>
+  },
+  <span class="syn-key">"activeEvents"</span>: [
+    {
+      <span class="syn-key">"id"</span>: <span class="syn-str">"evt_01"</span>,
+      <span class="syn-key">"title"</span>: <span class="syn-str">"Tech Summit Indonesia 2026"</span>,
+      <span class="syn-key">"venue"</span>: <span class="syn-str">"Jakarta Convention Center — Hall A"</span>,
+      <span class="syn-key">"status"</span>: <span class="syn-str">"Live"</span>,
+      <span class="syn-key">"quota"</span>: <span class="syn-num">1000</span>,
+      <span class="syn-key">"presentCount"</span>: <span class="syn-num">942</span>,
+      <span class="syn-key">"percentage"</span>: <span class="syn-num">94.2</span>
+    }
+  ]
+}</code></pre>
+              </div>
+            </div>
+          </div>
+
+          <!-- API 5: Ticket Detail Lookup -->
+          <div class="api-endpoint-box" id="api-ticket-detail" data-doc-id="api-ticket-detail">
+            <div class="endpoint-header-row">
+              <div class="endpoint-url-group">
+                <span class="method-tag method-get">GET</span>
+                <span class="endpoint-path">/api/v1/tickets/{ticketCode}</span>
+              </div>
+              <span class="endpoint-desc-badge">Detail E-Ticket &amp; Validasi Status Publik</span>
+            </div>
+
+            <div class="endpoint-body-content">
+              <p style="font-size: 13.5px; color: var(--text-muted); margin-bottom: 14px;">
+                Mengambil informasi lengkap tiket untuk ditampilkan pada halaman konfirmasi pendaftaran (<code class="param-name">register.html</code>) dan modal QR fullscreen.
+              </p>
+
+              <div class="code-block-wrap">
+                <div class="code-block-header">
+                  <div class="code-block-tabs">
+                    <button type="button" class="code-tab-btn active" data-tab="td-200">200 OK</button>
+                    <button type="button" class="code-tab-btn" data-tab="td-404">404 Not Found</button>
+                  </div>
+                  <button type="button" class="btn-copy-code"><span>Salin JSON</span></button>
+                </div>
+                <pre class="code-pre-box active" data-tab="td-200"><code>{
+  <span class="syn-key">"success"</span>: <span class="syn-bool">true</span>,
+  <span class="syn-key">"ticket"</span>: {
+    <span class="syn-key">"ticketCode"</span>: <span class="syn-str">"TIK-8821"</span>,
+    <span class="syn-key">"eventId"</span>: <span class="syn-str">"evt_tech_summit_2026"</span>,
+    <span class="syn-key">"eventName"</span>: <span class="syn-str">"Tech Summit Indonesia 2026"</span>,
+    <span class="syn-key">"attendeeName"</span>: <span class="syn-str">"Budi Wicaksono"</span>,
+    <span class="syn-key">"company"</span>: <span class="syn-str">"PT GoTo Gojek Tokopedia"</span>,
+    <span class="syn-key">"category"</span>: <span class="syn-str">"VIP All-Access Pass"</span>,
+    <span class="syn-key">"isCheckedIn"</span>: <span class="syn-bool">false</span>,
+    <span class="syn-key">"qrImageUrl"</span>: <span class="syn-str">"https://cdn.regesit.com/qrcodes/TIK-8821.png"</span>
+  }
+}</code></pre>
+                <pre class="code-pre-box" data-tab="td-404" style="display: none;"><code>{
+  <span class="syn-key">"success"</span>: <span class="syn-bool">false</span>,
+  <span class="syn-key">"error"</span>: {
+    <span class="syn-key">"code"</span>: <span class="syn-str">"TICKET_NOT_FOUND"</span>,
+    <span class="syn-key">"title"</span>: <span class="syn-str">"Tiket Tidak Ditemukan 🔍"</span>,
+    <span class="syn-key">"message"</span>: <span class="syn-str">"Kode tiket TIK-8821 tidak valid atau telah dihapus."</span>
+  }
+}</code></pre>
+              </div>
+            </div>
+          </div>
+
+          <!-- API 6: Update Event & Custom Questions CRUD -->
+          <div class="api-endpoint-box" id="api-update-event" data-doc-id="api-update-event">
+            <div class="endpoint-header-row">
+              <div class="endpoint-url-group">
+                <span class="method-tag method-put">PUT</span>
+                <span class="endpoint-path">/api/v1/events/{eventId}</span>
+              </div>
+              <span class="endpoint-desc-badge">Pembaruan Form Event, Kuota &amp; Custom Questions (Tab 2 Edit Modal)</span>
+            </div>
+
+            <div class="endpoint-body-content">
+              <p style="font-size: 13.5px; color: var(--text-muted); margin-bottom: 14px;">
+                Dipanggil saat organizer menyimpan perubahan pada Tab 2 Modal Event Detail di <code class="param-name">dashboard.html</code> (Update nama event, venue, kuota, batas pendaftaran, syarat &amp; ketentuan, serta urutan pertanyaan).
+              </p>
+
+              <div class="code-block-wrap">
+                <div class="code-block-header">
+                  <div class="code-block-tabs">
+                    <button type="button" class="code-tab-btn active" data-tab="ue-req">Request Body</button>
+                    <button type="button" class="code-tab-btn" data-tab="ue-200">200 Success</button>
+                  </div>
+                  <button type="button" class="btn-copy-code"><span>Salin JSON</span></button>
+                </div>
+                <pre class="code-pre-box active" data-tab="ue-req"><code>{
+  <span class="syn-key">"title"</span>: <span class="syn-str">"Tech Summit Indonesia 2026 (Updated)"</span>,
+  <span class="syn-key">"venueLocation"</span>: <span class="syn-str">"Jakarta Convention Center — Hall A &amp; B"</span>,
+  <span class="syn-key">"quota"</span>: <span class="syn-num">1200</span>,
+  <span class="syn-key">"registrationDeadline"</span>: <span class="syn-str">"2026-07-31T23:59:00+07:00"</span>,
+  <span class="syn-key">"termsAndConditions"</span>: <span class="syn-str">"Pembaruan aturan: Wajib membawa kartu identitas fisik."</span>,
+  <span class="syn-key">"customQuestions"</span>: [
+    { <span class="syn-key">"id"</span>: <span class="syn-str">"q_01"</span>, <span class="syn-key">"name"</span>: <span class="syn-str">"Nomor WhatsApp Darurat"</span>, <span class="syn-key">"type"</span>: <span class="syn-str">"phone"</span>, <span class="syn-key">"isRequired"</span>: <span class="syn-bool">true</span>, <span class="syn-key">"order"</span>: <span class="syn-num">1</span> },
+    { <span class="syn-key">"id"</span>: <span class="syn-str">"q_02"</span>, <span class="syn-key">"name"</span>: <span class="syn-str">"Ukuran Baju Kaos"</span>, <span class="syn-key">"type"</span>: <span class="syn-str">"select"</span>, <span class="syn-key">"isRequired"</span>: <span class="syn-bool">true</span>, <span class="syn-key">"order"</span>: <span class="syn-num">2</span> }
+  ]
+}</code></pre>
+                <pre class="code-pre-box" data-tab="ue-200" style="display: none;"><code>{
+  <span class="syn-key">"success"</span>: <span class="syn-bool">true</span>,
+  <span class="syn-key">"message"</span>: <span class="syn-str">"Formulir dan konfigurasi event berhasil diperbarui"</span>,
+  <span class="syn-key">"updatedAt"</span>: <span class="syn-str">"2026-08-23T08:30:00.000Z"</span>
+}</code></pre>
+              </div>
+            </div>
+          </div>
+
+          <!-- API 7: Attendees List & CSV Export -->
+          <div class="api-endpoint-box" id="api-attendees-list" data-doc-id="api-attendees-list">
+            <div class="endpoint-header-row">
+              <div class="endpoint-url-group">
+                <span class="method-tag method-get">GET</span>
+                <span class="endpoint-path">/api/v1/events/{eventId}/attendees</span>
+              </div>
+              <span class="endpoint-desc-badge">Daftar Peserta (Live Filter &amp; Streaming Ekspor CSV)</span>
+            </div>
+
+            <div class="endpoint-body-content">
+              <p style="font-size: 13.5px; color: var(--text-muted); margin-bottom: 14px;">
+                Menyajikan data tabel peserta pada Tab 3 Modal Detail Event di <code class="param-name">dashboard.html</code>, lengkap dengan filter kata kunci pencarian, filter status kehadiran, dan endpoint ekspor berkas CSV.
+              </p>
+
+              <h4 style="font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; color: var(--text-muted);">Query Parameters (GET Attendees)</h4>
+              <table class="doc-spec-table">
+                <thead>
+                  <tr><th>Parameter</th><th>Tipe</th><th>Default</th><th>Deskripsi</th></tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><code class="param-name">page</code></td>
+                    <td><code class="param-type">integer</code></td>
+                    <td><code class="param-name">1</code></td>
+                    <td>Nomor halaman paginasi.</td>
+                  </tr>
+                  <tr>
+                    <td><code class="param-name">limit</code></td>
+                    <td><code class="param-type">integer</code></td>
+                    <td><code class="param-name">20</code></td>
+                    <td>Jumlah baris data per halaman (Max 100).</td>
+                  </tr>
+                  <tr>
+                    <td><code class="param-name">search</code></td>
+                    <td><code class="param-type">string</code></td>
+                    <td><code class="param-opt">kosong</code></td>
+                    <td>Kata kunci pencarian (Nama peserta, email, nomor HP, institusi, atau kode tiket).</td>
+                  </tr>
+                  <tr>
+                    <td><code class="param-name">status</code></td>
+                    <td><code class="param-type">string</code></td>
+                    <td><code class="param-name">all</code></td>
+                    <td>Filter kehadiran: <code class="param-name">all</code> | <code class="param-name">checked_in</code> | <code class="param-name">pending</code></td>
+                  </tr>
+                </tbody>
+              </table>
+
+              <!-- Code Payload Tabs -->
+              <div class="code-block-wrap">
+                <div class="code-block-header">
+                  <div class="code-block-tabs">
+                    <button type="button" class="code-tab-btn active" data-tab="att-200">200 JSON List</button>
+                    <button type="button" class="code-tab-btn" data-tab="att-export">GET /export (CSV)</button>
+                    <button type="button" class="code-tab-btn" data-tab="att-curl">cURL</button>
+                  </div>
+                  <button type="button" class="btn-copy-code"><span>Salin</span></button>
+                </div>
+
+                <pre class="code-pre-box active" data-tab="att-200"><code>{
+  <span class="syn-key">"success"</span>: <span class="syn-bool">true</span>,
+  <span class="syn-key">"pagination"</span>: {
+    <span class="syn-key">"page"</span>: <span class="syn-num">1</span>,
+    <span class="syn-key">"limit"</span>: <span class="syn-num">20</span>,
+    <span class="syn-key">"total"</span>: <span class="syn-num">942</span>,
+    <span class="syn-key">"totalPages"</span>: <span class="syn-num">48</span>
+  },
+  <span class="syn-key">"data"</span>: [
+    {
+      <span class="syn-key">"id"</span>: <span class="syn-str">"att_01"</span>,
+      <span class="syn-key">"ticketCode"</span>: <span class="syn-str">"TIK-8821"</span>,
+      <span class="syn-key">"fullName"</span>: <span class="syn-str">"Budi Wicaksono"</span>,
+      <span class="syn-key">"email"</span>: <span class="syn-str">"budi.wicaksono@goto.com"</span>,
+      <span class="syn-key">"phone"</span>: <span class="syn-str">"+6281234567890"</span>,
+      <span class="syn-key">"company"</span>: <span class="syn-str">"PT GoTo Gojek Tokopedia"</span>,
+      <span class="syn-key">"category"</span>: <span class="syn-str">"VIP Attendee"</span>,
+      <span class="syn-key">"registeredAt"</span>: <span class="syn-str">"2026-08-20T14:22:00.000Z"</span>,
+      <span class="syn-key">"isCheckedIn"</span>: <span class="syn-bool">true</span>,
+      <span class="syn-key">"checkedInAt"</span>: <span class="syn-str">"2026-08-23T08:58:00.000Z"</span>,
+      <span class="syn-key">"checkedInGate"</span>: <span class="syn-str">"Gate 1 - Pintu Utama"</span>
+    },
+    {
+      <span class="syn-key">"id"</span>: <span class="syn-str">"att_02"</span>,
+      <span class="syn-key">"ticketCode"</span>: <span class="syn-str">"TIK-4412"</span>,
+      <span class="syn-key">"fullName"</span>: <span class="syn-str">"Sarah Amalia"</span>,
+      <span class="syn-key">"email"</span>: <span class="syn-str">"sarah@traveloka.com"</span>,
+      <span class="syn-key">"phone"</span>: <span class="syn-str">"+6281987654321"</span>,
+      <span class="syn-key">"company"</span>: <span class="syn-str">"Traveloka"</span>,
+      <span class="syn-key">"category"</span>: <span class="syn-str">"General Pass"</span>,
+      <span class="syn-key">"registeredAt"</span>: <span class="syn-str">"2026-08-21T09:10:00.000Z"</span>,
+      <span class="syn-key">"isCheckedIn"</span>: <span class="syn-bool">false</span>,
+      <span class="syn-key">"checkedInAt"</span>: <span class="syn-null">null</span>,
+      <span class="syn-key">"checkedInGate"</span>: <span class="syn-null">null</span>
+    }
+  ]
+}</code></pre>
+
+                <pre class="code-pre-box" data-tab="att-export" style="display: none;"><code><span class="syn-comment"># Request GET /api/v1/events/evt_tech_summit_2026/export?format=csv
+# Response Headers:
+# Content-Type: text/csv; charset=utf-8
+# Content-Disposition: attachment; filename="peserta-tech-summit-2026.csv"</span>
+
+"Kode Tiket","Nama Lengkap","Alamat Email","Nomor WhatsApp","Institusi","Kategori","Status Kehadiran","Waktu Check-In","Gate"
+"TIK-8821","Budi Wicaksono","budi.wicaksono@goto.com","+6281234567890","PT GoTo Gojek Tokopedia","VIP Attendee","Hadir","2026-08-23 08:58 WIB","Gate 1 - Pintu Utama"
+"TIK-4412","Sarah Amalia","sarah@traveloka.com","+6281987654321","Traveloka","General Pass","Belum Hadir","-","-"</code></pre>
+
+                <pre class="code-pre-box" data-tab="att-curl" style="display: none;"><code>curl -X GET "https://api.regesit.com/api/v1/events/evt_tech_summit_2026/attendees?search=budi&page=1&limit=20" \
+  -H "Authorization: Bearer YOUR_ORGANIZER_JWT_TOKEN"</code></pre>
+              </div>
+            </div>
+          </div>
+
+          <!-- API 8: Pricing Plan Calculation -->
+          <div class="api-endpoint-box" id="api-plan-calc" data-doc-id="api-plan-calc">
+            <div class="endpoint-header-row">
+              <div class="endpoint-url-group">
+                <span class="method-tag method-get">GET</span>
+                <span class="endpoint-path">/api/v1/plans/calculate</span>
+              </div>
+              <span class="endpoint-desc-badge">Kalkulasi Harga Dinamis (Interactive Slider Calculator)</span>
+            </div>
+
+            <div class="endpoint-body-content">
+              <p style="font-size: 13.5px; color: var(--text-muted); margin-bottom: 14px;">
+                Digunakan oleh kalkulator paket dinamis di <code class="param-name">index.html</code> (<code class="param-name">js/main.js</code>) untuk menghitung estimasi biaya berbasis kuota pax, siklus penagihan, add-on toggles, dan dukungan operasional crew.
+              </p>
+
+              <h4 style="font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; color: var(--text-muted);">Query Parameters (Kalkulasi Paket)</h4>
+              <table class="doc-spec-table">
+                <thead>
+                  <tr><th>Parameter</th><th>Tipe</th><th>Pilihan Nilai</th><th>Deskripsi</th></tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><code class="param-name">tier</code></td>
+                    <td><code class="param-type">string</code></td>
+                    <td><code class="param-name">free</code>, <code class="param-name">starter</code>, <code class="param-name">standard</code>, <code class="param-name">pro</code></td>
+                    <td>Tier dasar paket yang dipilih.</td>
+                  </tr>
+                  <tr>
+                    <td><code class="param-name">pax</code></td>
+                    <td><code class="param-type">integer</code></td>
+                    <td><code class="param-name">50</code>, <code class="param-name">150</code>, <code class="param-name">500</code>, <code class="param-name">1000</code>, <code class="param-name">2500</code></td>
+                    <td>Kapasitas kuota peserta event.</td>
+                  </tr>
+                  <tr>
+                    <td><code class="param-name">cycle</code></td>
+                    <td><code class="param-type">string</code></td>
+                    <td><code class="param-name">event</code>, <code class="param-name">monthly</code>, <code class="param-name">annual</code></td>
+                    <td>Siklus penagihan (<code class="param-name">annual</code> memotong diskon 20%).</td>
+                  </tr>
+                  <tr>
+                    <td><code class="param-name">whiteLabel</code></td>
+                    <td><code class="param-type">boolean</code></td>
+                    <td><code class="param-name">true</code> / <code class="param-name">false</code></td>
+                    <td>Addon White-Label domain (+Rp 49.000).</td>
+                  </tr>
+                  <tr>
+                    <td><code class="param-name">waBlast</code></td>
+                    <td><code class="param-type">boolean</code></td>
+                    <td><code class="param-name">true</code> / <code class="param-name">false</code></td>
+                    <td>Addon WhatsApp Broadcast QR (+Rp 75.000).</td>
+                  </tr>
+                  <tr>
+                    <td><code class="param-name">cert</code></td>
+                    <td><code class="param-type">boolean</code></td>
+                    <td><code class="param-name">true</code> / <code class="param-name">false</code></td>
+                    <td>Addon Auto E-Sertifikat QR (+Rp 35.000).</td>
+                  </tr>
+                  <tr>
+                    <td><code class="param-name">service</code></td>
+                    <td><code class="param-type">string</code></td>
+                    <td><code class="param-name">self</code> (Rp 0), <code class="param-name">onsite</code> (+Rp 450.000)</td>
+                    <td>Pilihan pendampingan kru operasional di lokasi.</td>
+                  </tr>
+                </tbody>
+              </table>
+
+              <div class="code-block-wrap">
+                <div class="code-block-header">
+                  <span class="code-lang-tag">Response 200 OK</span>
+                  <button type="button" class="btn-copy-code"><span>Salin JSON</span></button>
+                </div>
+                <pre class="code-pre-box"><code>{
+  <span class="syn-key">"success"</span>: <span class="syn-bool">true</span>,
+  <span class="syn-key">"calculation"</span>: {
+    <span class="syn-key">"tier"</span>: <span class="syn-str">"standard"</span>,
+    <span class="syn-key">"quota"</span>: <span class="syn-num">500</span>,
+    <span class="syn-key">"basePrice"</span>: <span class="syn-num">39500</span>,
+    <span class="syn-key">"addons"</span>: {
+      <span class="syn-key">"whiteLabel"</span>: <span class="syn-num">49000</span>,
+      <span class="syn-key">"waBlast"</span>: <span class="syn-num">75000</span>,
+      <span class="syn-key">"certificate"</span>: <span class="syn-num">0</span>,
+      <span class="syn-key">"onsiteSupport"</span>: <span class="syn-num">0</span>
+    },
+    <span class="syn-key">"subtotal"</span>: <span class="syn-num">163500</span>,
+    <span class="syn-key">"billingCycle"</span>: <span class="syn-str">"annual"</span>,
+    <span class="syn-key">"annualDiscountPercentage"</span>: <span class="syn-num">20</span>,
+    <span class="syn-key">"discountSavingsAmount"</span>: <span class="syn-num">32700</span>,
+    <span class="syn-key">"finalTotalPrice"</span>: <span class="syn-num">130800</span>,
+    <span class="syn-key">"formattedPrice"</span>: <span class="syn-str">"Rp 130.800"</span>
+  }
+}</code></pre>
+              </div>
+            </div>
+          </div>
+
+        </section>
+
+        <!-- ==================================================================
+             SECTION 5: MATRIKS DOM SELECTORS & FORM BINDING
+             ================================================================== -->
+        <section id="sec-dom-binding" class="docs-section">
+          <div class="section-title-wrap">
+            <span class="section-num-tag">MODUL 05</span>
+            <h2 class="section-heading">Matriks ID Elemen DOM &amp; Form Binding</h2>
+          </div>
+          <p class="section-lead">
+            Daftar lengkap ID elemen DOM HTML pada seluruh form aplikasi, format nilai input, validasi regex, dan tindakan event listener yang terpasang.
+          </p>
+
+          <div class="bento-doc-card">
+            <h3 class="bento-card-title" style="margin-bottom: 14px;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--color-primary)" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+              <span>1. Form Pendaftaran Peserta (register.html)</span>
+            </h3>
+
+            <table class="doc-spec-table">
+              <thead>
+                <tr><th>ID Elemen HTML</th><th>Tipe Input</th><th>Wajib</th><th>Regex / Format Nilai</th><th>Perilaku Front-End</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><code class="param-name">#regFullName</code></td>
+                  <td><code class="param-type">text</code></td>
+                  <td><span class="param-req">YA</span></td>
+                  <td><code class="param-name">.trim().length &gt;= 3</code></td>
+                  <td>Menghapus class error otomatis saat user mengetik (<code class="param-name">input</code> event).</td>
+                </tr>
+                <tr>
+                  <td><code class="param-name">#regEmail</code></td>
+                  <td><code class="param-type">email</code></td>
+                  <td><span class="param-req">YA</span></td>
+                  <td><code class="param-name">/^[^\s@]+@[^\s@]+\.[^\s@]+$/</code></td>
+                  <td>Memunculkan toast peringatan jika email tanpa @ atau domain tidak valid.</td>
+                </tr>
+                <tr>
+                  <td><code class="param-name">#regPhone</code></td>
+                  <td><code class="param-type">tel</code></td>
+                  <td><span class="param-req">YA</span></td>
+                  <td><code class="param-name">/^[0-9\+\-\s]{8,20}$/</code></td>
+                  <td>Menerima nomor WhatsApp berawalan 08 atau +62.</td>
+                </tr>
+                <tr>
+                  <td><code class="param-name">#regCompany</code></td>
+                  <td><code class="param-type">text</code></td>
+                  <td><span class="param-opt">TIDAK</span></td>
+                  <td>String bebas</td>
+                  <td>Default menjadi 'Peserta Terdaftar' jika dikosongkan.</td>
+                </tr>
+                <tr>
+                  <td><code class="param-name">#signatureCanvas</code></td>
+                  <td><code class="param-type">canvas</code></td>
+                  <td><span class="param-req">YA</span></td>
+                  <td><code class="param-name">hasSigned === true</code></td>
+                  <td>Merekam goresan stylus/jari/mouse. Tombol <code class="param-name">#btnClearSignature</code> untuk reset.</td>
+                </tr>
+                <tr>
+                  <td><code class="param-name">#regAgreement</code></td>
+                  <td><code class="param-type">checkbox</code></td>
+                  <td><span class="param-req">YA</span></td>
+                  <td><code class="param-name">checked === true</code></td>
+                  <td>Memicu shake animation pada kartu persetujuan jika belum dicentang.</td>
+                </tr>
+                <tr>
+                  <td><code class="param-name">#resTicketCode</code></td>
+                  <td><code class="param-type">span (Result)</code></td>
+                  <td>-</td>
+                  <td><code class="param-name">TIK-XXXX</code></td>
+                  <td>Diisi oleh kode tiket dari backend pasca submit sukses.</td>
+                </tr>
+                <tr>
+                  <td><code class="param-name">#resTicketQrImg</code></td>
+                  <td><code class="param-type">img (Result)</code></td>
+                  <td>-</td>
+                  <td>URL gambar QR</td>
+                  <td>Menampilkan visual QR Code resmi resolusi tinggi.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Bento 2: Scanner IDs -->
+          <div class="bento-doc-card">
+            <h3 class="bento-card-title" style="margin-bottom: 14px;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--color-primary)" stroke-width="2"><circle cx="12" cy="13" r="4"/><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/></svg>
+              <span>2. Gate Scanner Field Matrix (scanner.html)</span>
+            </h3>
+
+            <table class="doc-spec-table">
+              <thead>
+                <tr><th>ID Elemen HTML</th><th>Tipe Elemen</th><th>Fungsi Integrasi Back-End</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><code class="param-name">#verifyNameDisplay</code></td>
+                  <td><code class="param-type">div</code></td>
+                  <td>Menampilkan nama peserta yang baru saja dipindai pada Highlight Card Box Kanan.</td>
+                </tr>
+                <tr>
+                  <td><code class="param-name">#verifyCodeDisplay</code></td>
+                  <td><code class="param-type">span</code></td>
+                  <td>Menampilkan kode tiket yang sah (contoh: <code class="param-name">TIK-8821</code>).</td>
+                </tr>
+                <tr>
+                  <td><code class="param-name">#inputManualCode</code></td>
+                  <td><code class="param-type">input text</code></td>
+                  <td>Input fallback pencarian manual nomor tiket atau nama jika kamera HP terhalang.</td>
+                </tr>
+                <tr>
+                  <td><code class="param-name">#btnManualCheckin</code></td>
+                  <td><code class="param-type">button</code></td>
+                  <td>Trigger submit check-in manual ke API <code class="param-name">POST /api/v1/tickets/checkin</code>.</td>
+                </tr>
+                <tr>
+                  <td><code class="param-name">#recentFeedList</code></td>
+                  <td><code class="param-type">div container</code></td>
+                  <td>Wadah live stream riwayat peserta yang baru saja diverifikasi (maks 8 baris).</td>
+                </tr>
+                <tr>
+                  <td><code class="param-name">#gateCountBadge</code></td>
+                  <td><code class="param-type">span pill</code></td>
+                  <td>Menampilkan metrik kuota hadir gate terkini (contoh: <code class="param-name">942 / 1.000 (94.2%)</code>).</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- ==================================================================
+             SECTION 6: FORMAT PAYLOAD QR CODE & SECURITY
+             ================================================================== -->
+        <section id="sec-qr-specs" class="docs-section">
+          <div class="section-title-wrap">
+            <span class="section-num-tag">MODUL 06</span>
+            <h2 class="section-heading">Format Payload QR Code &amp; Standar Keamanan</h2>
+          </div>
+          <p class="section-lead">
+            Spesifikasi payload string yang dienkode ke dalam 2D Barcode / QR Code untuk memastikan kompatibilitas pemindaian lintas perangkat kamera.
+          </p>
+
+          <div class="bento-doc-card">
+            <h3 class="bento-card-title" style="margin-bottom: 12px;">Format String Standar (Plain Pipe-Delimited)</h3>
+            <div class="code-block-wrap" style="margin-top: 0;">
+              <div class="code-block-header">
+                <span class="code-lang-tag">QR Content Format</span>
+                <button type="button" class="btn-copy-code"><span>Salin</span></button>
+              </div>
+              <pre class="code-pre-box"><code>TIK-8821|Budi Wicaksono|budi.wicaksono@goto.com|evt_tech_summit_2026</code></pre>
+            </div>
+
+            <h3 class="bento-card-title" style="margin-top: 24px; margin-bottom: 12px;">Rekomendasi Format Signed JWT Token (Anti-Pemalsuan)</h3>
+            <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 12px;">
+              Untuk event berbayar atau skala enterprise, disarankan menggunakan Compact Signed JWT dengan algoritma HMAC-SHA256 agar QR tidak bisa dipalsukan oleh pihak ketiga:
+            </p>
+            <div class="code-block-wrap" style="margin-top: 0;">
+              <div class="code-block-header">
+                <span class="code-lang-tag">JWT QR Header &amp; Payload Claims</span>
+                <button type="button" class="btn-copy-code"><span>Salin JSON</span></button>
+              </div>
+              <pre class="code-pre-box"><code>{
+  <span class="syn-key">"sub"</span>: <span class="syn-str">"TIK-8821"</span>,
+  <span class="syn-key">"evt"</span>: <span class="syn-str">"evt_tech_summit_2026"</span>,
+  <span class="syn-key">"cat"</span>: <span class="syn-str">"VIP"</span>,
+  <span class="syn-key">"iat"</span>: <span class="syn-num">1787462400</span>,
+  <span class="syn-key">"iss"</span>: <span class="syn-str">"https://api.regesit.com"</span>
+}</code></pre>
+            </div>
+          </div>
+        </section>
+
+        <!-- ==================================================================
+             SECTION 7: LOGIKA SCANNER & OFFLINE-FIRST SYNC
+             ================================================================== -->
+        <section id="sec-scanner-logic" class="docs-section">
+          <div class="section-title-wrap">
+            <span class="section-num-tag">MODUL 07</span>
+            <h2 class="section-heading">Logika Scanner, Audio Feedback &amp; Offline-First Sync</h2>
+          </div>
+          <p class="section-lead">
+            Panduan arsitektur ketahanan sistem pemindaian di lapangan (<code class="param-name">scanner.html</code>) untuk menangani kendala koneksi internet di venue dan audio synthesizer tanpa file eksternal.
+          </p>
+
+          <div class="bento-doc-card">
+            <h3 class="bento-card-title" style="margin-bottom: 12px;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--color-primary)" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+              <span>1. Audio Chime Synthesis (Web Audio API)</span>
+            </h3>
+            <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 12px;">
+              Front-End membunyikan nada sinusoidal berfrekuensi 880Hz &rarr; 1760Hz menggunakan Web Audio API tanpa perlu me-load file MP3/WAV eksternal. Nada ini dipicu seketika respon <code class="param-name">200 OK</code> diterima dari backend.
+            </p>
+          </div>
+
+          <div class="bento-doc-card">
+            <h3 class="bento-card-title" style="margin-bottom: 12px;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--color-primary)" stroke-width="2"><path d="M1 1l22 22M16.72 11.06A10.94 10.94 0 0 1 19 12.55M5 12.55a10.94 10.94 0 0 1 5.17-2.39M10.71 5.05A16 16 0 0 1 22.58 9M1.42 9a15.91 15.91 0 0 1 4.7-2.88M8.53 16.11a6 6 0 0 1 6.95 0M12 20h.01"/></svg>
+              <span>2. Mekanisme Offline-First Resilience (IndexedDB Cache)</span>
+            </h3>
+            <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 12px;">
+              Ketika koneksi internet di venue terputus (<code class="param-name">navigator.onLine === false</code>):
+            </p>
+            <ul style="font-size: 13px; color: var(--text-muted); margin-left: 20px; line-height: 1.6; margin-bottom: 14px;">
+              <li>Daftar hash tiket yang sudah di-preload disimpan di IndexedDB browser panitia.</li>
+              <li>Pemindaian offline memvalidasi ke database lokal dan menyimpan log ke antrean <code class="param-name">offline_checkin_queue</code>.</li>
+              <li>Saat koneksi internet kembali pulih, browser secara otomatis mengirimkan batch antrean ke endpoint <code class="param-name">POST /api/v1/tickets/batch-sync</code>.</li>
+            </ul>
+          </div>
+        </section>
+
+        <!-- ==================================================================
+             SECTION 8: REKOMENDASI SKEMA ERD DATABASE
+             ================================================================== -->
+        <section id="sec-database-erd" class="docs-section">
+          <div class="section-title-wrap">
+            <span class="section-num-tag">MODUL 08</span>
+            <h2 class="section-heading">Rekomendasi Skema Database (ERD)</h2>
+          </div>
+          <p class="section-lead">
+            Rancangan relasional tabel database (PostgreSQL / MySQL) yang selaras dengan seluruh entitas dan data model Front-End.
+          </p>
+
+          <div class="bento-doc-card">
+            <h3 class="bento-card-title" style="margin-bottom: 14px;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--color-primary)" stroke-width="2"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>
+              <span>DDL Schema PostgreSQL / MySQL</span>
+            </h3>
+
+            <div class="code-block-wrap" style="margin-top: 0;">
+              <div class="code-block-header">
+                <span class="code-lang-tag">SQL Schema DDL</span>
+                <button type="button" class="btn-copy-code"><span>Salin SQL</span></button>
+              </div>
+              <pre class="code-pre-box"><code><span class="syn-comment">-- 1. Tabel Organizers / Akun Penyelenggara</span>
+<span class="syn-func">CREATE TABLE</span> organizers (
+    id <span class="syn-type">UUID PRIMARY KEY DEFAULT gen_random_uuid()</span>,
+    name <span class="syn-type">VARCHAR(150) NOT NULL</span>,
+    email <span class="syn-type">VARCHAR(150) UNIQUE NOT NULL</span>,
+    phone <span class="syn-type">VARCHAR(30)</span>,
+    subscription_tier <span class="syn-type">VARCHAR(50) DEFAULT 'free'</span>, <span class="syn-comment">-- free, starter, standard, pro</span>
+    created_at <span class="syn-type">TIMESTAMPTZ DEFAULT NOW()</span>
+);
+
+<span class="syn-comment">-- 2. Tabel Events</span>
+<span class="syn-func">CREATE TABLE</span> events (
+    id <span class="syn-type">UUID PRIMARY KEY DEFAULT gen_random_uuid()</span>,
+    organizer_id <span class="syn-type">UUID REFERENCES organizers(id) ON DELETE CASCADE</span>,
+    title <span class="syn-type">VARCHAR(255) NOT NULL</span>,
+    slug <span class="syn-type">VARCHAR(150) UNIQUE NOT NULL</span>,
+    format <span class="syn-type">VARCHAR(30) DEFAULT 'offline'</span>, <span class="syn-comment">-- offline, webinar, hybrid</span>
+    venue_location <span class="syn-type">TEXT NOT NULL</span>,
+    start_time <span class="syn-type">TIMESTAMPTZ NOT NULL</span>,
+    end_time <span class="syn-type">TIMESTAMPTZ NOT NULL</span>,
+    registration_deadline <span class="syn-type">TIMESTAMPTZ NOT NULL</span>,
+    quota <span class="syn-type">INT NOT NULL DEFAULT 100</span>,
+    terms_text <span class="syn-type">TEXT</span>,
+    status <span class="syn-type">VARCHAR(30) DEFAULT 'active'</span>, <span class="syn-comment">-- active, draft, completed</span>
+    created_at <span class="syn-type">TIMESTAMPTZ DEFAULT NOW()</span>
+);
+
+<span class="syn-comment">-- 3. Tabel Dynamic Custom Questions</span>
+<span class="syn-func">CREATE TABLE</span> event_custom_fields (
+    id <span class="syn-type">UUID PRIMARY KEY DEFAULT gen_random_uuid()</span>,
+    event_id <span class="syn-type">UUID REFERENCES events(id) ON DELETE CASCADE</span>,
+    field_name <span class="syn-type">VARCHAR(150) NOT NULL</span>,
+    field_type <span class="syn-type">VARCHAR(30) NOT NULL</span>, <span class="syn-comment">-- text, textarea, select, file, phone</span>
+    options_json <span class="syn-type">JSONB</span>,
+    is_required <span class="syn-type">BOOLEAN DEFAULT true</span>,
+    order_index <span class="syn-type">INT DEFAULT 0</span>
+);
+
+<span class="syn-comment">-- 4. Tabel Tickets &amp; Attendees</span>
+<span class="syn-func">CREATE TABLE</span> attendees (
+    id <span class="syn-type">UUID PRIMARY KEY DEFAULT gen_random_uuid()</span>,
+    event_id <span class="syn-type">UUID REFERENCES events(id) ON DELETE CASCADE</span>,
+    ticket_code <span class="syn-type">VARCHAR(30) UNIQUE NOT NULL</span>, <span class="syn-comment">-- TIK-8821</span>
+    full_name <span class="syn-type">VARCHAR(150) NOT NULL</span>,
+    email <span class="syn-type">VARCHAR(150) NOT NULL</span>,
+    phone <span class="syn-type">VARCHAR(30) NOT NULL</span>,
+    company <span class="syn-type">VARCHAR(150)</span>,
+    signature_url <span class="syn-type">TEXT NOT NULL</span>,
+    is_checked_in <span class="syn-type">BOOLEAN DEFAULT false</span>,
+    checked_in_at <span class="syn-type">TIMESTAMPTZ</span>,
+    checked_in_gate <span class="syn-type">VARCHAR(100)</span>,
+    created_at <span class="syn-type">TIMESTAMPTZ DEFAULT NOW()</span>
+);
+
+<span class="syn-comment">-- 5. Tabel Check-In Audit Logs</span>
+<span class="syn-func">CREATE TABLE</span> checkin_logs (
+    id <span class="syn-type">BIGSERIAL PRIMARY KEY</span>,
+    attendee_id <span class="syn-type">UUID REFERENCES attendees(id) ON DELETE CASCADE</span>,
+    ticket_code <span class="syn-type">VARCHAR(30) NOT NULL</span>,
+    scanned_by_user_id <span class="syn-type">VARCHAR(100) NOT NULL</span>,
+    gate_name <span class="syn-type">VARCHAR(100) NOT NULL</span>,
+    scanned_at <span class="syn-type">TIMESTAMPTZ DEFAULT NOW()</span>,
+    status <span class="syn-type">VARCHAR(30) NOT NULL</span> <span class="syn-comment">-- SUCCESS, DUPLICATE_BLOCKED</span>
+);</code></pre>
+            </div>
+          </div>
+        </section>
+
+        <!-- ==================================================================
+             SECTION 9: HTTP STATUS & TOAST MAPPING
+             ================================================================== -->
+        <section id="sec-error-matrix" class="docs-section">
+          <div class="section-title-wrap">
+            <span class="section-num-tag">MODUL 09</span>
+            <h2 class="section-heading">HTTP Status Matrix &amp; Toast Integration</h2>
+          </div>
+          <p class="section-lead">
+            Pedoman format respon error standar dari Back-End agar otomatis ditangkap dan dirender dengan mulus oleh sistem Toast Notification Front-End.
+          </p>
+
+          <div class="bento-doc-card">
+            <table class="doc-spec-table">
+              <thead>
+                <tr>
+                  <th>Status HTTP</th>
+                  <th>Arti Status</th>
+                  <th>Respon Front-End UI</th>
+                  <th>Toast Type</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><span class="method-tag method-post">200 OK / 201 Created</span></td>
+                  <td>Permintaan berhasil diproses penuh.</td>
+                  <td>Menampilkan modal sukses, suara chime, ledakan confetti, atau update tabel.</td>
+                  <td><span class="pill-badge pill-green">success</span></td>
+                </tr>
+                <tr>
+                  <td><span class="method-tag method-put">400 Bad Request</span></td>
+                  <td>Format JSON salah atau parameter hilang.</td>
+                  <td>Menyorot input error (<code class="param-name">.is-invalid</code>) dan memicu shake animation.</td>
+                  <td><span class="pill-badge pill-amber">warning</span></td>
+                </tr>
+                <tr>
+                  <td><span class="method-tag method-delete">401 Unauthorized</span></td>
+                  <td>Sesi login organizer telah kedaluwarsa.</td>
+                  <td>Redirect ke halaman login dengan pesan sesi habis.</td>
+                  <td><span class="pill-badge pill-red">danger</span></td>
+                </tr>
+                <tr>
+                  <td><span class="method-tag method-delete">404 Not Found</span></td>
+                  <td>Event atau tiket tidak ditemukan di database.</td>
+                  <td>Tampilan peringatan bahwa tiket palsu / salah event.</td>
+                  <td><span class="pill-badge pill-red">danger</span></td>
+                </tr>
+                <tr>
+                  <td><span class="method-tag method-put">409 Conflict</span></td>
+                  <td>Tiket sudah pernah check-in sebelumnya.</td>
+                  <td>Menampilkan nama gate dan jam pertama kali check-in.</td>
+                  <td><span class="pill-badge pill-red">danger</span></td>
+                </tr>
+                <tr>
+                  <td><span class="method-tag method-delete">500 Server Error</span></td>
+                  <td>Kendala internal database / server crash.</td>
+                  <td>Pesan santun meminta peserta/panitia mencoba beberapa saat lagi.</td>
+                  <td><span class="pill-badge pill-red">danger</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+      </div>
+    </main>
+
+  </div>
+
+  <!-- ==========================================================================
+       SEARCH MODAL OVERLAY (CTRL+K / CMD+K)
+       ========================================================================== -->
+  <div class="search-results-overlay" id="searchModalOverlay">
+    <div class="search-results-modal">
+      <div class="search-modal-header">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--color-primary)" stroke-width="2.5"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+        <input type="text" class="search-modal-input" id="searchModalInput" placeholder="Ketik kata kunci (contoh: scanner, checkin, signature, 409)...">
+        <span class="pill-badge pill-neutral" id="searchCountBadge">0 hasil</span>
+      </div>
+
+      <ul class="search-modal-list" id="searchModalList">
+        <!-- Live search results injected by docs.js -->
+      </ul>
+
+      <div class="search-modal-footer">
+        <span>Tekan <kbd style="background: #e2e8f0; padding: 2px 5px; border-radius: 4px; font-family: monospace;">ESC</kbd> untuk menutup</span>
+        <span>Regesit Developer Hub</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Documentation JS -->
+  <script src="js/docs.js"></script>
+</body>
+</html>
