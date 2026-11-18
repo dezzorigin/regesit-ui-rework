@@ -46,9 +46,22 @@ function initWizardNavigation() {
   if (form) {
     form.addEventListener('submit', (e) => {
       e.preventDefault();
-      const eventName = document.getElementById('inputEventName')?.value.trim() || 'Event Baru';
-      alert(`Selamat! Event "${eventName}" berhasil dibuat dan siap menerima pendaftaran.`);
-      window.location.href = 'dashboard.html';
+      // Simpan event ke demo store (localStorage) supaya muncul di
+      // dashboard setelah pindah halaman — sebelumnya event yang dibuat
+      // di wizard ini hilang begitu saja (hanya alert + redirect).
+      var format = document.getElementById('selectedEventFormat');
+      var start = document.getElementById('inputStartTime');
+      var saved = null;
+      if (window.RegesitStore) {
+        saved = window.RegesitStore.add({
+          name: document.getElementById('inputEventName')?.value.trim() || 'Event Baru',
+          venue: document.getElementById('inputLocation')?.value.trim() || '',
+          format: format ? format.value.replace(/^Event /, '') : 'Offline',
+          start: start && start.value ? new Date(start.value).toLocaleString('id-ID', { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' }) : '',
+          quota: document.getElementById('inputMaxQuota')?.value || '150'
+        });
+      }
+      window.location.href = saved ? 'dashboard.html?created=' + encodeURIComponent(saved.id) : 'dashboard.html';
     });
   }
 }

@@ -295,32 +295,32 @@ document.addEventListener('DOMContentLoaded', () => {
 
       // 1. Validate Nama Lengkap
       if (!fullName) {
-        triggerFieldError(inputFullName, 'Nama Lengkap Belum Diisi ⚠️', 'Silakan masukkan nama lengkap Anda untuk dicetak pada tiket.');
+        triggerFieldError(inputFullName, 'Nama Lengkap Belum Diisi', 'Silakan masukkan nama lengkap Anda untuk dicetak pada tiket.');
         return;
       }
 
       // 2. Validate Alamat Email
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       if (!email || !emailRegex.test(email)) {
-        triggerFieldError(inputEmail, 'Alamat Email Belum Valid ⚠️', 'Mohon masukkan format email yang benar (contoh: nama@email.com).');
+        triggerFieldError(inputEmail, 'Alamat Email Belum Valid', 'Mohon masukkan format email yang benar (contoh: nama@email.com).');
         return;
       }
 
       // 3. Validate Nomor WhatsApp
       if (!phone) {
-        triggerFieldError(inputPhone, 'Nomor WhatsApp Belum Diisi ⚠️', 'Silakan masukkan nomor telepon / WhatsApp aktif Anda.');
+        triggerFieldError(inputPhone, 'Nomor WhatsApp Belum Diisi', 'Silakan masukkan nomor telepon / WhatsApp aktif Anda.');
         return;
       }
 
       // 4. Validate Digital Signature
       if (!hasSigned) {
-        triggerFieldError(canvasWrap, 'Tanda Tangan Diperlukan ✍️', 'Mohon bubuhkan tanda tangan digital Anda pada kanvas yang disediakan.');
+        triggerFieldError(canvasWrap, 'Tanda Tangan Diperlukan', 'Mohon bubuhkan tanda tangan digital Anda pada kanvas yang disediakan.');
         return;
       }
 
       // 5. Validate Agreement Checkbox
       if (!isAgreed) {
-        triggerFieldError(agreementCard, 'Persetujuan Belum Dicentang ⚠️', 'Mohon centang pernyataan persetujuan pendaftaran sebelum melanjutkan.');
+        triggerFieldError(agreementCard, 'Persetujuan Belum Dicentang', 'Mohon centang pernyataan persetujuan pendaftaran sebelum melanjutkan.');
         return;
       }
 
@@ -345,16 +345,20 @@ document.addEventListener('DOMContentLoaded', () => {
         if (resAttendeeName) resAttendeeName.textContent = fullName;
         if (resAttendeeOrg) resAttendeeOrg.textContent = company;
         if (resTicketQrImg) {
-          const qrPayload = encodeURIComponent(`${ticketCode}|${fullName}|${email}`);
-          resTicketQrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=360x360&data=${qrPayload}`;
+          // QR dibuat LOKAL (js/vendor/qrcode.min.js), bukan api.qrserver.com
+          // — tiket tetap terbit saat offline / API luar mati.
+          const qrPayload = `${ticketCode}|${fullName}|${email}`;
+          const qrData = window.RegesitQR && window.RegesitQR.dataUrl(qrPayload);
+          if (qrData) resTicketQrImg.src = qrData;
         }
 
         // Store payload for Fullscreen Lightbox Modal
+        const ticketQrUrl = window.RegesitQR && window.RegesitQR.dataUrl(`${ticketCode}|${fullName}|${email}`);
         window.currentTicketPayload = {
           code: ticketCode,
           name: fullName,
           org: company,
-          qrUrl: `https://api.qrserver.com/v1/create-qr-code/?size=450x450&data=${encodeURIComponent(`${ticketCode}|${fullName}|${email}`)}`
+          qrUrl: ticketQrUrl || resTicketQrImg?.src || ''
         };
 
         // Fire Confetti Cannon
@@ -368,7 +372,7 @@ document.addEventListener('DOMContentLoaded', () => {
         window.scrollTo({ top: 0, behavior: 'smooth' });
 
         // Show Success Toast
-        showToast('Pendaftaran Berhasil! 🎉', `Tiket ${ticketCode} atas nama ${fullName} telah siap.`, 'success');
+        showToast('Pendaftaran Berhasil!', `Tiket ${ticketCode} atas nama ${fullName} telah siap.`, 'success');
       }, 420);
     });
   }
@@ -389,7 +393,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const data = window.currentTicketPayload || {
       code: resTicketCode?.textContent || 'TIK-8821',
       name: resAttendeeName?.textContent || 'Peserta Terdaftar',
-      qrUrl: resTicketQrImg?.src || 'https://api.qrserver.com/v1/create-qr-code/?size=450x450&data=TIK-8821'
+      qrUrl: resTicketQrImg?.src || (window.RegesitQR && window.RegesitQR.dataUrl('TIK-8821')) || ''
     };
 
     if (modalTicketCode) modalTicketCode.textContent = data.code;
@@ -416,10 +420,31 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // Download Ticket Simulation (Custom Toast)
+  // Download Ticket — unduh QR tiket sebagai file (sebelumnya hanya toast
+  // tanpa file apa pun yang terunduh).
   if (btnDownloadTicket) {
     btnDownloadTicket.addEventListener('click', () => {
-      showToast('Tiket Berhasil Disimpan! 📥', 'File tiket QR resmi berhasil diunduh ke galeri ponsel Anda.', 'success');
+      const url = window.currentTicketPayload?.qrUrl || resTicketQrImg?.src;
+      const code = window.currentTicketPayload?.code || resTicketCode?.textContent || 'tiket';
+      if (!url || !url.startsWith('data:')) {
+        showToast('QR Belum Siap', 'Tiket QR belum berhasil dibuat di perangkat ini.', 'warning');
+        return;
+      }
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `tiket-${code}.gif`;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      showToast('Tiket Berhasil Diunduh!', `File QR ${code} tersimpan di folder unduhan Anda.`, 'success');
     });
+  }
+
+  // Render QR default (TIK-8821) secara lokal saat halaman dimuat, supaya
+  // <img> tiket tidak bergantung pada api.qrserver.com sejak awal.
+  const defaultQr = window.RegesitQR && window.RegesitQR.dataUrl('TIK-8821|Budi Wicaksono');
+  if (defaultQr) {
+    if (resTicketQrImg) resTicketQrImg.src = defaultQr;
+    if (modalTicketQrImg) modalTicketQrImg.src = defaultQr;
   }
 });

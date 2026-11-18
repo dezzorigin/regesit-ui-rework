@@ -1,0 +1,1 @@
+{"$schema":"https://html-validate.org/schema.json","extends":["html-validate:recommended"],"rules":{"no-inline-style":"off","wcag/h32":"off"}}

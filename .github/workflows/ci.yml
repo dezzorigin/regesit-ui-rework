@@ -1,0 +1,109 @@
+name: CI
+
+# CI untuk situs statis Regesit UI Rework (repo #30 — variasi: tanpa build
+# step, karena situs ini murni HTML/CSS/JS tanpa bundler; yang diuji adalah
+# validasi statis + smoke server + e2e Playwright).
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  # ── Pemeriksaan statis: referensi lokal, sapu secret, QR lokal ─────────
+  static-checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Check links + sapu secret + QR lokal
+        run: node scripts/check-links.mjs
+
+      - name: Validasi HTML (html-validate)
+        # no-inline-style dimatikan di .htmlvalidate.json: situs ini memakai
+        # inline style secara pervasif sejak awal (pola penulis aslinya).
+        # wcag/h32 juga dimatikan: wizard di dashboard/create-event sengaja
+        # button-driven (Next/Publish type="button" + handler JS) — tombol
+        # submit native akan membuat Enter di langkah awal mem-publish
+        # event yang belum lengkap, melewati validasi bertahap wizard.
+        run: npx html-validate index.html dashboard.html create-event.html register.html scanner.html
+
+      - name: Smoke server (5 halaman + aset inti 200)
+        run: |
+          set -euo pipefail
+          PORT=8329 node scripts/serve.mjs > /tmp/serve.log 2>&1 &
+          SRV=$!
+          trap 'kill $SRV' EXIT
+          for i in $(seq 1 20); do
+            curl -fsS -o /dev/null http://127.0.0.1:8329/ && break
+            sleep 0.5
+          done
+          # Jangan `curl | grep -q`: grep -q menutup pipe begitu cocok,
+          # curl lalu mati SIGPIPE (exit 23) dan pipefail menggagalkan step.
+          curl -fsS http://127.0.0.1:8329/ -o /tmp/smoke-home.html
+          grep -q "REGESIT" /tmp/smoke-home.html
+          for p in dashboard.html create-event.html register.html scanner.html; do
+            curl -fsS -o /dev/null "http://127.0.0.1:8329/$p"
+          done
+          for p in css/style.css css/dashboard.css js/main.js js/dashboard.js js/register.js js/store.js js/qr.js js/vendor/qrcode.min.js Assets/mavka/hero_still_life.jpg Assets/tech_summit_banner.jpg Assets/scanner_camera_feed.jpg; do
+            curl -fsS -o /dev/null "http://127.0.0.1:8329/$p"
+          done
+          echo "smoke: 5 halaman + CSS/JS/vendor/QR + 3 gambar inti OK"
+
+  # ── Advisory sweep (OSV batch, tanpa auth) ─────────────────────────────
+  # Pola repo #24–#29: 1 POST ke api.osv.dev/v1/querybatch untuk semua
+  # paket produksi. JANGAN ganti ke GitHub Advisory DB API + GITHUB_TOKEN
+  # (gagal deterministik 401 di CI orteam — token per-job bermasalah).
+  # Repo ini TIDAK punya dependensi produksi (situs statis; wrangler,
+  # Playwright, html-validate semua devDependencies) — sweep memeriksa
+  # 0 paket dan lolos; skrip tetap dijaga sebagai gate bila suatu saat
+  # ada dependensi runtime.
+  advisory-sweep:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: OSV sweep (produksi saja, HIGH/CRITICAL = gagal)
+        run: python3 scripts/advisory-sweep.py
+
+  # ── Playwright e2e (alur produk penuh) ─────────────────────────────────
+  playwright-e2e:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Playwright Chromium
+        run: npx playwright install --with-deps chromium
+
+      - name: Run e2e (smoke)
+        run: npx playwright test e2e/smoke.spec.js
+
+      - name: Upload Playwright report
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: playwright-report/

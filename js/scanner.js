@@ -87,7 +87,12 @@ document.addEventListener('DOMContentLoaded', () => {
         if (videoEl) {
           videoEl.srcObject = stream;
           videoEl.style.display = 'block';
+          videoEl.play().catch(() => {});
           if (canvasEl) canvasEl.style.display = 'none';
+          // Sembunyikan foto feed simulasi: kamera asli sudah menutupinya,
+          // tapi tanpa ini <img> tetap menumpuk di atas <video>.
+          const feedImg = document.getElementById('simulatedCameraImg');
+          if (feedImg) feedImg.style.display = 'none';
         }
         return;
       } catch (err) {
@@ -99,6 +104,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function initSimulatedCanvas() {
     if (!canvasEl) return;
+    // BUG LAMA: canvas simulasi digambar tapi tidak pernah ditampilkan —
+    // display-nya tetap none dan foto feed menutupinya. Tampilkan canvas,
+    // sembunyikan foto, supaya viewfinder simulasi benar-benar terlihat
+    // saat kamera tidak tersedia (headless, izin ditolak, tanpa kamera).
+    const feedImg = document.getElementById('simulatedCameraImg');
+    if (feedImg) feedImg.style.display = 'none';
+    canvasEl.style.display = 'block';
     const ctx = canvasEl.getContext('2d');
     canvasEl.width = 440;
     canvasEl.height = 440;

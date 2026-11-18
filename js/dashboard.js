@@ -5,7 +5,7 @@
  * 2. Centered Success Celebration Modal with Animated Checkmark Draw & Confetti Glitter Cannon
  * 3. In-UI Toast Notification System (Warning, Success, Info)
  * 4. Interactive Input Validation with Shake Animation & Hover Hints
- * 5. Triple Custom Intuitive Date & Time Picker with Day/Night (☀️ AM / 🌙 PM) Icons
+ * 5. Triple Custom Intuitive Date & Time Picker with Day/Night (AM / PM) Icons
  * 6. Expandable Form Drawers for Add-on Toggles (Syarat & Ketentuan, Custom URL, Custom QR Logo)
  */
 
@@ -20,6 +20,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initBentoCalendar();
   initConfettiAndCelebration();
   initEventDetailModal();
+  initStoredEvents();
 });
 
 /* ==========================================================================
@@ -282,6 +283,17 @@ function initEventDetailModal() {
       }
     }
     if (regUrlEl) regUrlEl.textContent = eventUrl;
+    // QR dibuat LOKAL dari URL event ini (dulu: <img> statis ke
+    // api.qrserver.com dengan URL hardcode yang tidak mengikuti event).
+    if (window.RegesitQR) {
+      const regQrImg = document.getElementById('dRegQrImg');
+      const regQr = regQrImg && window.RegesitQR.dataUrl(eventUrl);
+      if (regQrImg && regQr) regQrImg.src = regQr;
+      const scannerQrImg = document.getElementById('dScannerQrImg');
+      const scannerUrlText = document.getElementById('dDisplayScannerUrl')?.textContent.trim();
+      const scannerQr = scannerQrImg && scannerUrlText && window.RegesitQR.dataUrl(scannerUrlText);
+      if (scannerQrImg && scannerQr) scannerQrImg.src = scannerQr;
+    }
     if (editName) editName.value = eventTitle;
     if (editLocation) editLocation.value = eventVenue;
     if (editQuota) editQuota.value = eventQuota;
@@ -325,7 +337,7 @@ function initEventDetailModal() {
   if (btnCopyRegUrl && regUrlEl) {
     btnCopyRegUrl.addEventListener('click', () => {
       navigator.clipboard?.writeText(regUrlEl.textContent);
-      showToast('Link Pendaftaran Disalin! 📋', 'Tautan siap dibagikan ke calon peserta.', 'success');
+      showToast('Link Pendaftaran Disalin!', 'Tautan siap dibagikan ke calon peserta.', 'success');
     });
   }
 
@@ -342,7 +354,7 @@ function initEventDetailModal() {
   if (btnOpenPublicRegister) {
     btnOpenPublicRegister.addEventListener('click', () => {
       window.open('register.html', '_blank');
-      showToast('Membuka Halaman Pendaftaran 📱', 'Halaman pendaftaran peserta dibuka di tab baru.', 'info');
+      showToast('Membuka Halaman Pendaftaran', 'Halaman pendaftaran peserta dibuka di tab baru.', 'info');
     });
   }
 
@@ -474,10 +486,10 @@ function initEventDetailModal() {
   const deadlinePill = document.getElementById('dEditDeadlinePill');
 
   const deadlinePresets = [
-    { text: '30 Jul 2026, 11:59 PM', ampm: 'PM', icon: '🌙' },
-    { text: '31 Jul 2026, 06:00 PM', ampm: 'PM', icon: '🌙' },
-    { text: '01 Agu 2026, 12:00 PM', ampm: 'PM', icon: '☀️' },
-    { text: '28 Agu 2026, 08:00 AM', ampm: 'AM', icon: '☀️' }
+    { text: '30 Jul 2026, 11:59 PM', ampm: 'PM', icon: '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>' },
+    { text: '31 Jul 2026, 06:00 PM', ampm: 'PM', icon: '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>' },
+    { text: '01 Agu 2026, 12:00 PM', ampm: 'PM', icon: '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>' },
+    { text: '28 Agu 2026, 08:00 AM', ampm: 'AM', icon: '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>' }
   ];
   let currentDeadlineIdx = 0;
 
@@ -492,7 +504,7 @@ function initEventDetailModal() {
         deadlinePill.innerHTML = `<span>${preset.icon}</span><span>${preset.ampm}</span>`;
       }
 
-      showToast('Batas Waktu Diperbarui ⏱️', `Batas pendaftaran disetel ke ${preset.text}.`, 'info');
+      showToast('Batas Waktu Diperbarui', `Batas pendaftaran disetel ke ${preset.text}.`, 'info');
     });
   }
 
@@ -513,7 +525,7 @@ function initEventDetailModal() {
       const deadlineVal = deadlineText?.textContent || '30 Jul 2026, 11:59 PM';
 
       modal.classList.remove('active');
-      showToast('Perubahan Disimpan! ✅', `Formulir "${currentTitle}" diperbarui (Kuota: ${quotaVal} pax, Batas: ${deadlineVal}).`, 'success');
+      showToast('Perubahan Disimpan!', `Formulir "${currentTitle}" diperbarui (Kuota: ${quotaVal} pax, Batas: ${deadlineVal}).`, 'success');
     });
   }
 
@@ -530,11 +542,33 @@ function initEventDetailModal() {
     });
   }
 
-  // Tab 3: Export CSV
+  // Tab 3: Export CSV — unduh CSV beneran dari tabel peserta yang tampil
+  // (dulu: hanya toast, tanpa file apa pun yang terunduh).
   const btnExportCsv = document.getElementById('btnExportAttendeeData');
   if (btnExportCsv) {
     btnExportCsv.addEventListener('click', () => {
-      showToast('Ekspor Data Peserta', 'File data registrasi (CSV/Excel) berhasil diunduh.', 'success');
+      const rows = [...document.querySelectorAll('#attendeeTableBody tr')];
+      const esc = (v) => '"' + String(v).replace(/"/g, '""') + '"';
+      const lines = [['Nama', 'Institusi', 'Email', 'No WA', 'Waktu Check-in', 'Status'].map(esc).join(',')];
+      rows.forEach((tr) => {
+        // Tiap td berisi 1-2 baris (nama + institusi, email + no WA).
+        const parts = [...tr.querySelectorAll('td')].map((td) =>
+          td.innerText.split('\n').map((s) => s.trim()).filter(Boolean));
+        lines.push([
+          parts[0]?.[0] || '', (parts[0] || []).slice(1).join(' ') || '',
+          parts[1]?.[0] || '', (parts[1] || []).slice(1).join(' ') || '',
+          (parts[2] || []).join(' '), (parts[3] || []).join(' ')
+        ].map(esc).join(','));
+      });
+      const blob = new Blob(['\uFEFF' + lines.join('\r\n')], { type: 'text/csv;charset=utf-8' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'data-peserta-' + (document.getElementById('dModalEventTitle')?.textContent || 'event').toLowerCase().replace(/[^a-z0-9]+/g, '-') + '.csv';
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+      showToast('Ekspor Data Peserta', `${rows.length} baris peserta diunduh sebagai CSV.`, 'success');
     });
   }
 
@@ -544,7 +578,7 @@ function initEventDetailModal() {
   if (btnCopyScanner && scannerUrlEl) {
     btnCopyScanner.addEventListener('click', () => {
       navigator.clipboard?.writeText(scannerUrlEl.textContent);
-      showToast('Link Scanner Disalin! 📷', 'Tautan scanner gate berhasil disalin untuk tim panitia.', 'success');
+      showToast('Link Scanner Disalin!', 'Tautan scanner gate berhasil disalin untuk tim panitia.', 'success');
     });
   }
 
@@ -553,7 +587,7 @@ function initEventDetailModal() {
   if (btnOpenScanner) {
     btnOpenScanner.addEventListener('click', () => {
       window.open('scanner.html', '_blank');
-      showToast('Membuka Web Scanner 📷', 'Halaman scanner panitia dibuka di tab baru.', 'info');
+      showToast('Membuka Web Scanner', 'Halaman scanner panitia dibuka di tab baru.', 'info');
     });
   }
 
@@ -562,7 +596,7 @@ function initEventDetailModal() {
   if (btnOpenHeroScanner) {
     btnOpenHeroScanner.addEventListener('click', () => {
       window.open('scanner.html', '_blank');
-      showToast('Membuka Web Scanner 📷', 'Halaman scanner panitia dibuka di tab baru.', 'info');
+      showToast('Membuka Web Scanner', 'Halaman scanner panitia dibuka di tab baru.', 'info');
     });
   }
 }
@@ -768,6 +802,105 @@ function initBentoTableFilters() {
 /* ==========================================================================
    5. IN-DASHBOARD MODAL 4-STEP CHUNKING WIZARD (CREATE EVENT)
    ========================================================================== */
+/* ==========================================================================
+   1.5 EVENT BUATAN PENGGUNA (demo store) — render + builder terpusat
+   Event dari wizard disimpan di localStorage (js/store.js) lalu dirender
+   di sini saat dashboard dimuat. Builder dipakai JUGA oleh modal wizard
+   publish, supaya baris/kartu hasil publish dan hasil reload identik.
+   Semua nilai pengguna di-escape (sebelumnya disisip mentah ke innerHTML).
+   ========================================================================== */
+function buildEventRowHTML(ev) {
+  const esc = window.RegesitStore ? window.RegesitStore.escapeHtml : (s) => String(s);
+  const pct = Math.max(0, Math.min(100, Math.round(((ev.registered || 0) / (ev.quota || 1)) * 100)));
+  return `
+          <td>
+            <div class="event-cell-info">
+              <span class="event-cell-name">${esc(ev.name)}</span>
+              <span class="event-cell-venue">${esc(ev.venue)}</span>
+            </div>
+          </td>
+          <td><span class="pill-badge pill-blue">${esc(ev.format)}</span></td>
+          <td>${esc(ev.start)}</td>
+          <td>
+            <div style="width: 140px;">
+              <div class="progress-track" style="height: 6px; margin-bottom: 4px;">
+                <div class="progress-fill-blue" style="width: ${pct}%;"></div>
+              </div>
+              <div style="font-size: 11.5px; color: var(--text-muted);">${ev.registered || 0} / ${ev.quota} (${pct}%)</div>
+            </div>
+          </td>
+          <td><span class="pill-badge pill-blue">${esc(ev.status || 'Siap Mulai')}</span></td>
+          <td>
+            <button class="btn btn-secondary btn-sm btn-detail-event" data-event-title="${esc(ev.name)}" data-event-venue="${esc(ev.venue)}" data-event-status="${esc(ev.status || 'Siap Mulai')}" data-event-quota="${ev.quota}" data-event-url="${esc(ev.url || '')}" style="padding: 4px 10px; font-size: 12px;">Detail</button>
+          </td>
+        `;
+}
+
+function buildEventCardHTML(ev) {
+  const esc = window.RegesitStore ? window.RegesitStore.escapeHtml : (s) => String(s);
+  const pct = Math.max(0, Math.min(100, Math.round(((ev.registered || 0) / (ev.quota || 1)) * 100)));
+  return `
+          <div class="event-card-top">
+            <div class="event-card-badges">
+              <span class="pill-badge pill-blue">${esc(ev.status || 'Siap Mulai')}</span>
+              <span class="pill-badge pill-blue">${esc(ev.format)}</span>
+            </div>
+            <button type="button" class="btn btn-secondary btn-sm btn-detail-event" data-event-title="${esc(ev.name)}" data-event-venue="${esc(ev.venue)}" data-event-status="${esc(ev.status || 'Siap Mulai')}" data-event-quota="${ev.quota}" data-event-url="${esc(ev.url || '')}">Detail</button>
+          </div>
+          <div class="event-card-body">
+            <h4 class="event-card-title">${esc(ev.name)}</h4>
+            <div class="event-card-meta-row">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+              <span>${esc(ev.venue)}</span>
+            </div>
+            <div class="event-card-meta-row">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+              <span>${esc(ev.start)}</span>
+            </div>
+            <div class="event-card-progress-section">
+              <div class="event-card-progress-label">
+                <span>Kehadiran Peserta</span>
+                <strong>${ev.registered || 0} / ${ev.quota} (${pct}%)</strong>
+              </div>
+              <div class="progress-track" style="height: 6px;">
+                <div class="progress-fill-blue" style="width: ${pct}%;"></div>
+              </div>
+            </div>
+          </div>
+        `;
+}
+
+function initStoredEvents() {
+  if (!window.RegesitStore) return;
+  const stored = window.RegesitStore.load();
+  if (!stored.length) return;
+  const tbody = document.querySelector('.minimal-table tbody');
+  const cardsGrid = document.getElementById('eventCardsGrid');
+  // Urutan dibalik supaya yang terbaru tetap di atas (store menyimpan
+  // terbaru di depan; prepend berurutan akan membaliknya).
+  [...stored].reverse().forEach((ev) => {
+    if (tbody) {
+      const tr = document.createElement('tr');
+      tr.setAttribute('data-status', 'active');
+      tr.innerHTML = buildEventRowHTML(ev);
+      tbody.prepend(tr);
+    }
+    if (cardsGrid) {
+      const card = document.createElement('div');
+      card.className = 'bento-event-card';
+      card.setAttribute('data-status', 'active');
+      card.innerHTML = buildEventCardHTML(ev);
+      cardsGrid.prepend(card);
+    }
+  });
+  // Datang dari wizard create-event.html (?created=<id>): beri tahu user.
+  const createdId = new URLSearchParams(window.location.search).get('created');
+  if (createdId) {
+    const ev = stored.find((e) => e.id === createdId);
+    if (ev) showToast('Event Berhasil Dibuat', `"${ev.name}" sudah terbit dan siap menerima pendaftaran.`, 'success');
+  }
+}
+
 function initModalChunkingWizard() {
   const modal = document.getElementById('createEventModalOverlay');
   const triggerBtns = document.querySelectorAll('.btn-trigger-create-wizard');
@@ -970,7 +1103,9 @@ function initModalChunkingWizard() {
     customFieldsContainer.appendChild(card);
   }
 
-  // Publish Event
+  // Publish Event — simpan ke demo store (localStorage) + render lewat
+  // builder yang sama dengan initStoredEvents() (dulu: innerHTML mentah
+  // dari input pengguna, dan event hilang setelah reload).
   if (btnPublish) {
     btnPublish.addEventListener('click', (e) => {
       e.preventDefault();
@@ -980,33 +1115,17 @@ function initModalChunkingWizard() {
       const quota = document.getElementById('mInputQuota')?.value || '150';
       const startTimeFormatted = document.getElementById('startTimeTriggerText')?.textContent || '28 Agu 2026, 09:00 AM';
 
+      const ev = window.RegesitStore
+        ? window.RegesitStore.add({ name: eventName, venue: location, format, start: startTimeFormatted, quota })
+        : { id: 'event-' + Date.now(), name: eventName, venue: location, format, start: startTimeFormatted, quota: parseInt(quota, 10) || 150, registered: 2, status: 'Siap Mulai', url: 'register.html?eventId=event-' + Date.now() };
+      if (!ev) return;
+
       const tbody = document.querySelector('.minimal-table tbody');
       if (tbody) {
         const tr = document.createElement('tr');
         tr.setAttribute('data-status', 'active');
         tr.style.animation = 'fadeIn 0.3s ease';
-        tr.innerHTML = `
-          <td>
-            <div class="event-cell-info">
-              <span class="event-cell-name">${eventName}</span>
-              <span class="event-cell-venue">${location}</span>
-            </div>
-          </td>
-          <td><span class="pill-badge pill-blue">${format}</span></td>
-          <td>${startTimeFormatted}</td>
-          <td>
-            <div style="width: 140px;">
-              <div class="progress-track" style="height: 6px; margin-bottom: 4px;">
-                <div class="progress-fill-blue" style="width: 2%;"></div>
-              </div>
-              <div style="font-size: 11.5px; color: var(--text-muted);">2 / ${quota} (2%)</div>
-            </div>
-          </td>
-          <td><span class="pill-badge pill-blue">Siap Mulai</span></td>
-          <td>
-            <button class="btn btn-secondary btn-sm btn-detail-event" data-event-title="${eventName}" data-event-venue="${location}" data-event-status="Siap Mulai" data-event-quota="${quota}" style="padding: 4px 10px; font-size: 12px;">Detail</button>
-          </td>
-        `;
+        tr.innerHTML = buildEventRowHTML(ev);
         tbody.prepend(tr);
       }
 
@@ -1017,35 +1136,7 @@ function initModalChunkingWizard() {
         card.className = 'bento-event-card';
         card.setAttribute('data-status', 'active');
         card.style.animation = 'fadeIn 0.3s ease';
-        card.innerHTML = `
-          <div class="event-card-top">
-            <div class="event-card-badges">
-              <span class="pill-badge pill-blue">Siap Mulai</span>
-              <span class="pill-badge pill-blue">${format}</span>
-            </div>
-            <button type="button" class="btn btn-secondary btn-sm btn-detail-event" data-event-title="${eventName}" data-event-venue="${location}" data-event-status="Siap Mulai" data-event-quota="${quota}" data-event-url="https://www.regesit.com/register?eventId=event-${Date.now()}">Detail</button>
-          </div>
-          <div class="event-card-body">
-            <h4 class="event-card-title">${eventName}</h4>
-            <div class="event-card-meta-row">
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
-              <span>${location}</span>
-            </div>
-            <div class="event-card-meta-row">
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
-              <span>${startTimeFormatted}</span>
-            </div>
-            <div class="event-card-progress-section">
-              <div class="event-card-progress-label">
-                <span>Kehadiran Peserta</span>
-                <strong>2 / ${quota} (2%)</strong>
-              </div>
-              <div class="progress-track" style="height: 6px;">
-                <div class="progress-fill-blue" style="width: 2%;"></div>
-              </div>
-            </div>
-          </div>
-        `;
+        card.innerHTML = buildEventCardHTML(ev);
         cardsGrid.prepend(card);
       }
 
@@ -1157,7 +1248,7 @@ function initCustomDateTimePicker() {
     function updateSummary() {
       if (!summaryText) return;
       const isDay = sAmPm === 'AM';
-      const icon = isDay ? '☀️' : '🌙';
+      const icon = isDay ? '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>' : '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>';
       const label = isDay ? 'Pagi/Siang' : 'Malam';
       summaryText.innerHTML = `${labelPrefix}: <strong>${sDay} ${monthShorts[sMonth]} ${sYear}, ${sHour}:${sMin} ${sAmPm} (${label} ${icon})</strong>`;
     }
@@ -1261,7 +1352,7 @@ function initCustomDateTimePicker() {
     if (applyBtn) {
       applyBtn.addEventListener('click', () => {
         const isDay = sAmPm === 'AM';
-        const icon = isDay ? '☀️' : '🌙';
+        const icon = isDay ? '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>' : '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>';
         const formatted = `${sDay} ${monthShorts[sMonth]} ${sYear}, ${sHour}:${sMin} ${sAmPm}`;
 
         if (triggerText) triggerText.textContent = formatted;
@@ -1277,7 +1368,7 @@ function initCustomDateTimePicker() {
 
         popover.classList.remove('active');
         trigger.classList.remove('focused');
-        showToast(`Waktu ${labelPrefix} Disetel`, `Jadwal acara telah diatur ke ${formatted} (${isDay ? 'Siang ☀️' : 'Malam 🌙'}).`, 'info');
+        showToast(`Waktu ${labelPrefix} Disetel`, `Jadwal acara telah diatur ke ${formatted} (${isDay ? 'Siang <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>' : 'Malam <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>'}).`, 'info');
       });
     }
 
