@@ -5,7 +5,7 @@ Buat event, daftarkan peserta, terbitkan tiket QR, dan scan di pintu masuk —
 semuanya jalan di browser, tanpa backend.
 
 🔗 **Live demo:** https://regesit-ui-rework.pages.dev
-📹 **Video demo (50 detik):** [docs/demo/demo.mp4](docs/demo/demo.mp4)
+📹 **Video demo (60 detik, 12 adegan):** [docs/demo/demo.mp4](docs/demo/demo.mp4)
 📖 **Dokumentasi lengkap:** [docs/](docs/)
 
 ![Landing Regesit](docs/screenshots/01-landing-hero.png)
@@ -26,6 +26,24 @@ dipindai di scanner.
 
 ![Dashboard](docs/screenshots/04-dashboard.png)
 ![Tiket QR](docs/screenshots/08-register-ticket.png)
+![Mobile 390px](docs/screenshots/11-landing-mobile-390.png)
+
+## Desain & referensi
+
+Kontrak arah desain: [docs/DESIGN.md](docs/DESIGN.md) (palet bernama,
+tipografi, layout, detail khas "tiket berlubang").
+
+- **Referensi pemenang:** Onstage — Framer event template
+  (https://www.framer.com/marketplace/templates/onstage/) — cover ala poster,
+  tiket sebagai artefak, sticky ticket bar di ponsel. Diambil strukturnya
+  (hero poster + kartu tiket + sticky CTA), bukan clone penuh — landing ini
+  desain asli produk Regesit yang dipertahankan.
+- **Gate 7 sumbu** (nilai 1–5, tiap sumbu ≥ 4): anti-slop 5, UX speed 4,
+  tipografi 5, spacing & geometri 4, motion 4, a11y 4, mobile 4.
+  Nol larangan P0 (tanpa gradient ungu/biru, tanpa Inter, tanpa emoji
+  fungsional, tanpa hiasan 01/02/03) — ditegakkan `scripts/check-links.mjs`.
+- **Tes siluet:** [docs/screenshots/13-silhouette.png](docs/screenshots/13-silhouette.png)
+  — thumbnail hitam-putih landing masih terbaca sebagai platform event.
 
 ## Menjalankan lokal
 

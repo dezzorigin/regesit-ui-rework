@@ -7,10 +7,10 @@
   <title>REGESIT — Effortless Event Registration and Check-in</title>
   <meta name="description" content="Regesit is an all-in-one event registration platform: create events, sell tickets, and check in guests instantly with QR gate scanning.">
 
-  <!-- Google Fonts: Inter (grotesque fallback) & DM Sans -->
+  <!-- Google Fonts: Space Grotesk (display) & DM Sans (body) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
 
   <!-- Stylesheet -->
   <link rel="stylesheet" href="css/style.css">
@@ -31,7 +31,7 @@
             <span class="brand-tag">| &nbsp;Event registration</span>
           </a>
 
-          <nav class="desktop-nav">
+          <nav class="desktop-nav" aria-label="Navigasi utama">
             <a href="#about" class="nav-item">About</a>
             <a href="#featured" class="nav-item">Events</a>
             <a href="#services" class="nav-item">Platform</a>
@@ -279,26 +279,26 @@
       </div>
 
       <div class="demo-grid">
-        <a href="dashboard.html" class="demo-card">
-          <span class="demo-card-num">01</span>
+        <a href="dashboard.html" class="demo-card demo-card--purple">
+          <span class="demo-card-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg></span>
           <h3 class="demo-card-title">Dashboard Organizer</h3>
           <p class="demo-card-desc">Kelola event, pantau analitik, kalender, dan ekspor data peserta ke CSV.</p>
           <span class="demo-card-link">Buka Dashboard →</span>
         </a>
-        <a href="create-event.html" class="demo-card">
-          <span class="demo-card-num">02</span>
+        <a href="create-event.html" class="demo-card demo-card--yellow">
+          <span class="demo-card-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 8v8M8 12h8"/></svg></span>
           <h3 class="demo-card-title">Buat Event (Wizard)</h3>
           <p class="demo-card-desc">4 langkah: info dasar, waktu &amp; lokasi, kuota &amp; tiket, formulir peserta.</p>
           <span class="demo-card-link">Buat Event →</span>
         </a>
-        <a href="register.html" class="demo-card">
-          <span class="demo-card-num">03</span>
+        <a href="register.html" class="demo-card demo-card--peach">
+          <span class="demo-card-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 9a3 3 0 0 1 0 6v2a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-2a3 3 0 0 1 0-6V7a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2Z"/><path d="M13 5v2M13 17v2M13 11v2"/></svg></span>
           <h3 class="demo-card-title">Pendaftaran Peserta</h3>
           <p class="demo-card-desc">Form + tanda tangan digital → tiket QR yang dibuat lokal di browser.</p>
           <span class="demo-card-link">Daftar Sebagai Peserta →</span>
         </a>
-        <a href="scanner.html" class="demo-card">
-          <span class="demo-card-num">04</span>
+        <a href="scanner.html" class="demo-card demo-card--lilac">
+          <span class="demo-card-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7V5a2 2 0 0 1 2-2h2M17 3h2a2 2 0 0 1 2 2v2M21 17v2a2 2 0 0 1-2 2h-2M7 21H5a2 2 0 0 1-2-2v-2"/><path d="M7 12h10"/></svg></span>
           <h3 class="demo-card-title">Gate Scanner</h3>
           <p class="demo-card-desc">Scan tiket di pintu masuk: verifikasi instan, feed check-in real-time.</p>
           <span class="demo-card-link">Buka Scanner →</span>
@@ -424,6 +424,7 @@
           </div>
         </div>
       </div>
+      <p class="metrics-note">Angka di atas data contoh untuk demo.</p>
     </section>
 
 
@@ -515,5 +516,9 @@
 
   <!-- JavaScript -->
   <script src="js/main.js"></script>
+<nav class="mobile-sticky-cta" aria-label="Aksi cepat">
+      <a href="create-event.html" class="sticky-primary">Buat Event Gratis</a>
+      <a href="dashboard.html" class="sticky-ghost">Dashboard</a>
+    </nav>
 </body>
 </html>

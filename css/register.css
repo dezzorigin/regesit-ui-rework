@@ -46,7 +46,7 @@
   --shadow-card: 0 4px 20px rgba(0, 0, 0, 0.04), 0 1px 3px rgba(0, 0, 0, 0.02);
   --shadow-card-hover: 0 10px 30px rgba(0, 0, 0, 0.06);
   
-  --transition-smooth: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+  --transition-smooth: all 0.18s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 *, *::before, *::after {
@@ -150,7 +150,7 @@ p {
   height: 100%;
   object-fit: cover;
   display: block;
-  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: transform 0.18s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .event-banner-box:hover .event-banner-img {
@@ -575,7 +575,7 @@ p {
 
 /* Official Ticket Card Pass */
 .ticket-official-card {
-  background: linear-gradient(180deg, #ffffff 0%, var(--bg-surface-subtle) 100%);
+  background: #ffffff;
   border: 1.5px solid var(--border-default);
   border-radius: var(--radius-lg);
   padding: 24px 20px;
@@ -1073,3 +1073,17 @@ p {
   to { width: 0%; }
 }
 
+
+/* Anti-slop gate: focus-visible, active scale, reduced motion */
+:focus-visible { outline: 2px solid #1975f9; outline-offset: 2px; }
+.btn:active { transform: scale(0.97); }
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+  html { scroll-behavior: auto; }
+}
+#resTicketCode { font-variant-numeric: tabular-nums; }
+
+/* Target sentuh >= 44px di ponsel (gate mobile) */
+@media (max-width: 768px) {
+  .btn-clear-signature { min-height: 44px; }
+}

@@ -5,7 +5,7 @@
  * 2. Centered Success Celebration Modal with Animated Checkmark Draw & Confetti Glitter Cannon
  * 3. In-UI Toast Notification System (Warning, Success, Info)
  * 4. Interactive Input Validation with Shake Animation & Hover Hints
- * 5. Triple Custom Intuitive Date & Time Picker with Day/Night (☀️ AM / 🌙 PM) Icons
+ * 5. Triple Custom Intuitive Date & Time Picker with Day/Night (AM / PM) Icons
  * 6. Expandable Form Drawers for Add-on Toggles (Syarat & Ketentuan, Custom URL, Custom QR Logo)
  */
 
@@ -337,7 +337,7 @@ function initEventDetailModal() {
   if (btnCopyRegUrl && regUrlEl) {
     btnCopyRegUrl.addEventListener('click', () => {
       navigator.clipboard?.writeText(regUrlEl.textContent);
-      showToast('Link Pendaftaran Disalin! 📋', 'Tautan siap dibagikan ke calon peserta.', 'success');
+      showToast('Link Pendaftaran Disalin!', 'Tautan siap dibagikan ke calon peserta.', 'success');
     });
   }
 
@@ -354,7 +354,7 @@ function initEventDetailModal() {
   if (btnOpenPublicRegister) {
     btnOpenPublicRegister.addEventListener('click', () => {
       window.open('register.html', '_blank');
-      showToast('Membuka Halaman Pendaftaran 📱', 'Halaman pendaftaran peserta dibuka di tab baru.', 'info');
+      showToast('Membuka Halaman Pendaftaran', 'Halaman pendaftaran peserta dibuka di tab baru.', 'info');
     });
   }
 
@@ -486,10 +486,10 @@ function initEventDetailModal() {
   const deadlinePill = document.getElementById('dEditDeadlinePill');
 
   const deadlinePresets = [
-    { text: '30 Jul 2026, 11:59 PM', ampm: 'PM', icon: '🌙' },
-    { text: '31 Jul 2026, 06:00 PM', ampm: 'PM', icon: '🌙' },
-    { text: '01 Agu 2026, 12:00 PM', ampm: 'PM', icon: '☀️' },
-    { text: '28 Agu 2026, 08:00 AM', ampm: 'AM', icon: '☀️' }
+    { text: '30 Jul 2026, 11:59 PM', ampm: 'PM', icon: '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>' },
+    { text: '31 Jul 2026, 06:00 PM', ampm: 'PM', icon: '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>' },
+    { text: '01 Agu 2026, 12:00 PM', ampm: 'PM', icon: '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>' },
+    { text: '28 Agu 2026, 08:00 AM', ampm: 'AM', icon: '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>' }
   ];
   let currentDeadlineIdx = 0;
 
@@ -504,7 +504,7 @@ function initEventDetailModal() {
         deadlinePill.innerHTML = `<span>${preset.icon}</span><span>${preset.ampm}</span>`;
       }
 
-      showToast('Batas Waktu Diperbarui ⏱️', `Batas pendaftaran disetel ke ${preset.text}.`, 'info');
+      showToast('Batas Waktu Diperbarui', `Batas pendaftaran disetel ke ${preset.text}.`, 'info');
     });
   }
 
@@ -525,7 +525,7 @@ function initEventDetailModal() {
       const deadlineVal = deadlineText?.textContent || '30 Jul 2026, 11:59 PM';
 
       modal.classList.remove('active');
-      showToast('Perubahan Disimpan! ✅', `Formulir "${currentTitle}" diperbarui (Kuota: ${quotaVal} pax, Batas: ${deadlineVal}).`, 'success');
+      showToast('Perubahan Disimpan!', `Formulir "${currentTitle}" diperbarui (Kuota: ${quotaVal} pax, Batas: ${deadlineVal}).`, 'success');
     });
   }
 
@@ -578,7 +578,7 @@ function initEventDetailModal() {
   if (btnCopyScanner && scannerUrlEl) {
     btnCopyScanner.addEventListener('click', () => {
       navigator.clipboard?.writeText(scannerUrlEl.textContent);
-      showToast('Link Scanner Disalin! 📷', 'Tautan scanner gate berhasil disalin untuk tim panitia.', 'success');
+      showToast('Link Scanner Disalin!', 'Tautan scanner gate berhasil disalin untuk tim panitia.', 'success');
     });
   }
 
@@ -587,7 +587,7 @@ function initEventDetailModal() {
   if (btnOpenScanner) {
     btnOpenScanner.addEventListener('click', () => {
       window.open('scanner.html', '_blank');
-      showToast('Membuka Web Scanner 📷', 'Halaman scanner panitia dibuka di tab baru.', 'info');
+      showToast('Membuka Web Scanner', 'Halaman scanner panitia dibuka di tab baru.', 'info');
     });
   }
 
@@ -596,7 +596,7 @@ function initEventDetailModal() {
   if (btnOpenHeroScanner) {
     btnOpenHeroScanner.addEventListener('click', () => {
       window.open('scanner.html', '_blank');
-      showToast('Membuka Web Scanner 📷', 'Halaman scanner panitia dibuka di tab baru.', 'info');
+      showToast('Membuka Web Scanner', 'Halaman scanner panitia dibuka di tab baru.', 'info');
     });
   }
 }
@@ -1248,7 +1248,7 @@ function initCustomDateTimePicker() {
     function updateSummary() {
       if (!summaryText) return;
       const isDay = sAmPm === 'AM';
-      const icon = isDay ? '☀️' : '🌙';
+      const icon = isDay ? '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>' : '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>';
       const label = isDay ? 'Pagi/Siang' : 'Malam';
       summaryText.innerHTML = `${labelPrefix}: <strong>${sDay} ${monthShorts[sMonth]} ${sYear}, ${sHour}:${sMin} ${sAmPm} (${label} ${icon})</strong>`;
     }
@@ -1352,7 +1352,7 @@ function initCustomDateTimePicker() {
     if (applyBtn) {
       applyBtn.addEventListener('click', () => {
         const isDay = sAmPm === 'AM';
-        const icon = isDay ? '☀️' : '🌙';
+        const icon = isDay ? '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>' : '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>';
         const formatted = `${sDay} ${monthShorts[sMonth]} ${sYear}, ${sHour}:${sMin} ${sAmPm}`;
 
         if (triggerText) triggerText.textContent = formatted;
@@ -1368,7 +1368,7 @@ function initCustomDateTimePicker() {
 
         popover.classList.remove('active');
         trigger.classList.remove('focused');
-        showToast(`Waktu ${labelPrefix} Disetel`, `Jadwal acara telah diatur ke ${formatted} (${isDay ? 'Siang ☀️' : 'Malam 🌙'}).`, 'info');
+        showToast(`Waktu ${labelPrefix} Disetel`, `Jadwal acara telah diatur ke ${formatted} (${isDay ? 'Siang <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>' : 'Malam <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>'}).`, 'info');
       });
     }
 

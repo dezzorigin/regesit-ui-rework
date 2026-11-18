@@ -295,32 +295,32 @@ document.addEventListener('DOMContentLoaded', () => {
 
       // 1. Validate Nama Lengkap
       if (!fullName) {
-        triggerFieldError(inputFullName, 'Nama Lengkap Belum Diisi ⚠️', 'Silakan masukkan nama lengkap Anda untuk dicetak pada tiket.');
+        triggerFieldError(inputFullName, 'Nama Lengkap Belum Diisi', 'Silakan masukkan nama lengkap Anda untuk dicetak pada tiket.');
         return;
       }
 
       // 2. Validate Alamat Email
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       if (!email || !emailRegex.test(email)) {
-        triggerFieldError(inputEmail, 'Alamat Email Belum Valid ⚠️', 'Mohon masukkan format email yang benar (contoh: nama@email.com).');
+        triggerFieldError(inputEmail, 'Alamat Email Belum Valid', 'Mohon masukkan format email yang benar (contoh: nama@email.com).');
         return;
       }
 
       // 3. Validate Nomor WhatsApp
       if (!phone) {
-        triggerFieldError(inputPhone, 'Nomor WhatsApp Belum Diisi ⚠️', 'Silakan masukkan nomor telepon / WhatsApp aktif Anda.');
+        triggerFieldError(inputPhone, 'Nomor WhatsApp Belum Diisi', 'Silakan masukkan nomor telepon / WhatsApp aktif Anda.');
         return;
       }
 
       // 4. Validate Digital Signature
       if (!hasSigned) {
-        triggerFieldError(canvasWrap, 'Tanda Tangan Diperlukan ✍️', 'Mohon bubuhkan tanda tangan digital Anda pada kanvas yang disediakan.');
+        triggerFieldError(canvasWrap, 'Tanda Tangan Diperlukan', 'Mohon bubuhkan tanda tangan digital Anda pada kanvas yang disediakan.');
         return;
       }
 
       // 5. Validate Agreement Checkbox
       if (!isAgreed) {
-        triggerFieldError(agreementCard, 'Persetujuan Belum Dicentang ⚠️', 'Mohon centang pernyataan persetujuan pendaftaran sebelum melanjutkan.');
+        triggerFieldError(agreementCard, 'Persetujuan Belum Dicentang', 'Mohon centang pernyataan persetujuan pendaftaran sebelum melanjutkan.');
         return;
       }
 
@@ -372,7 +372,7 @@ document.addEventListener('DOMContentLoaded', () => {
         window.scrollTo({ top: 0, behavior: 'smooth' });
 
         // Show Success Toast
-        showToast('Pendaftaran Berhasil! 🎉', `Tiket ${ticketCode} atas nama ${fullName} telah siap.`, 'success');
+        showToast('Pendaftaran Berhasil!', `Tiket ${ticketCode} atas nama ${fullName} telah siap.`, 'success');
       }, 420);
     });
   }
@@ -427,7 +427,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const url = window.currentTicketPayload?.qrUrl || resTicketQrImg?.src;
       const code = window.currentTicketPayload?.code || resTicketCode?.textContent || 'tiket';
       if (!url || !url.startsWith('data:')) {
-        showToast('QR Belum Siap ⚠️', 'Tiket QR belum berhasil dibuat di perangkat ini.', 'warning');
+        showToast('QR Belum Siap', 'Tiket QR belum berhasil dibuat di perangkat ini.', 'warning');
         return;
       }
       const a = document.createElement('a');
@@ -436,7 +436,7 @@ document.addEventListener('DOMContentLoaded', () => {
       document.body.appendChild(a);
       a.click();
       a.remove();
-      showToast('Tiket Berhasil Diunduh! 📥', `File QR ${code} tersimpan di folder unduhan Anda.`, 'success');
+      showToast('Tiket Berhasil Diunduh!', `File QR ${code} tersimpan di folder unduhan Anda.`, 'success');
     });
   }
 

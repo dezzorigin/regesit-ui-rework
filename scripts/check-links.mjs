@@ -12,6 +12,8 @@
  *      QR wajib dibuat lokal (js/vendor/qrcode.min.js); URL ke layanan
  *      luar di komentar dokumentasi tidak dihitung, yang dicek adalah
  *      pemakaian sebagai src/fetch.
+ *   7. Gate anti-slop P0 (docs/DESIGN.md): tanpa emoji mentah sebagai ikon
+ *      fungsi, tanpa gradient ungu/biru, tanpa impor font Inter.
  * Keluar 1 bila ada satu saja temuan; semua temuan dicetak sekaligus.
  */
 import { readFileSync, existsSync, readdirSync } from "node:fs";
@@ -99,9 +101,42 @@ for (const rel of SCAN_FILES) {
   }
 }
 
+// ── 7. Gate anti-slop P0 (docs/DESIGN.md) ────────────────────────────────
+const CSS_FILES = readdirSync(join(ROOT, "css")).filter((f) => f.endsWith(".css"))
+  .map((f) => join("css", f));
+// 7a. Emoji mentah sebagai ikon fungsi — yang dibolehkan hanya glif teks
+//     ✓ (centang), ✕ (tutup), ✦ (hiasan). Sisanya wajib SVG/teks polos.
+const EMOJI_RE = /[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}\u{2B00}-\u{2BFF}]/gu;
+const EMOJI_ALLOW = new Set(["✓", "✕", "✦"]);
+for (const rel of [...PAGES, ...JS_FILES]) {
+  const content = readFileSync(join(ROOT, rel), "utf-8");
+  for (const m of content.matchAll(EMOJI_RE)) {
+    if (!EMOJI_ALLOW.has(m[0])) fail(`${rel}: emoji mentah ${m[0]} (pakai SVG stroke 1.5-2px / teks polos)`);
+  }
+}
+// 7b. Gradient ungu/biru — gradient hijau sukses (#3bc855/#22c55e) dibolehkan.
+const BANNED_GRADIENT_TOKENS = [
+  "#1d4ed8", "#1e40af", "#0056cc", "#60a5fa", "#7544ea",
+  "117, 68, 234", "25, 117, 249", "var(--color-primary)",
+];
+for (const rel of [...PAGES, ...CSS_FILES]) {
+  const content = readFileSync(join(ROOT, rel), "utf-8");
+  for (const line of content.split("\n")) {
+    if (!/gradient\(/.test(line)) continue;
+    for (const tok of BANNED_GRADIENT_TOKENS) {
+      if (line.includes(tok)) fail(`${rel}: gradient ungu/biru (${tok}): ${line.trim().slice(0, 90)}`);
+    }
+  }
+}
+// 7c. Font Inter dilarang (display = Space Grotesk, body = DM Sans).
+for (const rel of [...PAGES, ...CSS_FILES]) {
+  const content = readFileSync(join(ROOT, rel), "utf-8");
+  if (/family=Inter/.test(content)) fail(`${rel}: masih mengimpor font Inter (pakai Space Grotesk)`);
+}
+
 if (failures.length > 0) {
   console.error(`\ncheck-links: ${failures.length} temuan:`);
   for (const f of failures) console.error(`  - ${f}`);
   process.exit(1);
 }
-console.log("check-links: OK (referensi lokal, anchor, alt img, path JS, nama proyek, sapu secret, QR lokal)");
+console.log("check-links: OK (referensi lokal, anchor, alt img, path JS, nama proyek, sapu secret, QR lokal, gate anti-slop)");

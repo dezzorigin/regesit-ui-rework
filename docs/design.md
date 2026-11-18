@@ -1,12 +1,16 @@
 # Desain
 
+> Kontrak arah desain (palet bernama, tipografi, layout, detail khas,
+> referensi, audit P0, gate 7 sumbu, tes siluet) ada di
+> [`DESIGN.md`](DESIGN.md). File ini dokumentasi teknis token & komponen.
+
 ## 1. Bahasa visual
 
 Landing memakai gaya editorial "kartu": seksi gelap (`#0f1015`) berselang
-dengan kartu putih, tipografi besar DM Sans/Inter, aksen ungu/kuning/peach/
-lilac pada bento. Halaman aplikasi (dashboard, wizard, register, scanner)
-memakai sistem bento yang sama: kartu putih, radius besar, pill badge,
-bayangan lembut.
+dengan kartu putih, tipografi besar Space Grotesk (display) + DM Sans (body),
+aksen ungu/kuning/peach/lilac pada bento. Halaman aplikasi (dashboard, wizard,
+register, scanner) memakai sistem bento yang sama: kartu putih, radius besar,
+pill badge, bayangan lembut.
 
 ## 2. Token (landing — `css/style.css`)
 
@@ -15,7 +19,7 @@ bayangan lembut.
 | `--card-dark` | `#0f1015` |
 | `--card-white` | `#ffffff` |
 | `--radius-pill` | pill penuh (tombol/nav) |
-| Font display | DM Sans (700–800), Inter sebagai pendamping |
+| Font display | Space Grotesk 500–700 |
 | Aksen bento | ungu `#7c3aed`-ish, kuning, peach, lilac (per kartu) |
 
 Halaman aplikasi memakai token sendiri di tiap CSS (`--color-primary`

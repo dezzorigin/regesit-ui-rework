@@ -3,7 +3,7 @@
    ========================================================================== */
 
 /* Google Fonts Import */
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Inter:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Space+Grotesk:wght@500;600;700&display=swap');
 
 :root {
   /* Colors */
@@ -22,8 +22,8 @@
   --bento-lilac: #dcd6fd;
   --cursor-yellow: #f8db39;
 
-  /* Typography — Helvetica-style neo-grotesque, matching the Mavka reference */
-  --font-display: 'Helvetica Neue', Helvetica, Arial, 'Inter', sans-serif;
+  /* Typography — Space Grotesk display + DM Sans body (kontrak docs/DESIGN.md) */
+  --font-display: 'Space Grotesk', 'Helvetica Neue', Helvetica, Arial, sans-serif;
   --font-sans: 'Helvetica Neue', Helvetica, Arial, 'DM Sans', sans-serif;
 
   /* Text Colors */
@@ -40,7 +40,7 @@
   --radius-inner: 20px;
   --radius-pill: 9999px;
   --shadow-card: 0 20px 45px -10px rgba(0, 0, 0, 0.4);
-  --transition-smooth: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  --transition-smooth: all 0.18s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 /* Reset & Box Sizing */
@@ -51,7 +51,6 @@
 }
 
 html {
-  scroll-behavior: smooth;
   font-size: 16px;
   background-color: var(--bg-page);
   color: var(--text-dark-primary);
@@ -104,7 +103,7 @@ body {
 .hero-section {
   padding: 24px 28px 48px;
   position: relative;
-  background: radial-gradient(circle at 80% 20%, rgba(117, 68, 234, 0.12), transparent 45%), var(--card-dark);
+  background: var(--card-dark);
 }
 
 /* Navbar */
@@ -191,7 +190,7 @@ body {
   height: 20px;
   background: rgba(255, 255, 255, 0.15);
   border-radius: 50%;
-  transition: transform 0.25s ease;
+  transition: transform 0.18s ease;
 }
 
 .btn-contact-pill:hover .btn-arrow-circle {
@@ -214,7 +213,7 @@ body {
   height: 2px;
   background: #111215;
   border-radius: 2px;
-  transition: 0.3s ease;
+  transition: 0.18s ease;
 }
 
 /* Mobile Dropdown */
@@ -306,7 +305,7 @@ body {
   height: auto;
   display: block;
   object-fit: cover;
-  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .hero-visual-stage:hover .hero-stage-img {
@@ -397,7 +396,7 @@ body {
   flex-direction: column;
   justify-content: space-between;
   overflow: hidden;
-  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s ease;
+  transition: transform 0.18s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.18s ease;
 }
 
 .bento-card:hover {
@@ -465,7 +464,7 @@ body {
   max-height: 320px;
   object-fit: cover;
   border-radius: 14px;
-  transition: transform 0.4s ease;
+  transition: transform 0.18s ease;
 }
 
 .bento-card:hover .bento-img {
@@ -486,7 +485,7 @@ body {
   justify-content: center;
   box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
   text-decoration: none;
-  transition: transform 0.25s ease, background-color 0.25s ease;
+  transition: transform 0.18s ease, background-color 0.18s ease;
   z-index: 5;
 }
 
@@ -592,7 +591,7 @@ body {
   pointer-events: none;
   opacity: 0;
   transform: translate(-50%, -50%) scale(0.85);
-  transition: opacity 0.25s ease, transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: opacity 0.18s ease, transform 0.18s cubic-bezier(0.16, 1, 0.3, 1);
   z-index: 90;
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
   border: 2px solid rgba(255, 255, 255, 0.2);
@@ -641,7 +640,7 @@ body {
   letter-spacing: -0.02em;
   text-transform: uppercase;
   color: rgba(255, 255, 255, 0.5);
-  transition: color 0.3s ease, transform 0.3s ease;
+  transition: color 0.18s ease, transform 0.18s ease;
 }
 
 .service-item:hover .service-name {
@@ -654,7 +653,7 @@ body {
   border-radius: 12px;
   overflow: hidden;
   border: 1px solid rgba(255, 255, 255, 0.2);
-  transition: transform 0.3s ease;
+  transition: transform 0.18s ease;
   flex-shrink: 0;
 }
 
@@ -863,7 +862,7 @@ body {
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.18);
   transform: translateY(-4px);
   animation: floatAvatarBadge 3.6s ease-in-out infinite;
-  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease;
+  transition: transform 0.18s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.18s ease;
 }
 
 .inline-avatar-badge:nth-of-type(1) {
@@ -920,7 +919,7 @@ body {
   justify-content: space-between;
   min-height: 260px;
   position: relative;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
 }
 
 .metric-card:hover {
@@ -989,7 +988,7 @@ body {
   justify-content: center;
   text-decoration: none;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  transition: transform 0.25s ease;
+  transition: transform 0.18s ease;
 }
 
 .metric-card:hover .metric-circle-btn {
@@ -1461,11 +1460,16 @@ body {
   border-color: #111215;
   box-shadow: 0 14px 30px rgba(0, 0, 0, 0.1);
 }
-.demo-card-num {
-  font-size: 0.8rem;
-  font-weight: 700;
-  color: #1975f9;
+.demo-card-icon {
+  display: inline-flex;
+  color: var(--demo-accent, #111215);
+  margin-bottom: 2px;
 }
+.demo-card-icon svg { display: block; }
+.demo-card--purple { --demo-accent: #7544ea; border-top: 4px solid #7544ea; }
+.demo-card--yellow { --demo-accent: #a67c00; border-top: 4px solid #f5cb43; }
+.demo-card--peach { --demo-accent: #d96f3c; border-top: 4px solid #f7b79d; }
+.demo-card--lilac { --demo-accent: #6a5acd; border-top: 4px solid #dcd6fd; }
 .demo-card-title {
   font-size: 1.05rem;
   font-weight: 700;
@@ -1483,7 +1487,24 @@ body {
   font-size: 0.88rem;
   font-weight: 700;
   color: #111215;
+  border-top: 1px dashed rgba(0, 0, 0, 0.25);
+  padding-top: 12px;
+  margin-top: auto;
 }
+/* Notch perforasi tiket (signature detail, docs/DESIGN.md) */
+.demo-card { position: relative; }
+.demo-card::before, .demo-card::after {
+  content: "";
+  position: absolute;
+  top: 76px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+}
+.demo-card::before { left: -11px; }
+.demo-card::after { right: -11px; }
 
 @media (max-width: 1024px) {
   .demo-grid {
@@ -1503,4 +1524,35 @@ body {
   .hero-cta-note {
     max-width: none;
   }
+}
+
+/* ==========================================================================
+   ANTI-SLOP GATE — focus-visible, active scale, reduced motion, tabular nums
+   ========================================================================== */
+:focus-visible { outline: 2px solid var(--bento-yellow); outline-offset: 2px; }
+.btn-hero-primary:active, .btn-hero-secondary:active, .demo-card:active { transform: scale(0.97); }
+.metric-number-display, .pill-badge { font-variant-numeric: tabular-nums; }
+.metrics-note { font-size: 12px; color: var(--text-light-muted); text-align: center; margin-top: 16px; }
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+  html { scroll-behavior: auto; }
+  .timeline-carousel-wrap { scroll-behavior: auto; }
+}
+@media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth; } }
+
+/* Sticky CTA bar — ponsel saja (referensi: Onstage sticky ticket bar) */
+.mobile-sticky-cta { display: none; }
+@media (max-width: 768px) {
+  .mobile-sticky-cta { display: flex; gap: 8px; position: fixed; left: 12px; right: 12px; bottom: 12px; z-index: 50; padding: 8px; background: rgba(255, 255, 255, 0.97); border-radius: 9999px; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.35); }
+  .mobile-sticky-cta a { flex: 1; min-height: 48px; display: inline-flex; align-items: center; justify-content: center; border-radius: 9999px; font-weight: 700; font-size: 15px; text-decoration: none; }
+  .mobile-sticky-cta .sticky-primary { background: var(--bento-yellow); color: #111215; }
+  .mobile-sticky-cta .sticky-ghost { background: #111215; color: #ffffff; }
+  body { padding-bottom: 84px; }
+}
+
+/* Target sentuh >= 44px di ponsel (gate mobile) */
+@media (max-width: 768px) {
+  .brand-logo, .btn-hero-primary, .btn-hero-secondary, .btn-discuss-pill, .footer-contact-link { min-height: 44px; display: inline-flex; align-items: center; }
+  .brand-logo { align-items: center; }
+  .mobile-toggle, .newsletter-submit-btn { min-width: 44px; min-height: 44px; }
 }

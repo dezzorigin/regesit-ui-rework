@@ -44,8 +44,25 @@ lokal 404** (via `afterEach` + listener `response`).
   devDependencies. Skrip sweep tetap dijaga sebagai gate bila suatu saat
   ada dependensi runtime (HIGH/CRITICAL = gagal).
 
-## 5. Catatan tooling lokal
+## 5. Gate anti-slop & mobile (docs/DESIGN.md)
 
+- **Gate slop di CI** — `scripts/check-links.mjs` §7 menolak: emoji mentah
+  sebagai ikon fungsi (kecuali glif teks ✓/✕/✦), gradient ungu/biru
+  (hijau sukses dibolehkan), impor font Inter.
+- **Mobile 390px** — 5 halaman dicek headless (390×844): tanpa overflow
+  horizontal (`scrollWidth == 390` di semua halaman; tabel dashboard
+  menggulir di dalam kontainernya sendiri, bukan halaman), target sentuh
+  ≥ 44px (0 temuan setelah perbaikan), grid demo 1 kolom, sticky CTA bar
+  tampil. Bukti: `docs/screenshots/11-landing-mobile-390.png`,
+  `12-dashboard-mobile-390.png`.
+- **Motion & a11y** — transisi interaksi ≤ 180ms ease-out, `:active`
+  scale 0.97, `prefers-reduced-motion` mematikan animasi/transisi,
+  `:focus-visible` di semua halaman, angka data `tabular-nums`.
+- **Tes siluet** — `docs/screenshots/13-silhouette.png` (grayscale 320px):
+  masih terbaca sebagai platform event (display type raksasa + foto event +
+  bento), bukan SaaS generik.
+
+## 6. Catatan tooling lokal
 - **Jangan** jalankan `npx playwright install chromium` di VM ini — itu
   menghapus isi `~/.cache/ms-playwright/` (chromium-1234 milik tooling
   lain). Jalankan tes dengan

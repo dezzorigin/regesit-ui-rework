@@ -26,7 +26,7 @@ Produk live (di luar repo ini): https://www.regesit.com
   "Buat Event Gratis" + catatan bahwa ini demo tanpa akun.
 - Statement, bento event unggulan (tombol tiap kartu → pendaftaran),
   layanan interaktif (hover preview), timeline, metrik animasi (304 event,
-  rating 4.9), footer + newsletter (konfirmasi inline).
+  rating 4.9 — data contoh, dilabeli "data contoh untuk demo" di halaman), footer + newsletter (konfirmasi inline).
 - Seksi "Coba Produk": 4 kartu ke dashboard, wizard, pendaftaran, scanner.
 
 ### 3.2 Dashboard organizer (`dashboard.html`)

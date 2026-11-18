@@ -37,7 +37,7 @@
   
   --shadow-card: 0 4px 20px rgba(0, 0, 0, 0.03), 0 1px 3px rgba(0, 0, 0, 0.02);
   --shadow-card-hover: 0 10px 28px rgba(0, 0, 0, 0.06);
-  --transition-smooth: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+  --transition-smooth: all 0.18s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 *, *::before, *::after {
@@ -100,7 +100,7 @@ a {
   width: 30px;
   height: 30px;
   border-radius: 8px;
-  background: linear-gradient(135deg, var(--color-primary), #0056cc);
+  background: var(--color-primary);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -227,7 +227,7 @@ a {
   margin: 0 12px 24px 12px;
   position: relative;
   z-index: 1;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.18s ease;
 }
 
 .step-line.filled {
@@ -614,4 +614,17 @@ input:checked + .toggle-slider:before {
   .step-label-text { display: none; }
   .event-format-grid { grid-template-columns: 1fr; }
   .wizard-form-card { padding: 24px 16px; }
+}
+
+/* Anti-slop gate: focus-visible, active scale, reduced motion */
+:focus-visible { outline: 2px solid #1975f9; outline-offset: 2px; }
+.btn:active { transform: scale(0.97); }
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+  html { scroll-behavior: auto; }
+}
+
+/* Target sentuh >= 44px di ponsel (gate mobile) */
+@media (max-width: 768px) {
+  .brand-wrap, .btn-back-link { min-height: 44px; display: inline-flex; align-items: center; }
 }
