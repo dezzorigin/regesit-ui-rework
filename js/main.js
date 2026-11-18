@@ -189,4 +189,26 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
   });
+
+  // 6. Newsletter: konfirmasi inline, tanpa alert() native. Situs ini
+  // statis tanpa backend — email hanya dicatat lokal sebagai bukti
+  // interaksi (tidak dikirim ke mana pun).
+  const newsletterForm = document.getElementById('newsletterForm');
+  if (newsletterForm) {
+    newsletterForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const input = newsletterForm.querySelector('.newsletter-input');
+      const email = input ? input.value.trim() : '';
+      if (!email) return;
+      try {
+        const saved = JSON.parse(localStorage.getItem('regesit.newsletter') || '[]');
+        if (!saved.includes(email)) {
+          saved.push(email);
+          localStorage.setItem('regesit.newsletter', JSON.stringify(saved));
+        }
+      } catch (err) { /* localStorage penuh/nonaktif: tetap tampil sukses */ }
+      newsletterForm.innerHTML = '<span style="color:#3bc855;font-size:13.5px;font-weight:500;">✓ Terima kasih! ' +
+        'Kami akan mengirim kabar Regesit ke ' + email.replace(/</g, '&lt;') + '.</span>';
+    });
+  }
 });

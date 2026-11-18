@@ -1342,3 +1342,165 @@ body {
     margin: 0 4px;
   }
 }
+/* ==========================================================================
+   TAMBAHAN REWORK (2026-11-19): link GitHub navbar, CTA hero, seksi demo
+   ========================================================================== */
+.nav-github-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  /* Navbar adalah pill TERANG di atas hero gelap: teks + border gelap,
+     bukan putih (perbaikan kontras — versi pertama tidak terbaca). */
+  color: #111215;
+  text-decoration: none;
+  padding: 10px 14px;
+  border-radius: var(--radius-pill);
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  font-size: 0.88rem;
+  font-weight: 600;
+  transition: var(--transition-smooth);
+}
+.nav-github-link:hover {
+  background-color: rgba(0, 0, 0, 0.06);
+  transform: translateY(-1px);
+}
+
+.hero-cta-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 14px;
+  margin-top: 28px;
+}
+.btn-hero-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background-color: #ffffff;
+  color: #111215;
+  text-decoration: none;
+  padding: 13px 24px;
+  border-radius: var(--radius-pill);
+  font-size: 0.95rem;
+  font-weight: 700;
+  transition: var(--transition-smooth);
+}
+.btn-hero-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.35);
+}
+.btn-hero-secondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: #ffffff;
+  text-decoration: none;
+  padding: 13px 24px;
+  border-radius: var(--radius-pill);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  font-size: 0.95rem;
+  font-weight: 600;
+  transition: var(--transition-smooth);
+}
+.btn-hero-secondary:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  transform: translateY(-2px);
+}
+.hero-cta-note {
+  font-size: 0.82rem;
+  color: rgba(255, 255, 255, 0.6);
+  max-width: 340px;
+  line-height: 1.45;
+}
+
+.demo-section {
+  padding: 56px 48px;
+}
+.demo-header-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 20px;
+  margin-bottom: 32px;
+}
+.demo-main-title {
+  font-size: clamp(1.9rem, 4vw, 3rem);
+  font-weight: 800;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  color: #111215;
+  margin: 0;
+}
+.demo-header-desc {
+  max-width: 420px;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: #555;
+  margin: 0;
+}
+.demo-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+.demo-card {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background: #f6f6f8;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  border-radius: 20px;
+  padding: 24px 20px;
+  text-decoration: none;
+  color: inherit;
+  transition: var(--transition-smooth);
+}
+.demo-card:hover {
+  transform: translateY(-4px);
+  border-color: #111215;
+  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.1);
+}
+.demo-card-num {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #1975f9;
+}
+.demo-card-title {
+  font-size: 1.05rem;
+  font-weight: 700;
+  margin: 0;
+  color: #111215;
+}
+.demo-card-desc {
+  font-size: 0.88rem;
+  line-height: 1.55;
+  color: #555;
+  margin: 0;
+  flex-grow: 1;
+}
+.demo-card-link {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: #111215;
+}
+
+@media (max-width: 1024px) {
+  .demo-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .demo-section {
+    padding: 40px 28px;
+  }
+}
+@media (max-width: 768px) {
+  .demo-grid {
+    grid-template-columns: 1fr;
+  }
+  .demo-section {
+    padding: 32px 20px;
+  }
+  .hero-cta-note {
+    max-width: none;
+  }
+}

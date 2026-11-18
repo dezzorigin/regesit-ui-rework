@@ -1,14 +1,26 @@
-.env
-.env.*
+# Dependensi & artefak build (dev tooling saja — situs ini tanpa build)
 node_modules/
-.next/
-__pycache__/
-.venv/
 dist/
 build/
-.DS_Store
-Assets/
-dist/
-node_modules/
+.next/
+
+# Env & secrets — jangan pernah ke-commit
 .env
 .env.*
+
+# OS / editor
+.DS_Store
+Thumbs.db
+
+# Aset sumber (file kerja, bukan aset web). PENTING: folder Assets/ sendiri
+# JANGAN di-ignore — gambar di Assets/mavka dipakai halaman dan WAJIB
+# ter-commit. Versi lama .gitignore meng-ignore seluruh Assets/, itulah
+# sebabnya semua gambar landing 404 di repo (ditemukan 2026-11-19).
+Assets/*.psd
+Assets/**/*.psd
+
+# Artefak lokal
+.wrangler/
+test-results/
+playwright-report/
+scripts/.imgcache/

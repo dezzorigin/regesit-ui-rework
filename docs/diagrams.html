@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Diagram — Regesit UI Rework</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root { --ink:#111215; --muted:#667085; --blue:#1975f9; --green:#3bc855; --line:#e4e7ec; --card:#f6f6f8; }
+  * { box-sizing:border-box; }
+  body { margin:0; background:#fff; color:var(--ink); font-family:"DM Sans",system-ui,sans-serif; }
+  .page { max-width:960px; margin:0 auto; padding:56px 28px 80px; }
+  header { border-bottom:2px solid var(--ink); padding-bottom:20px; margin-bottom:40px; }
+  .kicker { font-size:12px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); font-weight:700; }
+  h1 { font-size:34px; line-height:1.1; margin:10px 0 8px; letter-spacing:-.02em; }
+  header p { margin:0; color:var(--muted); font-size:15px; line-height:1.6; max-width:640px; }
+  section { margin-bottom:56px; }
+  h2 { font-size:22px; margin:0 0 6px; letter-spacing:-.01em; }
+  h2 .num { color:var(--blue); }
+  section > p { color:var(--muted); font-size:14.5px; line-height:1.65; margin:0 0 18px; max-width:680px; }
+  figure { margin:0; background:var(--card); border:1px solid var(--line); border-radius:20px; padding:28px 22px; overflow-x:auto; }
+  figcaption { margin-top:14px; font-size:12.5px; color:var(--muted); line-height:1.6; }
+  figcaption code { font-family:"JetBrains Mono",monospace; font-size:11.5px; background:#ececf1; padding:1px 5px; border-radius:5px; color:var(--ink); }
+  svg text { font-family:"DM Sans",system-ui,sans-serif; }
+  .mono { font-family:"JetBrains Mono",monospace; }
+  footer { border-top:1px solid var(--line); padding-top:16px; color:var(--muted); font-size:13px; line-height:1.6; }
+  footer a { color:var(--blue); }
+</style>
+</head>
+<body>
+<div class="page">
+  <header>
+    <div class="kicker">Regesit UI Rework · v1.1.0 · 2026-11-19</div>
+    <h1>Diagram arsitektur &amp; alur</h1>
+    <p>Tiga diagram sistem ini digambar sebagai HTML+SVG statis — bukan Mermaid —
+    supaya terbaca sama persis di repo, di Pages, maupun di print. Semua alur
+    sudah diuji end-to-end (lihat <code>e2e/smoke.spec.js</code>).</p>
+  </header>
+
+  <!-- ═══════════ 1. ARSITEKTUR ═══════════ -->
+  <section>
+    <h2><span class="num">01 /</span> Arsitektur — situs statis tanpa backend</h2>
+    <p>Browser memuat file langsung dari Cloudflare Pages. Satu-satunya state
+    adalah <code>localStorage</code>. QR dibuat lokal oleh lib yang di-vendor;
+    Google Fonts dan satu avatar Unsplash bersifat dekoratif.</p>
+    <figure>
+      <svg width="880" height="340" viewBox="0 0 880 340" role="img" aria-label="Diagram arsitektur statis Regesit">
+        <defs>
+          <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+            <path d="M0 0L10 5L0 10z" fill="#111215"/>
+          </marker>
+          <marker id="arr-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+            <path d="M0 0L10 5L0 10z" fill="#1975f9"/>
+          </marker>
+        </defs>
+        <!-- Browser -->
+        <rect x="20" y="110" width="200" height="120" rx="16" fill="#111215"/>
+        <text x="120" y="150" text-anchor="middle" fill="#fff" font-size="17" font-weight="700">Browser</text>
+        <text x="120" y="174" text-anchor="middle" fill="#b8bcc9" font-size="12.5">5 halaman HTML + CSS + JS</text>
+        <text x="120" y="194" text-anchor="middle" fill="#b8bcc9" font-size="12.5">localStorage (state demo)</text>
+        <text x="120" y="214" text-anchor="middle" fill="#b8bcc9" font-size="12.5">QR lokal (vendor)</text>
+        <!-- Pages -->
+        <rect x="360" y="110" width="200" height="120" rx="16" fill="#fff" stroke="#111215" stroke-width="2"/>
+        <text x="460" y="150" text-anchor="middle" fill="#111215" font-size="17" font-weight="700">Cloudflare Pages</text>
+        <text x="460" y="174" text-anchor="middle" fill="#667085" font-size="12.5">regesit-ui-rework</text>
+        <text x="460" y="194" text-anchor="middle" fill="#667085" font-size="12.5">file statis, tanpa build</text>
+        <text x="460" y="214" text-anchor="middle" fill="#667085" font-size="12.5">branch main</text>
+        <!-- CDN -->
+        <rect x="660" y="40" width="200" height="86" rx="16" fill="#fff" stroke="#e4e7ec" stroke-width="1.5"/>
+        <text x="760" y="74" text-anchor="middle" fill="#111215" font-size="14" font-weight="700">Google Fonts</text>
+        <text x="760" y="96" text-anchor="middle" fill="#667085" font-size="12">DM Sans + Inter</text>
+        <text x="760" y="112" text-anchor="middle" fill="#667085" font-size="12">dekoratif (fallback sans)</text>
+        <rect x="660" y="214" width="200" height="86" rx="16" fill="#fff" stroke="#e4e7ec" stroke-width="1.5"/>
+        <text x="760" y="248" text-anchor="middle" fill="#111215" font-size="14" font-weight="700">Unsplash</text>
+        <text x="760" y="270" text-anchor="middle" fill="#667085" font-size="12">1 avatar contoh</text>
+        <text x="760" y="286" text-anchor="middle" fill="#667085" font-size="12">dekoratif</text>
+        <!-- Arrows -->
+        <line x1="220" y1="170" x2="356" y2="170" stroke="#111215" stroke-width="2" marker-end="url(#arr)"/>
+        <text x="288" y="156" text-anchor="middle" font-size="11.5" fill="#667085">GET / *.html</text>
+        <path d="M 220 130 C 420 130, 480 82, 656 82" fill="none" stroke="#1975f9" stroke-width="1.6" stroke-dasharray="5 4" marker-end="url(#arr-blue)"/>
+        <path d="M 220 210 C 420 210, 480 258, 656 258" fill="none" stroke="#1975f9" stroke-width="1.6" stroke-dasharray="5 4" marker-end="url(#arr-blue)"/>
+        <text x="440" y="322" text-anchor="middle" font-size="12.5" fill="#667085">Tidak ada API, tidak ada database, tidak ada secret — semua request keluar hanya ke CDN dekoratif.</text>
+      </svg>
+      <figcaption>Panah solid: file situs dari Pages. Panah putus-putus biru: aset
+      dekoratif dari CDN. Bila CDN mati, halaman tetap jalan dengan font sistem.</figcaption>
+    </figure>
+  </section>
+
+  <!-- ═══════════ 2. PENDAFTARAN → QR → SCAN ═══════════ -->
+  <section>
+    <h2><span class="num">02 /</span> Alur peserta — daftar → tiket QR → check-in</h2>
+    <p>Peserta mengisi form dan tanda tangan; tiket QR dibuat di browsernya
+    sendiri. Di pintu masuk, panitia memindai (simulasi) dan tiket
+    terverifikasi seketika.</p>
+    <figure>
+      <svg width="880" height="300" viewBox="0 0 880 300" role="img" aria-label="Alur pendaftaran sampai check-in">
+        <defs>
+          <marker id="arr2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+            <path d="M0 0L10 5L0 10z" fill="#111215"/>
+          </marker>
+        </defs>
+        <!-- steps -->
+        <g>
+          <rect x="20" y="60" width="180" height="130" rx="16" fill="#fff" stroke="#111215" stroke-width="2"/>
+          <text x="110" y="92" text-anchor="middle" font-size="12" font-weight="700" fill="#1975f9">LANGKAH 1</text>
+          <text x="110" y="118" text-anchor="middle" font-size="15" font-weight="700">Isi formulir</text>
+          <text x="110" y="140" text-anchor="middle" font-size="12" fill="#667085">nama · email · WA</text>
+          <text x="110" y="158" text-anchor="middle" font-size="12" fill="#667085">institusi · tanda tangan</text>
+          <text x="110" y="176" text-anchor="middle" font-size="12" fill="#667085">· persetujuan</text>
+        </g>
+        <g>
+          <rect x="240" y="60" width="180" height="130" rx="16" fill="#fff" stroke="#111215" stroke-width="2"/>
+          <text x="330" y="92" text-anchor="middle" font-size="12" font-weight="700" fill="#1975f9">LANGKAH 2</text>
+          <text x="330" y="118" text-anchor="middle" font-size="15" font-weight="700">Validasi</text>
+          <text x="330" y="140" text-anchor="middle" font-size="12" fill="#667085">real-time + toast</text>
+          <text x="330" y="158" text-anchor="middle" font-size="12" fill="#667085">gagal → shake + sorot</text>
+          <text x="330" y="176" text-anchor="middle" font-size="12" fill="#667085">merah di field</text>
+        </g>
+        <g>
+          <rect x="460" y="60" width="180" height="130" rx="16" fill="#111215"/>
+          <text x="550" y="92" text-anchor="middle" font-size="12" font-weight="700" fill="#3bc855">LANGKAH 3</text>
+          <text x="550" y="118" text-anchor="middle" font-size="15" font-weight="700" fill="#fff">Tiket QR terbit</text>
+          <text x="550" y="140" text-anchor="middle" font-size="12" fill="#b8bcc9">QR dibuat LOKAL</text>
+          <text x="550" y="158" text-anchor="middle" font-size="12" fill="#b8bcc9">(qrcode-generator)</text>
+          <text x="550" y="176" text-anchor="middle" font-size="12" fill="#b8bcc9">kode TIK-XXXX</text>
+        </g>
+        <g>
+          <rect x="680" y="60" width="180" height="130" rx="16" fill="#fff" stroke="#1975f9" stroke-width="2"/>
+          <text x="770" y="92" text-anchor="middle" font-size="12" font-weight="700" fill="#1975f9">LANGKAH 4</text>
+          <text x="770" y="118" text-anchor="middle" font-size="15" font-weight="700">Check-in gate</text>
+          <text x="770" y="140" text-anchor="middle" font-size="12" fill="#667085">scan → VERIFIED</text>
+          <text x="770" y="158" text-anchor="middle" font-size="12" fill="#667085">counter + feed naik</text>
+          <text x="770" y="176" text-anchor="middle" font-size="12" fill="#667085">atau input manual</text>
+        </g>
+        <line x1="200" y1="125" x2="236" y2="125" stroke="#111215" stroke-width="2" marker-end="url(#arr2)"/>
+        <line x1="420" y1="125" x2="456" y2="125" stroke="#111215" stroke-width="2" marker-end="url(#arr2)"/>
+        <line x1="640" y1="125" x2="676" y2="125" stroke="#111215" stroke-width="2" marker-end="url(#arr2)"/>
+        <text x="440" y="240" text-anchor="middle" font-size="12.5" fill="#667085">Payload QR: <tspan class="mono" font-size="12">TIK-6129|Tamu Uji Coba|tamu@uji.id</tspan> — tanpa server, tanpa api.qrserver.com.</text>
+        <text x="440" y="264" text-anchor="middle" font-size="12.5" fill="#667085">Unduh tiket menyimpan file GIF QR; lightbox fullscreen via klik QR.</text>
+      </svg>
+      <figcaption>Diuji e2e: form kosong ditahan toast → isi + tanda tangan →
+      tiket tampil dengan QR data-URL → lightbox menampilkan QR yang sama.</figcaption>
+    </figure>
+  </section>
+
+  <!-- ═══════════ 3. BUAT EVENT → DASHBOARD ═══════════ -->
+  <section>
+    <h2><span class="num">03 /</span> Alur organizer — buat event → tampil di dashboard</h2>
+    <p>Dua jalur masuk yang sama-sama bermuara di satu store: wizard halaman
+    penuh dan wizard modal di dashboard. Event tersimpan lokal dan dirender
+    ulang setiap kali dashboard dimuat.</p>
+    <figure>
+      <svg width="880" height="320" viewBox="0 0 880 320" role="img" aria-label="Alur buat event sampai dashboard">
+        <defs>
+          <marker id="arr3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+            <path d="M0 0L10 5L0 10z" fill="#111215"/>
+          </marker>
+        </defs>
+        <rect x="20" y="40" width="210" height="96" rx="16" fill="#fff" stroke="#111215" stroke-width="2"/>
+        <text x="125" y="72" text-anchor="middle" font-size="14" font-weight="700">Wizard halaman penuh</text>
+        <text x="125" y="94" text-anchor="middle" font-size="12" fill="#667085">create-event.html</text>
+        <text x="125" y="112" text-anchor="middle" font-size="12" fill="#667085">4 langkah + validasi</text>
+        <rect x="20" y="184" width="210" height="96" rx="16" fill="#fff" stroke="#111215" stroke-width="2"/>
+        <text x="125" y="216" text-anchor="middle" font-size="14" font-weight="700">Wizard modal</text>
+        <text x="125" y="238" text-anchor="middle" font-size="12" fill="#667085">dashboard.html (overlay)</text>
+        <text x="125" y="256" text-anchor="middle" font-size="12" fill="#667085">+ date-picker kustom</text>
+        <rect x="350" y="112" width="200" height="96" rx="16" fill="#111215"/>
+        <text x="450" y="146" text-anchor="middle" font-size="14" font-weight="700" fill="#fff">RegesitStore</text>
+        <text x="450" y="168" text-anchor="middle" font-size="12" fill="#b8bcc9">localStorage</text>
+        <text x="450" y="186" text-anchor="middle" font-size="12" fill="#b8bcc9">regesit.events.v1</text>
+        <rect x="650" y="112" width="210" height="96" rx="16" fill="#fff" stroke="#1975f9" stroke-width="2"/>
+        <text x="755" y="146" text-anchor="middle" font-size="14" font-weight="700">Dashboard</text>
+        <text x="755" y="168" text-anchor="middle" font-size="12" fill="#667085">baris tabel + kartu</text>
+        <text x="755" y="186" text-anchor="middle" font-size="12" fill="#667085">terbaru di atas</text>
+        <line x1="230" y1="88" x2="346" y2="140" stroke="#111215" stroke-width="2" marker-end="url(#arr3)"/>
+        <line x1="230" y1="232" x2="346" y2="180" stroke="#111215" stroke-width="2" marker-end="url(#arr3)"/>
+        <line x1="550" y1="160" x2="646" y2="160" stroke="#111215" stroke-width="2" marker-end="url(#arr3)"/>
+        <text x="440" y="252" text-anchor="middle" font-size="12.5" fill="#667085">Publish dari halaman penuh: redirect <tspan class="mono" font-size="12">dashboard.html?created=&lt;id&gt;</tspan> + toast sukses.</text>
+        <text x="440" y="276" text-anchor="middle" font-size="12.5" fill="#667085">Publish dari modal: prepend langsung + modal sukses + confetti. Nilai input di-escape sebelum render.</text>
+      </svg>
+      <figcaption>Sebelum v1.1.0, wizard halaman penuh hanya <code>alert()</code>
+      lalu redirect — eventnya hilang. Sekarang kedua jalur menulis store yang sama.</figcaption>
+    </figure>
+  </section>
+
+  <footer>
+    Regesit UI Rework — <a href="https://github.com/dezzorigin/regesit-ui-rework">github.com/dezzorigin/regesit-ui-rework</a> ·
+    Live: <a href="https://regesit-ui-rework.pages.dev">regesit-ui-rework.pages.dev</a> ·
+    Dokumen pendamping: <a href="PRD.md">PRD</a> · <a href="architecture.md">Arsitektur</a> ·
+    <a href="pages.md">Halaman</a> · <a href="data.md">Data</a> · <a href="testing.md">Testing</a> ·
+    <a href="deploy.md">Deploy</a>
+  </footer>
+</div>
+</body>
+</html>

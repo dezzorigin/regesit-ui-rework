@@ -3,13 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <title>Buat Event Baru — Regesit Wizard</title>
-  
+
   <!-- DM Sans (Strictly Light 300, Regular 400, Medium 500) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300;1,9..40,400;1,9..40,500&display=swap" rel="stylesheet">
-  
+
   <link rel="stylesheet" href="css/create-event.css">
 </head>
 <body>
@@ -40,7 +41,7 @@
        WIZARD STEPPER CONTAINER (Image 2 Style)
        ========================================================================== -->
   <div class="wizard-container">
-    
+
     <div class="wizard-title-section">
       <h1>Buat Event Baru</h1>
       <p>Isi formulir bertahap untuk mempublikasikan halaman pendaftaran event Anda.</p>
@@ -49,7 +50,7 @@
     <!-- 4-Step Visual Stepper Bar (Image 2 Style) -->
     <div class="stepper-bar-card">
       <div class="stepper-track">
-        
+
         <!-- Step 1 -->
         <div class="step-node active" data-step="1" id="stepNode1">
           <div class="step-circle" id="circle1">1</div>
@@ -61,7 +62,7 @@
         <!-- Step 2 -->
         <div class="step-node" data-step="2" id="stepNode2">
           <div class="step-circle" id="circle2">2</div>
-          <span class="step-label-text">Waktu & Lokasi</span>
+          <span class="step-label-text">Waktu &amp; Lokasi</span>
         </div>
 
         <div class="step-line" id="line2"></div>
@@ -69,7 +70,7 @@
         <!-- Step 3 -->
         <div class="step-node" data-step="3" id="stepNode3">
           <div class="step-circle" id="circle3">3</div>
-          <span class="step-label-text">Kuota & Tiket</span>
+          <span class="step-label-text">Kuota &amp; Tiket</span>
         </div>
 
         <div class="step-line" id="line3"></div>
@@ -88,13 +89,13 @@
          ========================================================================== -->
     <div class="wizard-form-card">
       <form id="createEventWizardForm">
-        
+
         <!-- ----------------------------------------------------------------------
              STEP 1: INFO DASAR & FORMAT EVENT
              ---------------------------------------------------------------------- -->
         <div class="step-pane active" id="paneStep1">
           <div class="step-header">
-            <h2>Langkah 1: Format & Info Dasar Event</h2>
+            <h2>Langkah 1: Format &amp; Info Dasar Event</h2>
             <p>Pilih tipe acara dan tentukan judul serta banner utama event Anda.</p>
           </div>
 
@@ -168,7 +169,7 @@
              ---------------------------------------------------------------------- -->
         <div class="step-pane" id="paneStep2">
           <div class="step-header">
-            <h2>Langkah 2: Waktu & Lokasi Acara</h2>
+            <h2>Langkah 2: Waktu &amp; Lokasi Acara</h2>
             <p>Tentukan jadwal pelaksanaan dan tempat berlangsungnya acara Anda.</p>
           </div>
 
@@ -205,7 +206,7 @@
              ---------------------------------------------------------------------- -->
         <div class="step-pane" id="paneStep3">
           <div class="step-header">
-            <h2>Langkah 3: Kuota & Kustomisasi Tiket</h2>
+            <h2>Langkah 3: Kuota &amp; Kustomisasi Tiket</h2>
             <p>Atur kapasitas tiket dan fitur kustomisasi branding eksklusif.</p>
           </div>
 
@@ -262,7 +263,7 @@
             <div class="addon-toggle-box">
               <div class="addon-info-left">
                 <div class="addon-title">
-                  <span>Syarat & Ketentuan Peserta</span>
+                  <span>Syarat &amp; Ketentuan Peserta</span>
                 </div>
                 <div class="addon-sub">Peserta wajib mencentang persetujuan syarat sebelum mengirimkan formulir.</div>
               </div>
@@ -338,7 +339,7 @@
           </button>
 
           <button type="submit" class="btn btn-success" id="btnPublishEvent" style="display: none;">
-            <span>Terbitkan & Buat Event (Gratis)</span>
+            <span>Terbitkan &amp; Buat Event (Gratis)</span>
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <polyline points="20 6 9 17 4 12"/>
             </svg>
@@ -350,6 +351,7 @@
 
   </div>
 
+  <script src="js/store.js"></script>
   <script src="js/create-event.js"></script>
 </body>
 </html>

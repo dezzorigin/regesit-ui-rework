@@ -3,13 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <title>Pendaftaran Peserta — Tech Summit Indonesia 2026</title>
-  
+
   <!-- DM Sans (Strict Light 300, Regular 400, Medium 500) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,400&display=swap" rel="stylesheet">
-  
+
   <!-- Register CSS -->
   <link rel="stylesheet" href="css/register.css">
 </head>
@@ -23,14 +24,14 @@
 
   <!-- MAIN REGISTRATION CARD CONTAINER -->
   <main class="reg-card-container">
-    
+
     <!-- REGISTRATION FORM VIEW -->
     <div id="registrationFormView">
-      
+
       <!-- Event Hero Banner Image -->
       <div class="event-banner-box">
         <img src="Assets/tech_summit_banner.jpg" alt="Tech Summit Indonesia 2026 Banner" class="event-banner-img">
-        <span class="event-banner-badge">CONFERENCE & EXPO 2026</span>
+        <span class="event-banner-badge">CONFERENCE &amp; EXPO 2026</span>
       </div>
 
       <!-- Event Title -->
@@ -131,7 +132,7 @@
         </div>
 
         <!-- Agreement Checkbox -->
-        <label class="agreement-check-card" for="regAgreement">
+        <label class="agreement-check-card">
           <input type="checkbox" class="agreement-checkbox" id="regAgreement" required>
           <span class="agreement-label-text">
             Saya menyatakan data yang saya isi adalah benar dan menyetujui pendaftaran event ini.
@@ -146,7 +147,7 @@
             <rect x="14" y="14" width="7" height="7"></rect>
             <rect x="3" y="14" width="7" height="7"></rect>
           </svg>
-          <span>Daftar & Dapatkan QR Code</span>
+          <span>Daftar &amp; Dapatkan QR Code</span>
         </button>
       </form>
     </div>
@@ -181,7 +182,7 @@
 
         <div class="ticket-qr-container" id="ticketQrTrigger" title="Klik untuk membuka Fullscreen QR Code">
           <div class="qr-relative-wrap">
-            <img src="https://api.qrserver.com/v1/create-qr-code/?size=360x360&data=TIK-8821-BUDI-WICAKSONO" alt="QR Tiket" class="ticket-qr-img" id="resTicketQrImg">
+            <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="QR Tiket" class="ticket-qr-img" id="resTicketQrImg">
             <div class="qr-center-logo-badge">R</div>
           </div>
           <div class="qr-tap-fullscreen-hint">
@@ -197,7 +198,7 @@
 
         <div class="ticket-meta-footer">
           <div>Gate Masuk: <strong>Pintu Utama</strong></div>
-          <div>Status: <strong style="color: var(--color-secondary);">Aktif & Terdaftar</strong></div>
+          <div>Status: <strong style="color: var(--color-secondary);">Aktif &amp; Terdaftar</strong></div>
         </div>
       </div>
 
@@ -219,7 +220,7 @@
   <!-- FULLSCREEN QR CODE LIGHTBOX MODAL -->
   <div class="qr-fullscreen-modal-overlay" id="qrFullscreenModal" role="dialog" aria-modal="true">
     <div class="qr-modal-backdrop" id="qrModalBackdrop"></div>
-    
+
     <div class="qr-modal-card">
       <button type="button" class="btn-close-qr-modal" id="btnCloseQrModal" aria-label="Tutup Fullscreen QR">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -237,7 +238,7 @@
       <!-- Giant QR Code Canvas Box -->
       <div class="qr-giant-display-box">
         <div class="qr-relative-wrap">
-          <img src="https://api.qrserver.com/v1/create-qr-code/?size=450x450&data=TIK-8821-BUDI-WICAKSONO" alt="QR Code Fullscreen" class="qr-giant-img" id="modalTicketQrImg">
+          <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="QR Code Fullscreen" class="qr-giant-img" id="modalTicketQrImg">
           <div class="qr-center-logo-badge giant">R</div>
         </div>
       </div>
@@ -265,6 +266,9 @@
   <!-- CELEBRATORY CONFETTI GLITTER CANNON CANVAS -->
   <canvas id="confettiCanvas"></canvas>
 
+  <!-- QR lokal (vendor) + helper, sebelum register.js -->
+  <script src="js/vendor/qrcode.min.js"></script>
+  <script src="js/qr.js"></script>
   <script src="js/register.js"></script>
 </body>
 </html>
